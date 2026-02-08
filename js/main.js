@@ -132,6 +132,59 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     createEmbers();
 
+    // 7. COTIZADOR DE PRECIOS EN TIEMPO REAL
+    const selectServicio = document.getElementById('asunto');
+    const displayPrecio = document.getElementById('precio-estimado');
+    const containerPrecio = document.getElementById('precio-estimado-container');
+    const mensajePrecio = document.getElementById('precio-mensaje');
+
+    let cotizacionDolar = 1450; // Fallback
+    let apiFallida = false;
+
+    const serviciosPrecios = {
+        landing: 250,
+        ecommerce: 550,
+        automatizacion: 350,
+        mantenimiento: 50
+    };
+
+    const fetchDolarBlue = async () => {
+        try {
+            const res = await fetch('https://dolarapi.com/v1/dolares/blue');
+            const data = await res.json();
+            cotizacionDolar = data.compra;
+        } catch (e) {
+            console.warn('Usando cotización fallback:', e);
+            apiFallida = true;
+        }
+    };
+
+    if (selectServicio) {
+        fetchDolarBlue();
+
+        selectServicio.addEventListener('change', () => {
+            const svc = selectServicio.value;
+            const precioUSD = serviciosPrecios[svc];
+
+            if (precioUSD) {
+                const totalARS = precioUSD * cotizacionDolar;
+                const formatted = new Intl.NumberFormat('es-AR', {
+                    style: 'currency',
+                    currency: 'ARS',
+                    minimumFractionDigits: 2
+                }).format(totalARS);
+
+                displayPrecio.textContent = formatted;
+                mensajePrecio.textContent = apiFallida ? '⚠️ Precio sujeto a cambios (Cotización base)' : `Cotización Blue: $${cotizacionDolar}`;
+                if (svc === 'mantenimiento') mensajePrecio.textContent += ' (Costo mensual)';
+
+                containerPrecio.classList.remove('hidden');
+            } else {
+                containerPrecio.classList.add('hidden');
+            }
+        });
+    }
+
     // 6. GAUCHO ANIMATOR
     setTimeout(() => {
         if (typeof GauchoAnimator !== 'undefined') {

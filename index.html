@@ -698,11 +698,26 @@
                                 interesa?</label>
                             <select id="asunto"
                                 class="w-full rounded-xl border-gray-200 bg-gray-50 focus:border-brand-orange focus:ring-brand-orange transition-colors py-3">
-                                <option>Quiero un sitio web / Landing</option>
-                                <option>Necesito un E-commerce</option>
-                                <option>Automatización de procesos</option>
-                                <option>Otro / Consulta general</option>
+                                <option value="" disabled selected>Seleccioná un servicio...</option>
+                                <option value="landing">Sitio Web / Landing (USD 250)</option>
+                                <option value="ecommerce">E-commerce Completo (USD 550)</option>
+                                <option value="automatizacion">Automatización SaaS (USD 350)</option>
+                                <option value="mantenimiento">Mantenimiento Mensual (USD 50)</option>
+                                <option value="otro">Otro / Consulta general</option>
                             </select>
+                        </div>
+
+                        <div id="precio-estimado-container" class="hidden animate-fade-in">
+                            <div
+                                class="p-4 rounded-xl bg-brand-orange/5 border border-brand-orange/20 flex items-center justify-between">
+                                <div>
+                                    <p class="text-xs font-bold text-brand-orange uppercase tracking-wider mb-1">
+                                        Inversión Estimada</p>
+                                    <h3 id="precio-estimado" class="text-2xl font-bold text-brand-dark"></h3>
+                                    <p id="precio-mensaje" class="text-[10px] text-brand-wood/60 mt-1"></p>
+                                </div>
+                                <span class="material-symbols-rounded text-brand-orange text-3xl">payments</span>
+                            </div>
                         </div>
 
                         <div>

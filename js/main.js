@@ -1,115 +1,146 @@
-// ============================================
-// MATECITO V3.1 - FOGÓN DIGITAL CORE
-// ============================================
-
 document.addEventListener('DOMContentLoaded', () => {
-
-    // 1. SMOOTH SCROLL PARA TODOS LOS LINKS
-    // ------------------------------------------------
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
-            if (target) {
-                target.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                });
-            }
-        });
-    });
-
-    // 2. NAVBAR SCROLL EFFECT
-    // ------------------------------------------------
     const navbar = document.getElementById('navbar');
-    window.addEventListener('scroll', () => {
-        if (window.scrollY > 50) {
-            navbar.classList.add('shadow-md');
-            navbar.classList.replace('bg-brand-cream/80', 'bg-white/90'); // Ajuste dinámico si fuera necesario
-        } else {
-            navbar.classList.remove('shadow-md');
-        }
-    });
-
-    // 3. FORMULARIO CHASQUI (WHATSAPP INTEGRATION)
-    // ------------------------------------------------
     const form = document.getElementById('contactForm');
+    let ticking = false;
 
+    // 1. NAVBAR SCROLL (Optimized)
+    window.addEventListener('scroll', () => {
+        if (!ticking) {
+            requestAnimationFrame(() => {
+                navbar.classList.toggle('shadow-md', scrollY > 50);
+                ticking = false;
+            });
+            ticking = true;
+        }
+    }, { passive: true });
+
+    // 2. TOAST NOTIFICATIONS
+    const showToast = (msg, type = 'success') => {
+        const c = document.getElementById('toast-container');
+        if (!c) return;
+
+        const t = document.createElement('div');
+        t.className = `toast ${type}`;
+
+        const icon = document.createElement('span');
+        icon.className = 'material-symbols-rounded';
+        icon.textContent = type === 'success' ? 'check_circle' : type === 'error' ? 'error' : 'info';
+
+        const text = document.createElement('span');
+        text.className = 'font-medium';
+        text.textContent = msg;
+
+        t.append(icon, text);
+        c.appendChild(t);
+
+        setTimeout(() => t.classList.add('show'), 100);
+        setTimeout(() => {
+            t.classList.remove('show');
+            setTimeout(() => t.remove(), 400);
+        }, 4000);
+    };
+
+    // 3. BUTTON STATE MANAGER
+    const setBtnState = (btn, state, text) => {
+        const states = {
+            loading: { html: '<span class="material-symbols-rounded animate-spin">refresh</span> Preparando el mate...', disabled: true, classes: ['opacity-75', 'cursor-not-allowed'] },
+            success: { html: '<span class="material-symbols-rounded">check_circle</span> ¡Todo listo!', disabled: false, classes: ['bg-green-600'], remove: ['bg-brand-orange'] },
+            error: { html: '<span class="material-symbols-rounded">error</span> Error al enviar', disabled: false, classes: [] },
+            reset: { html: text, disabled: false, classes: ['bg-brand-orange'], remove: ['opacity-75', 'cursor-not-allowed', 'bg-green-600'] }
+        };
+
+        const s = states[state];
+        btn.innerHTML = s.html;
+        btn.disabled = s.disabled;
+        if (s.remove) btn.classList.remove(...s.remove);
+        if (s.classes.length) btn.classList.add(...s.classes);
+    };
+
+    // 4. FORM HANDLER
     if (form) {
-        form.addEventListener('submit', (e) => {
+        form.addEventListener('submit', e => {
             e.preventDefault();
 
-            const btn = form.querySelector('button');
-            const originalContent = btn.innerHTML;
+            const btn = form.querySelector('button[type="submit"]');
+            const orig = btn.innerHTML;
+            const data = {
+                nombre: document.getElementById('nombre').value,
+                contacto: document.getElementById('contacto_dato').value,
+                servicio: document.getElementById('asunto')?.value || 'Consulta General',
+                mensaje: document.getElementById('mensaje').value
+            };
 
-            // Estado de "Enviando..."
-            btn.innerHTML = '<span class="material-symbols-rounded animate-spin">refresh</span> Preparando el mate...';
-            btn.disabled = true;
-            btn.classList.add('opacity-75', 'cursor-not-allowed');
+            // Validation
+            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$|^\+?[0-9\s-]{8,20}$/.test(data.contacto)) {
+                showToast('⚠️ Por favor ingresá un correo o teléfono válido.', 'error');
+                return;
+            }
 
-            const nombre = document.getElementById('nombre').value;
-            const contacto = document.getElementById('contacto_dato').value;
-            const servicio = document.getElementById('asunto') ? document.getElementById('asunto').value : 'Consulta General';
-            const mensaje = document.getElementById('mensaje').value;
+            setBtnState(btn, 'loading');
 
             fetch("https://formsubmit.co/ajax/matecito.tech@gmail.com", {
                 method: "POST",
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json'
-                },
+                headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
                 body: JSON.stringify({
-                    nombre: nombre,
-                    contacto: contacto,
-                    servicio: servicio,
-                    mensaje: mensaje,
-                    _subject: "Nuevo mensaje desde Web Matecito",
+                    ...data,
+                    _subject: `Nuevo mensaje de ${data.nombre} - Web Matecito`,
                     _template: "table",
                     _captcha: "false"
                 })
             })
-                .then(response => response.json())
-                .then(data => {
-                    // Confirmación visual
-                    btn.innerHTML = '<span class="material-symbols-rounded">check_circle</span> ¡Enviado!';
-                    btn.classList.remove('bg-brand-orange');
-                    btn.classList.add('bg-green-600');
-
+                .then(r => r.json())
+                .then(d => {
+                    if (d.success === "false") throw new Error("FormSubmit Error");
+                    showToast('¡Formulario enviado! Nos pondremos en contacto pronto.', 'success');
+                    setBtnState(btn, 'success');
                     setTimeout(() => {
-                        btn.innerHTML = originalContent;
-                        btn.disabled = false;
-                        btn.classList.remove('opacity-75', 'cursor-not-allowed', 'bg-green-600');
-                        btn.classList.add('bg-brand-orange');
+                        setBtnState(btn, 'reset', orig);
                         form.reset();
                     }, 4000);
                 })
-                .catch(error => {
-                    console.log(error);
-                    btn.innerHTML = '<span class="material-symbols-rounded">error</span> Error al enviar';
-                    setTimeout(() => {
-                        btn.innerHTML = originalContent;
-                        btn.disabled = false;
-                        btn.classList.remove('opacity-75', 'cursor-not-allowed');
-                    }, 3000);
+                .catch(e => {
+                    console.error('Error:', e);
+                    showToast('Hubo un problema al enviar. Probá de nuevo más tarde.', 'error');
+                    setBtnState(btn, 'error');
+                    setTimeout(() => setBtnState(btn, 'reset', orig), 3000);
                 });
         });
     }
 
-    // 4. Parallax Simple en Imágenes (Opcional, si afecta performance quitar)
-    const images = document.querySelectorAll('.group img');
-    if (window.matchMedia("(min-width: 768px)").matches) {
-        images.forEach(img => {
-            img.addEventListener('mousemove', (e) => {
-                const { width, height, left, top } = img.getBoundingClientRect();
-                const x = e.clientX - left;
-                const y = e.clientY - top;
-                const moveX = ((x / width) - 0.5) * 10;
-                const moveY = ((y / height) - 0.5) * 10;
-                img.style.transform = `scale(1.05) translate(${moveX}px, ${moveY}px)`;
+    // 5. EMBER GENERATION
+    const createEmbers = () => {
+        const c = document.getElementById('embers-container');
+        if (!c) return;
+
+        const f = document.createDocumentFragment();
+        for (let i = 0; i < 25; i++) {
+            const e = document.createElement('div');
+            e.className = 'ember animate-ember';
+            const sz = Math.random() * 4 + 2;
+            Object.assign(e.style, {
+                width: sz + 'px',
+                height: sz + 'px',
+                left: Math.random() * 100 + '%',
+                top: Math.random() * 100 + '%',
+                animationDuration: (Math.random() * 3 + 4) + 's',
+                animationDelay: Math.random() * 5 + 's',
+                opacity: Math.random() * 0.5 + 0.2
             });
-            img.addEventListener('mouseleave', () => {
-                img.style.transform = 'scale(1.05) translate(0, 0)';
+            f.appendChild(e);
+        }
+        c.appendChild(f);
+    };
+    createEmbers();
+
+    // 6. GAUCHO ANIMATOR
+    setTimeout(() => {
+        if (typeof GauchoAnimator !== 'undefined') {
+            new GauchoAnimator('gaucho-svg', {
+                codeSnippets: ['Dev', 'Java', 'Spring', 'React', 'Node', 'SQL', '{code}', '()=>', 'API', 'REST', 'JSON', 'Git'],
+                particleCount: 12,
+                codeColor: '#4CAF50',
+                enableSmoke: true
             });
-        });
-    }
+        }
+    }, 500);
 });

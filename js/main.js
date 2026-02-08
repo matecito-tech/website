@@ -1,5 +1,5 @@
 // ============================================
-// MATECITO V3 - FOGÓN DIGITAL CORE
+// MATECITO V3.1 - FOGÓN DIGITAL CORE
 // ============================================
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -19,7 +19,19 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // 2. FORMULARIO CHASQUI (WHATSAPP INTEGRATION)
+    // 2. NAVBAR SCROLL EFFECT
+    // ------------------------------------------------
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 50) {
+            navbar.classList.add('shadow-md');
+            navbar.classList.replace('bg-brand-cream/80', 'bg-white/90'); // Ajuste dinámico si fuera necesario
+        } else {
+            navbar.classList.remove('shadow-md');
+        }
+    });
+
+    // 3. FORMULARIO CHASQUI (WHATSAPP INTEGRATION)
     // ------------------------------------------------
     const form = document.getElementById('contactForm');
 
@@ -38,6 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => {
                 const nombre = document.getElementById('nombre').value;
                 const contacto = document.getElementById('contacto_dato').value;
+                const servicio = document.getElementById('asunto') ? document.getElementById('asunto').value : 'Consulta General';
                 const mensaje = document.getElementById('mensaje').value;
 
                 if (!nombre || !contacto || !mensaje) {
@@ -48,15 +61,15 @@ document.addEventListener('DOMContentLoaded', () => {
                     return;
                 }
 
-                // Formato amigable para el mensaje de WhatsApp
-                const text = `👋 *¡Hola Matecito! LLegó un Chasqui Digital* %0A%0A👤 *Soy:* ${nombre}%0A📱 *Mi contacto es:* ${contacto}%0A💬 *La idea es:* ${mensaje}%0A%0A_Enviado desde la web del Fogón Digital_`;
+                // Formato de Mensaje WhatsApp
+                const text = `👋 *¡Hola Matecito! Nuevo Chasqui* %0A%0A👤 *Nombre:* ${nombre}%0A📱 *Contacto:* ${contacto}%0A📌 *Interés:* ${servicio}%0A💬 *Mensaje:* ${mensaje}%0A%0A_Enviado desde matecito.tech_`;
 
                 const url = `https://wa.me/543425370985?text=${text}`;
 
                 window.open(url, '_blank');
 
                 // Confirmación visual
-                btn.innerHTML = '<span class="material-symbols-rounded">check_circle</span> ¡Mensaje Enviado!';
+                btn.innerHTML = '<span class="material-symbols-rounded">check_circle</span> ¡Enviado!';
                 btn.classList.remove('bg-brand-orange');
                 btn.classList.add('bg-green-600');
 
@@ -68,31 +81,25 @@ document.addEventListener('DOMContentLoaded', () => {
                     form.reset();
                 }, 4000);
 
-            }, 1500); // Pequeña demora para dar sensación de proceso
+            }, 1000);
         });
     }
 
-    // 3. EFECTO PARALAJE SUAVE EN IMÁGENES
-    // ------------------------------------------------
+    // 4. Parallax Simple en Imágenes (Opcional, si afecta performance quitar)
     const images = document.querySelectorAll('.group img');
-
-    images.forEach(img => {
-        img.addEventListener('mousemove', (e) => {
-            const { width, height, left, top } = img.getBoundingClientRect();
-            const x = e.clientX - left;
-            const y = e.clientY - top;
-
-            const xPercent = x / width;
-            const yPercent = y / height;
-
-            const moveX = (xPercent - 0.5) * 10; // Rango de movimiento en pixeles
-            const moveY = (yPercent - 0.5) * 10;
-
-            img.style.transform = `scale(1.05) translate(${moveX}px, ${moveY}px)`;
+    if (window.matchMedia("(min-width: 768px)").matches) {
+        images.forEach(img => {
+            img.addEventListener('mousemove', (e) => {
+                const { width, height, left, top } = img.getBoundingClientRect();
+                const x = e.clientX - left;
+                const y = e.clientY - top;
+                const moveX = ((x / width) - 0.5) * 10;
+                const moveY = ((y / height) - 0.5) * 10;
+                img.style.transform = `scale(1.05) translate(${moveX}px, ${moveY}px)`;
+            });
+            img.addEventListener('mouseleave', () => {
+                img.style.transform = 'scale(1.05) translate(0, 0)';
+            });
         });
-
-        img.addEventListener('mouseleave', () => {
-            img.style.transform = 'scale(1.05) translate(0, 0)';
-        });
-    });
+    }
 });

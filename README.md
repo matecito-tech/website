@@ -1,52 +1,29 @@
-# Matecito Website v3.0 (Fogón Digital)
+# Matecito Website v3.2 - Edición Completa
 
-Sitio web corporativo de **Matecito**, rediseñado con una estética "Warm Tech" que prioriza la calidez humana, la transparencia y la identidad regional santafesina.
+Sitio web corporativo de **Matecito**, diseñado con estética "Warm Tech" y estructura de contenido expandida.
 
-## 🔥 Concepto: El Fogón Digital
+## 🌟 Características Nuevas
 
-Nos alejamos de la frialdad corporativa para abrazar una identidad de "Software Artesanal".
-- **Colores:** Naranja Brasa (`#ff6b35`), Madera Oscura (`#3e2723`), Crema Papel (`#fdfbf7`).
-- **Narrativa:** "Código Robusto, Corazón Gaucho".
-- **Elementos:** Mate, Fuego, Ronda de Amigos, Chasqui.
+- **Secciones Completas:** Inicio, Nosotros (Misión/Visión), Servicios (Detallados), Metodología (SCRUM), Equipo y Contacto.
+- **Narrativa "Fogón":** Integración visual del código (Python) con valores humanos.
+- **Transparencia:** Links a documentación y repositorios.
+- **Formulario Inteligente:** Selección de servicios y envío a WhatsApp.
 
 ## 🛠️ Tecnologías
 
-- **HTML5 Semántico** + **Tailwind CSS** (CDN).
-- **JavaScript (Vanilla)** para interactividad ligera.
-- **Material Symbols Rounded** para una iconografía suave.
+- **HTML5 Semántico**
+- **Tailwind CSS** (Estilos y Animaciones)
+- **JavaScript** (Lógica de negocio y UI)
 
-## 🚀 Secciones Clave
+## 📁 Archivos Clave
 
-1.  **Hero:** Imagen 3D generada por IA (Mate en atardecer) con efecto de brasas flotantes.
-2.  **La Ronda (Filosofía):** Valores explicados con metáforas de campo (Sin secretos, Palabra de honor).
-3.  **El Fogón (Equipo):** Presentación humana del equipo y el "Código de Honor" (snippet de Python que muestra valores).
-4.  **Chasqui (Contacto):** Formulario amigable integrado con WhatsApp.
+- `index.html`: Estructura principal.
+- `js/main.js`: Lógica del formulario y efectos.
+- `public/`: Assets (Imágenes 3D, logos).
 
-## 📁 Estructura
+## 🚀 Ejecución
 
-```
-website/
-├── index.html              # Versión "Fogón Digital"
-├── js/
-│   └── main.js             # Lógica del Chasqui + animaciones
-├── public/
-│   ├── hero-mate-warm.png  # Nuevo asset 3D cálido
-│   └── Matecito-logo.svg   # Logo original
-└── README.md               # Este archivo
-```
-
-## 🔧 Cómo Ejecutar
-
+Abrir `index.html` en el navegador o usar un servidor local:
 ```bash
-# Opción 1: Python
 python -m http.server 8000
-
-# Opción 2: Node.js
-npx http-server
 ```
-
-Visita `http://localhost:8000`.
-
----
-
-**Matecito** - Software Artesanal.

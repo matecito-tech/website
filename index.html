@@ -4,9 +4,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Matecito | El Fogón Digital</title>
+    <meta name="theme-color" content="#ff6b35">
 
-    <!-- Google Fonts: Manrope (moderno pero amable) + Space Grotesk (tech touch) -->
+    <!-- Primary Meta Tags -->
+    <title>Matecito | Desarrollo de Software Artesanal | Humboldt, Santa Fe</title>
+    <meta name="title" content="Matecito | Desarrollo de Software Artesanal | Humboldt, Santa Fe">
+    <meta name="description"
+        content="Impulsá tu negocio con desarrollo de software artesanal en Humboldt y Santa Fe. Sitios web de alto impacto, tiendas online y sistemas a medida que venden solos.">
+    <meta name="keywords"
+        content="desarrollo software humboldt, diseño web santa fe, ecommerce rafaela, programador argentina, matecito tech, automatizacion negocios, sistemas a medida, mateo gariboglio">
+    <meta name="author" content="Mateo Gariboglio">
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+    <link rel="canonical" href="https://matecito.tech/">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="public/matecito-favicon.svg">
+    <link rel="apple-touch-icon" href="public/matecito-favicon.svg">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://matecito.tech/">
+    <meta property="og:title" content="Matecito | Desarrollo de Software Artesanal">
+    <meta property="og:description"
+        content="Transformamos negocios con tecnología artesanal. Sitios web, tiendas online y sistemas a medida en Humboldt, Rafaela y toda la región.">
+    <meta property="og:image" content="https://matecito.tech/public/matecito-logo.svg">
+    <meta property="og:locale" content="es_AR">
+    <meta property="og:site_name" content="Matecito Tech">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://matecito.tech/">
+    <meta property="twitter:title" content="Matecito | Desarrollo de Software Artesanal">
+    <meta property="twitter:description"
+        content="Transformamos negocios con tecnología artesanal. Sitios web, tiendas online y sistemas a medida en Humboldt, Rafaela y toda la región.">
+    <meta property="twitter:image" content="https://matecito.tech/public/matecito-logo.svg">
+    <meta name="twitter:creator" content="@Mateo_404">
+
+    <!-- Google Fonts (Performance Optimized) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
         href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap"
         rel="stylesheet">
@@ -18,6 +54,67 @@
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio"></script>
 
+    <!-- Gaucho Animation CSS -->
+    <link rel="stylesheet" href="css/gaucho-animation.css">
+
+    <!-- Schema.org Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "LocalBusiness",
+      "name": "Matecito Tech",
+      "image": "https://matecito.tech/public/matecito-logo.svg",
+      "telephone": "+543425370985",
+      "email": "hola@matecito.tech",
+      "url": "https://matecito.tech", 
+      "logo": "https://matecito.tech/public/matecito-logo.svg",
+      "priceRange": "$$",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Humboldt",
+        "addressRegion": "Santa Fe",
+        "postalCode": "3081",
+        "addressCountry": "AR"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": -31.4000, 
+        "longitude": -61.0833
+      },
+      "sameAs": [
+        "https://www.linkedin.com/in/mateo-gariboglio",
+        "https://github.com/Mateo-404"
+      ],
+      "founder": {
+        "@type": "Person",
+        "name": "Mateo Gariboglio"
+      },
+      "openingHoursSpecification": {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": [
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday"
+        ],
+        "opens": "09:00",
+        "closes": "18:00"
+      },
+      "description": "Desarrollo de software a medida, diseño web profesional y e-commerce en Humboldt y Santa Fe."
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "ProfessionalService",
+      "name": "Matecito | Desarrollo de Software",
+      "url": "https://matecito.tech",
+      "knowsAbout": ["Desarrollo Web", "E-commerce", "SEO", "Sistemas de Gestión", "Automatización", "Java", "Spring Boot", "React"],
+      "areaServed": ["Humboldt", "Rafaela", "Esperanza", "Santa Fe", "Argentina"]
+    }
+    </script>
+
     <script>
         tailwind.config = {
             darkMode: 'class',
@@ -25,11 +122,12 @@
                 extend: {
                     colors: {
                         brand: {
-                            orange: '#ff6b35', // Color brasa
-                            wood: '#3e2723',   // Madera oscura
-                            cream: '#fdfbf7',  // Fondo papel cálido
-                            dark: '#1a120e',   // Negro "café/mate"
-                            green: '#2e7d32',  // Verde mate
+                            orange: '#ff6b35',
+                            wood: '#3e2723',
+                            cream: '#fdfbf7',
+                            dark: '#1a120e',
+                            green: '#2e7d32',
+                            accent: '#F59E0B'
                         }
                     },
                     fontFamily: {
@@ -42,6 +140,7 @@
                     animation: {
                         'float': 'float 6s ease-in-out infinite',
                         'ember': 'ember 4s ease-out infinite',
+                        'fade-in-up': 'fadeInUp 0.8s ease-out forwards',
                     },
                     keyframes: {
                         float: {
@@ -51,6 +150,10 @@
                         ember: {
                             '0%': { transform: 'translateY(0) scale(1)', opacity: '1' },
                             '100%': { transform: 'translateY(-100px) scale(0)', opacity: '0' },
+                        },
+                        fadeInUp: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
                         }
                     }
                 }
@@ -64,10 +167,15 @@
         }
 
         .glass-card {
-            background: rgba(255, 255, 255, 0.7);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            box-shadow: 0 8px 32px 0 rgba(62, 39, 35, 0.05);
+        }
+
+        .wood-card {
+            background: linear-gradient(145deg, #3e2723, #2d1b18);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .ember {
@@ -76,235 +184,407 @@
             border-radius: 50%;
             filter: blur(1px);
         }
+
+        /* Estilos específicos para la animación del Gaucho */
+        .gaucho-hero-container {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto;
+            filter: drop-shadow(0 20px 40px rgba(255, 107, 53, 0.15));
+        }
+
+        /* Ajustes responsive para partículas de código */
+        @media (max-width: 768px) {
+            .code-particle {
+                font-size: 10px !important;
+            }
+        }
+
+        /* Scrollbar Personalizado */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #fdfbf7;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #3e2723;
+            border-radius: 5px;
+            border: 2px solid #fdfbf7;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #ff6b35;
+        }
     </style>
 </head>
 
 <body
-    class="bg-brand-cream text-brand-dark antialiased selection:bg-brand-orange selection:text-white overflow-x-hidden">
+    class="bg-brand-cream text-brand-dark antialiased selection:bg-brand-orange selection:text-white overflow-x-hidden font-sans">
 
-    <!-- Navbar Cálido -->
-    <nav class="fixed w-full z-50 glass-card border-b border-brand-wood/5 top-0">
+    <!-- NAVBAR -->
+    <nav class="fixed w-full z-50 glass-card border-b border-brand-wood/5 top-0 transition-all duration-300"
+        id="navbar">
         <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-            <div class="flex items-center gap-3">
-                <div class="w-10 h-10 bg-brand-green/10 rounded-full flex items-center justify-center text-brand-green">
-                    <span class="material-symbols-rounded text-2xl">local_cafe</span>
-                </div>
+            <!-- Logo -->
+            <a href="#" class="flex items-center gap-2 group">
+                <img src="public/Matecito-logo.svg" alt="Matecito Logo"
+                    class="w-10 h-10 transition-transform duration-300 group-hover:scale-110">
                 <span class="font-display font-bold text-xl tracking-tight text-brand-dark">Matecito</span>
-            </div>
+            </a>
 
-            <div class="hidden md:flex items-center gap-8 font-medium text-sm text-brand-wood/80">
-                <a href="#filosofia" class="hover:text-brand-orange transition-colors">La Ronda</a>
-                <a href="#servicios" class="hover:text-brand-orange transition-colors">Menú</a>
-                <a href="#fogon" class="hover:text-brand-orange transition-colors">El Fogón</a>
+            <div class="hidden lg:flex items-center gap-8 font-medium text-sm text-brand-wood/80">
+                <a href="#filosofia" class="hover:text-brand-orange transition-colors">Nosotros</a>
+                <a href="#servicios" class="hover:text-brand-orange transition-colors">Servicios</a>
+                <a href="#metodologia" class="hover:text-brand-orange transition-colors">Cómo Trabajamos</a>
+                <a href="#equipo" class="hover:text-brand-orange transition-colors">El Equipo</a>
                 <a href="#contacto"
-                    class="bg-brand-orange text-white px-5 py-2.5 rounded-full hover:bg-orange-600 transition-all hover:scale-105 shadow-lg shadow-brand-orange/20 font-bold">
-                    Cebar unos Mates
+                    class="bg-brand-orange text-white px-5 py-2.5 rounded-full hover:bg-orange-600 transition-all hover:scale-105 shadow-lg shadow-brand-orange/20 font-bold flex items-center gap-2">
+                    <span class="material-symbols-rounded text-sm">chat_bubble</span>
+                    Hablemos
                 </a>
             </div>
             <!-- Mobile Menu Icon -->
-            <button class="md:hidden text-brand-wood">
+            <button class="lg:hidden text-brand-wood">
                 <span class="material-symbols-rounded text-3xl">menu</span>
             </button>
         </div>
     </nav>
 
     <main class="pt-20">
-        <!-- HERO SECTION: CALIDEZ Y TECNOLOGÍA -->
+
+        <!-- 1. HERO SECTION -->
         <section
             class="min-h-[90vh] flex flex-col lg:flex-row items-center justify-between max-w-7xl mx-auto px-6 py-12 gap-12 relative">
-
-            <!-- Brasas flotantes (Animación CSS) -->
             <div id="embers-container" class="absolute inset-0 pointer-events-none overflow-hidden z-0"></div>
 
-            <!-- Texto de Bienvenida -->
-            <div class="flex-1 space-y-8 z-10 lg:pr-12">
+            <div class="flex-1 space-y-8 z-10 lg:pr-12 animate-fade-in-up">
                 <div
-                    class="inline-flex items-center gap-2 px-4 py-2 bg-brand-orange/10 text-brand-orange text-xs font-bold rounded-full uppercase tracking-wider">
-                    <span class="material-symbols-rounded text-sm animate-pulse">local_fire_department</span>
-                    Software Artesanal
+                    class="inline-flex items-center gap-2 px-4 py-2 bg-brand-orange/10 text-brand-orange text-xs font-bold rounded-full uppercase tracking-wider border border-brand-orange/20">
+                    <img src="public/Matecito-logo.svg" alt="Matecito" class="w-4 h-4 animate-pulse">
+                    Software Desde Humboldt
                 </div>
 
                 <h1 class="text-5xl lg:text-7xl font-display font-bold leading-[1.1] text-brand-dark">
-                    Código Robusto, <br />
+                    Hacemos eficiente <br />
                     <span
-                        class="text-transparent bg-clip-text bg-gradient-to-r from-brand-orange to-red-500 text-glow-orange">Corazón
-                        Gaucho.</span>
+                        class="text-transparent bg-clip-text bg-gradient-to-r from-brand-orange to-red-600 text-glow-orange">tu
+                        flujo de trabajo.</span>
                 </h1>
 
-                <p class="text-xl text-brand-wood/70 leading-relaxed font-light">
-                    Hacemos sitios web y sistemas que funcionan tan bien como un asado de domingo. Sin vueltas raras,
-                    con la calidez de un amigo y la precisión de un ingeniero.
+                <p class="text-xl text-brand-wood/70 leading-relaxed font-light max-w-2xl">
+                    Reducimos costos, agilizamos procesos y automatizamos lo aburrido. Enfocate en lo que hacés bien,
+                    nosotros nos encargamos de que la tecnología te acompañe, no que te frene.
                 </p>
 
                 <div class="flex flex-col sm:flex-row gap-4 pt-4">
                     <a href="#contacto"
                         class="group px-8 py-4 bg-brand-dark text-white rounded-xl font-bold hover:bg-black transition-all flex items-center justify-center gap-3 shadow-xl hover:shadow-2xl hover:-translate-y-1">
-                        <span>Arrancar Proyecto</span>
+                        <span>Empezar Ahora</span>
                         <span
                             class="material-symbols-rounded group-hover:translate-x-1 transition-transform">arrow_forward</span>
                     </a>
                     <a href="#servicios"
                         class="px-8 py-4 bg-white border border-brand-wood/10 text-brand-wood rounded-xl font-semibold hover:border-brand-orange/50 hover:text-brand-orange transition-all flex items-center justify-center gap-2">
-                        <span class="material-symbols-rounded">menu_book</span>
-                        Ver la Carta
+                        <span class="material-symbols-rounded">visibility</span>
+                        Ver Servicios
                     </a>
                 </div>
-
-                <p class="text-sm text-brand-wood/50 flex items-center gap-2">
-                    <span class="material-symbols-rounded text-brand-green">check_circle</span>
-                    Hecho a mano en Santa Fe, Argentina.
-                </p>
             </div>
 
-            <!-- Imagen Hero (Generada por IA) -->
-            <div class="flex-1 w-full relative group perspective-[1000px] z-10">
-                <!-- Efecto de brillo cálido detrás -->
-                <div class="absolute -inset-4 bg-orange-500/20 blur-3xl rounded-full opacity-60 animate-pulse-slow">
+            <!-- Hero Image / SVG Animado -->
+            <div class="flex-1 w-full relative group perspective-[1000px] z-10 flex justify-center">
+                <div
+                    class="absolute -inset-10 bg-orange-500/20 blur-[60px] rounded-full opacity-60 animate-pulse-slow pointer-events-none">
                 </div>
 
                 <div
-                    class="relative rounded-[2rem] overflow-hidden shadow-2xl transform transition-transform duration-700 hover:rotate-y-3 hover:rotate-x-3 rotate-y-12 rotate-x-6 border-4 border-white">
-                    <img src="public/hero-mate-warm.png" alt="Mate en mesa de madera al atardecer"
-                        class="w-full h-auto object-cover scale-105 group-hover:scale-110 transition-transform duration-1000">
-
-                    <!-- Tarjeta flotante "Coding" -->
-                    <div class="absolute bottom-6 right-6 bg-white/90 backdrop-blur p-4 rounded-xl shadow-lg border border-white max-w-[200px] animate-float"
-                        style="animation-delay: 1s;">
-                        <div class="flex items-center gap-3 mb-2">
-                            <div class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
-                            <span class="text-xs font-bold text-gray-500 uppercase tracking-widest">Compilando...</span>
-                        </div>
-                        <div class="h-1.5 w-full bg-gray-200 rounded-full overflow-hidden">
-                            <div class="h-full bg-brand-orange w-3/4 rounded-full"></div>
-                        </div>
+                    class="relative w-full max-w-[500px] transform transition-transform duration-700 hover:rotate-y-3 hover:rotate-x-3 rotate-y-6 rotate-x-3">
+                    <div class="gaucho-hero-container">
+                        <img id="gaucho-svg" src="public/gaucho.svg" data-auto-animate alt="Mate Codificador Animado"
+                            class="w-full h-auto drop-shadow-2xl">
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- FILOSOFÍA: LA RONDA DEL MATE -->
+        <!-- 2. NOSOTROS (Misión, Visión, Valores) -->
         <section id="filosofia" class="py-24 bg-white relative overflow-hidden">
-            <div class="max-w-7xl mx-auto px-6 text-center">
-                <span class="text-brand-green font-bold tracking-widest uppercase text-sm mb-2 block">Identidad
-                    Regional</span>
-                <h2 class="text-4xl font-display font-bold text-brand-dark mb-12">La Ronda del Mate</h2>
-
-                <div class="grid md:grid-cols-3 gap-8 text-left">
-                    <!-- Card 1 -->
-                    <div
-                        class="p-8 rounded-2xl bg-brand-cream border border-brand-wood/5 hover:border-brand-orange/30 transition-all hover:-translate-y-2 group">
-                        <div
-                            class="w-14 h-14 bg-white rounded-xl shadow-sm flex items-center justify-center text-3xl mb-6 group-hover:scale-110 transition-transform">
-                            🧉</div>
-                        <h3 class="text-xl font-bold mb-3 text-brand-dark">Sin Secretos</h3>
-                        <p class="text-brand-wood/70 leading-relaxed">
-                            El mate no se le niega a nadie. Nuestro código es abierto, transparente y compartido. Te
-                            mostramos cómo hacemos las cosas, sin cajas negras ni letras chicas.
-                        </p>
-                    </div>
-
-                    <!-- Card 2 -->
-                    <div
-                        class="p-8 rounded-2xl bg-brand-cream border border-brand-wood/5 hover:border-brand-orange/30 transition-all hover:-translate-y-2 group">
-                        <div
-                            class="w-14 h-14 bg-white rounded-xl shadow-sm flex items-center justify-center text-3xl mb-6 group-hover:scale-110 transition-transform">
-                            🤝</div>
-                        <h3 class="text-xl font-bold mb-3 text-brand-dark">Palabra de Honor</h3>
-                        <p class="text-brand-wood/70 leading-relaxed">
-                            En el campo, un apretón de manos vale más que un contrato. Cumplimos los plazos porque nos
-                            importa tu tiempo, no solo porque lo diga un papel.
-                        </p>
-                    </div>
-
-                    <!-- Card 3 -->
-                    <div
-                        class="p-8 rounded-2xl bg-brand-cream border border-brand-wood/5 hover:border-brand-orange/30 transition-all hover:-translate-y-2 group">
-                        <div
-                            class="w-14 h-14 bg-white rounded-xl shadow-sm flex items-center justify-center text-3xl mb-6 group-hover:scale-110 transition-transform">
-                            🔥</div>
-                        <h3 class="text-xl font-bold mb-3 text-brand-dark">Pasión Criolla</h3>
-                        <p class="text-brand-wood/70 leading-relaxed">
-                            Le ponemos el mismo cariño que le pone la abuela al tuco del domingo. No entregamos nada que
-                            no nos haga sentir orgullosos.
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- EL FOGÓN (EQUIPO) -->
-        <section id="fogon" class="py-24 bg-brand-wood text-brand-cream relative overflow-hidden">
-            <!-- Efecto Fuego Fondo -->
             <div
-                class="absolute bottom-0 left-0 w-full h-1/2 bg-gradient-to-t from-orange-900/50 to-transparent pointer-events-none">
+                class="absolute top-0 right-0 w-64 h-64 bg-brand-green/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2">
             </div>
 
             <div class="max-w-7xl mx-auto px-6 relative z-10">
-                <div class="flex flex-col lg:flex-row gap-16 items-center">
+                <div class="text-center mb-16">
+                    <span class="text-brand-green font-bold tracking-widest uppercase text-sm mb-2 block">Identidad &
+                        Propósito</span>
+                    <h2 class="text-4xl font-display font-bold text-brand-dark">Nuestra Brújula</h2>
+                </div>
 
-                    <!-- Lado Izquierdo: Texto -->
-                    <div class="lg:w-1/2">
-                        <h2 class="text-4xl lg:text-5xl font-display font-bold mb-6">
-                            El Fogón <span class="text-brand-orange">Digital</span>
-                        </h2>
-                        <p class="text-xl text-brand-cream/80 mb-8 leading-relaxed">
-                            Acá no hay "recursos humanos", hay personas. Somos un grupo de amigos y profesionales
-                            universitarios de la región (Humboldt, Rafaela, Santa Fe) que se juntan a resolver
-                            problemas.
-                        </p>
-
+                <div class="grid md:grid-cols-2 gap-12 mb-20">
+                    <!-- Misión -->
+                    <div
+                        class="p-8 rounded-3xl bg-brand-cream border border-brand-wood/5 relative group hover:shadow-lg transition-all">
                         <div
-                            class="flex items-center gap-4 p-4 bg-white/5 rounded-xl border border-white/10 backdrop-blur-sm">
-                            <div class="relative">
-                                <img src="https://ui-avatars.com/api/?name=Mateo+Gariboglio&background=ff6b35&color=fff"
-                                    alt="Mateo" class="w-12 h-12 rounded-full ring-2 ring-white/30">
-                                <div
-                                    class="absolute -bottom-1 -right-1 bg-green-500 w-3 h-3 rounded-full border border-brand-wood">
+                            class="w-12 h-12 bg-white rounded-xl shadow-sm flex items-center justify-center text-brand-orange mb-6">
+                            <span class="material-symbols-rounded text-3xl">rocket_launch</span>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-4 font-display">Nuestra Misión</h3>
+                        <p class="text-brand-wood/80 leading-relaxed">
+                            Queremos que los negocios de nuestra región (Humboldt, Rafaela, Santa Fe) puedan competir de
+                            igual a igual. Hacemos que la tecnología sea una herramienta de crecimiento, no un dolor de
+                            cabeza, ayudándote a <strong>vender más y trabajar mejor</strong>.
+                        </p>
+                    </div>
+
+                    <!-- Visión -->
+                    <div
+                        class="p-8 rounded-3xl bg-brand-cream border border-brand-wood/5 relative group hover:shadow-lg transition-all">
+                        <div
+                            class="w-12 h-12 bg-white rounded-xl shadow-sm flex items-center justify-center text-brand-green mb-6">
+                            <span class="material-symbols-rounded text-3xl">visibility</span>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-4 font-display">Nuestra Visión</h3>
+                        <p class="text-brand-wood/80 leading-relaxed">
+                            Ser el socio tecnológico de confianza para emprendedores y PyMEs. En 5 años, imaginamos un
+                            ecosistema local digitalizado, eficiente y conectado al mundo, impulsado por soluciones
+                            creadas acá, por gente de acá.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Pilares del Fogón (Valores) -->
+                <div class="flex flex-col lg:flex-row gap-12 items-center mb-10">
+                    <div class="flex-1">
+                        <h3 class="text-2xl font-bold font-display mb-8 text-center lg:text-left">Pilares del Fogón</h3>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div
+                                class="p-4 bg-brand-cream border border-brand-wood/5 rounded-2xl text-center hover:bg-white transition-colors group/icon">
+                                <div class="mb-2 text-brand-wood group-hover/icon:text-brand-orange transition-colors">
+                                    <span class="material-symbols-rounded text-3xl">handshake</span>
                                 </div>
+                                <h4 class="font-bold text-sm">Cercanía</h4>
                             </div>
-                            <div>
-                                <p class="font-bold text-white">Mateo Gariboglio</p>
-                                <p class="text-xs text-brand-cream/60">El que ceba los mates (y dirige el barco)</p>
+                            <div
+                                class="p-4 bg-brand-cream border border-brand-wood/5 rounded-2xl text-center hover:bg-white transition-colors group/icon">
+                                <div class="mb-2 text-brand-wood group-hover/icon:text-brand-orange transition-colors">
+                                    <span class="material-symbols-rounded text-3xl">fact_check</span>
+                                </div>
+                                <h4 class="font-bold text-sm">Transparencia</h4>
+                            </div>
+                            <div
+                                class="p-4 bg-brand-cream border border-brand-wood/5 rounded-2xl text-center hover:bg-white transition-colors group/icon">
+                                <div class="mb-2 text-brand-wood group-hover/icon:text-brand-orange transition-colors">
+                                    <span class="material-symbols-rounded text-3xl">workspace_premium</span>
+                                </div>
+                                <h4 class="font-bold text-sm">Calidad</h4>
+                            </div>
+                            <div
+                                class="p-4 bg-brand-cream border border-brand-wood/5 rounded-2xl text-center hover:bg-white transition-colors group/icon">
+                                <div class="mb-2 text-brand-wood group-hover/icon:text-brand-orange transition-colors">
+                                    <span class="material-symbols-rounded text-3xl">bolt</span>
+                                </div>
+                                <h4 class="font-bold text-sm">Simplicidad</h4>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Lado Derecho: Código de Honor -->
-                    <div class="lg:w-1/2 w-full">
+                    <!-- Código de Honor (Python Block) -->
+                    <div class="flex-1 w-full">
                         <div
-                            class="bg-[#1e1e1e] rounded-xl shadow-2xl overflow-hidden border border-white/10 font-mono text-sm transform rotate-1 hover:rotate-0 transition-transform duration-500">
+                            class="bg-[#1e1e1e] rounded-xl shadow-2xl overflow-hidden border border-brand-wood/10 font-mono text-xs md:text-sm transform rotate-1 hover:rotate-0 transition-transform duration-500 group">
                             <div class="flex items-center gap-2 px-4 py-3 bg-[#252526] border-b border-white/5">
-                                <div class="flex gap-1.5_">
+                                <div class="flex gap-1.5">
                                     <div class="w-3 h-3 rounded-full bg-[#ff5f56]"></div>
                                     <div class="w-3 h-3 rounded-full bg-[#ffbd2e]"></div>
                                     <div class="w-3 h-3 rounded-full bg-[#27c93f]"></div>
                                 </div>
-                                <span class="ml-4 text-gray-400 text-xs">honor_code.py</span>
+                                <span
+                                    class="ml-4 text-gray-400 italic group-hover:text-brand-orange transition-colors">honor_code.py</span>
                             </div>
                             <div class="p-6 text-gray-300 leading-relaxed overflow-x-auto">
                                 <p><span class="text-[#c586c0]">class</span> <span
-                                        class="text-[#4ec9b0]">MatecitoAgency</span>:</p>
-                                <p class="pl-4"><span class="text-[#6a9955]"># Nuestra promesa inquebrantable</span></p>
+                                        class="text-[#4ec9b0]">Matecito</span>:
+                                </p>
+                                <p class="pl-4"><span class="text-[#6a9955]"># Nuestra promesa inquebrantable</span>
+                                </p>
                                 <p class="pl-4"><span class="text-[#569cd6]">def</span> <span
                                         class="text-[#dcdcaa]">__init__</span>(<span
-                                        class="text-[#9cdcfe]">self</span>):</p>
-                                <p class="pl-8"><span class="text-[#9cdcfe]">self</span>.valores = [<span
-                                        class="text-[#ce9178]">'Transparencia'</span>, <span
-                                        class="text-[#ce9178]">'Calidad'</span>, <span
-                                        class="text-[#ce9178]">'Amistad'</span>]</p>
-                                <p class="pl-8"><span class="text-[#9cdcfe]">self</span>.open_source = <span
+                                        class="text-[#9cdcfe]">self</span>):
+                                </p>
+                                <p class="pl-8"><span class="text-[#9cdcfe]">self</span>.pasion = <span
                                         class="text-[#569cd6]">True</span></p>
+                                <p class="pl-8"><span class="text-[#9cdcfe]">self</span>.humo = <span
+                                        class="text-[#569cd6]">False</span> <span class="text-[#6a9955]"># Sin
+                                        chamuyos</span></p>
                                 <br>
                                 <p class="pl-4"><span class="text-[#569cd6]">def</span> <span
                                         class="text-[#dcdcaa]">trabajar</span>(<span class="text-[#9cdcfe]">self</span>,
-                                    <span class="text-[#9cdcfe]">cliente</span>):</p>
+                                    <span class="text-[#9cdcfe]">cliente</span>):
+                                </p>
                                 <p class="pl-8"><span class="text-[#c586c0]">if</span> <span
-                                        class="text-[#9cdcfe]">cliente</span>.es_buena_gente:</p>
+                                        class="text-[#9cdcfe]">cliente</span>.es_vecino:</p>
                                 <p class="pl-12"><span class="text-[#c586c0]">return</span> <span
-                                        class="text-[#ce9178]">"Darlo todo 🚀"</span></p>
+                                        class="text-[#ce9178]">"Darlo todo"</span></p>
                                 <p class="pl-8"><span class="text-[#c586c0]">else</span>:</p>
                                 <p class="pl-12"><span class="text-[#c586c0]">return</span> <span
-                                        class="text-[#ce9178]">"Invitar un mate y charlar"</span></p>
+                                        class="text-[#ce9178]">"Mate y Código Limpio"</span></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </section>
+
+        <!-- 3. SERVICIOS -->
+        <section id="servicios" class="py-24 bg-brand-wood text-brand-cream relative">
+            <div class="max-w-7xl mx-auto px-6">
+                <div class="text-center mb-16">
+                    <span class="text-brand-orange font-bold tracking-widest uppercase text-sm mb-2 block">//
+                        Soluciones</span>
+                    <h2 class="text-4xl font-display font-bold text-white">¿Qué necesitás hoy?</h2>
+                </div>
+
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Servicio 1 -->
+                    <div
+                        class="bg-white/5 border border-white/10 p-8 rounded-2xl hover:bg-white/10 transition-colors group">
+                        <span
+                            class="material-symbols-rounded text-4xl text-brand-orange mb-4 group-hover:scale-110 transition-transform block">shopping_cart</span>
+                        <h3 class="text-xl font-bold mb-2">E-commerce</h3>
+                        <p class="text-sm text-gray-400">Tiendas online que venden solas. Integración con pagos, envíos
+                            y catálogo autogestionable.</p>
+                    </div>
+                    <!-- Servicio 2 -->
+                    <div
+                        class="bg-white/5 border border-white/10 p-8 rounded-2xl hover:bg-white/10 transition-colors group">
+                        <span
+                            class="material-symbols-rounded text-4xl text-brand-orange mb-4 group-hover:scale-110 transition-transform block">web</span>
+                        <h3 class="text-xl font-bold mb-2">Sitios Web</h3>
+                        <p class="text-sm text-gray-400">Landing pages de alto impacto y sitios corporativos optimizados
+                            para Google (SEO).</p>
+                    </div>
+                    <!-- Servicio 3 -->
+                    <div
+                        class="bg-white/5 border border-white/10 p-8 rounded-2xl hover:bg-white/10 transition-colors group">
+                        <span
+                            class="material-symbols-rounded text-4xl text-brand-orange mb-4 group-hover:scale-110 transition-transform block">smart_toy</span>
+                        <h3 class="text-xl font-bold mb-2">Automatización (SaaS)</h3>
+                        <p class="text-sm text-gray-400">Sistemas a medida para gestión de turnos, stock o clientes.
+                            Ahorrá horas de trabajo manual.</p>
+                    </div>
+                    <!-- Servicio 4 -->
+                    <div
+                        class="bg-white/5 border border-white/10 p-8 rounded-2xl hover:bg-white/10 transition-colors group">
+                        <span
+                            class="material-symbols-rounded text-4xl text-brand-orange mb-4 group-hover:scale-110 transition-transform block">build</span>
+                        <h3 class="text-xl font-bold mb-2">Mantenimiento</h3>
+                        <p class="text-sm text-gray-400">Tu negocio no para, tu web tampoco. Soporte técnico,
+                            actualizaciones y seguridad continua.</p>
+                    </div>
+                    <!-- Servicio 5 -->
+                    <div
+                        class="bg-white/5 border border-white/10 p-8 rounded-2xl hover:bg-white/10 transition-colors group">
+                        <span
+                            class="material-symbols-rounded text-4xl text-brand-orange mb-4 group-hover:scale-110 transition-transform block">campaign</span>
+                        <h3 class="text-xl font-bold mb-2">Digitalización</h3>
+                        <p class="text-sm text-gray-400">Transformamos tus procesos en papel a digital. Llevá tu negocio
+                            en el bolsillo.</p>
+                    </div>
+                    <!-- Servicio 6 -->
+                    <div
+                        class="bg-white/5 border border-white/10 p-8 rounded-2xl hover:bg-white/10 transition-colors group">
+                        <span
+                            class="material-symbols-rounded text-4xl text-brand-orange mb-4 group-hover:scale-110 transition-transform block">school</span>
+                        <h3 class="text-xl font-bold mb-2">Consultoría</h3>
+                        <p class="text-sm text-gray-400">Te asesoramos sobre qué tecnología te conviene. No gastes de
+                            más en lo que no usás.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. METODOLOGÍA (CÓMO TRABAJAMOS) -->
+        <section id="metodologia" class="py-24 bg-brand-cream relative">
+            <div class="max-w-7xl mx-auto px-6">
+                <div class="flex flex-col lg:flex-row gap-16 items-center">
+                    <div class="lg:w-1/2">
+                        <span
+                            class="text-brand-green font-bold tracking-widest uppercase text-sm mb-2 block">Metodología
+                            Ágil</span>
+                        <h2 class="text-4xl font-display font-bold text-brand-dark mb-6">Trabajamos con SCRUM <br>(Sin
+                            chamuyos)</h2>
+                        <p class="text-lg text-brand-wood/70 mb-8">
+                            Ordenamos el caos. Usamos metodologías internacionales adaptadas a la realidad local.
+                            Entregas semanales, comunicación clara y cero sorpresas.
+                        </p>
+
+                        <div class="space-y-6">
+                            <div class="flex gap-4">
+                                <div
+                                    class="w-10 h-10 rounded-full bg-brand-orange text-white flex items-center justify-center font-bold flex-shrink-0">
+                                    1</div>
+                                <div>
+                                    <h4 class="font-bold text-brand-dark">Sprint Semanal</h4>
+                                    <p class="text-sm text-gray-600">Planificamos objetivos cortos. Cada semana ves
+                                        avances reales, no promesas.</p>
+                                </div>
+                            </div>
+                            <div class="flex gap-4">
+                                <div
+                                    class="w-10 h-10 rounded-full bg-brand-orange text-white flex items-center justify-center font-bold flex-shrink-0">
+                                    2</div>
+                                <div>
+                                    <h4 class="font-bold text-brand-dark">Comunicación Asincrónica</h4>
+                                    <p class="text-sm text-gray-600">Usamos Discord y Notion. Menos reuniones eternas,
+                                        más tiempo trabajando en tu proyecto.</p>
+                                </div>
+                            </div>
+                            <div class="flex gap-4">
+                                <div
+                                    class="w-10 h-10 rounded-full bg-brand-orange text-white flex items-center justify-center font-bold flex-shrink-0">
+                                    3</div>
+                                <div>
+                                    <h4 class="font-bold text-brand-dark">Transparencia Total</h4>
+                                    <p class="text-sm text-gray-600">Tenés acceso a ver el estado de cada tarea. Nada se
+                                        esconde bajo la alfombra.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="lg:w-1/2">
+                        <div class="bg-white p-6 rounded-2xl shadow-xl border border-brand-wood/5 rotate-2">
+                            <!-- Visual representation of Kanban/Scrum Board -->
+                            <div class="flex justify-between items-center mb-4 border-b pb-2">
+                                <span class="font-bold text-sm">Proyecto: Tu E-commerce</span>
+                                <span class="text-xs bg-green-100 text-green-700 px-2 py-1 rounded">Sprint 2</span>
+                            </div>
+                            <div class="grid grid-cols-3 gap-2 text-xs">
+                                <div class="bg-gray-50 p-2 rounded">
+                                    <div class="font-bold mb-2 text-gray-500">POR HACER</div>
+                                    <div class="bg-white p-2 rounded shadow-sm border mb-2">Configurar envíos</div>
+                                </div>
+                                <div class="bg-gray-50 p-2 rounded">
+                                    <div class="font-bold mb-2 text-blue-500">EN PROGRESO</div>
+                                    <div
+                                        class="bg-white p-2 rounded shadow-sm border border-l-4 border-l-blue-500 mb-2">
+                                        Integrar MercadoPago</div>
+                                    <div class="bg-white p-2 rounded shadow-sm border border-l-4 border-l-blue-500">
+                                        Diseño Mobile</div>
+                                </div>
+                                <div class="bg-gray-50 p-2 rounded">
+                                    <div class="font-bold mb-2 text-green-500">HECHO</div>
+                                    <div
+                                        class="bg-white p-2 rounded shadow-sm border border-l-4 border-l-green-500 mb-2 opacity-75 line-through">
+                                        Inicio</div>
+                                    <div
+                                        class="bg-white p-2 rounded shadow-sm border border-l-4 border-l-green-500 opacity-75 line-through">
+                                        Hosting</div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -312,123 +592,291 @@
             </div>
         </section>
 
-        <!-- CONTACTO: MANDÁ UN CHASQUI -->
-        <section id="contacto" class="py-24 bg-brand-cream relative">
-            <div class="max-w-3xl mx-auto px-6 text-center">
-                <span class="inline-block p-3 rounded-full bg-brand-orange/10 text-brand-orange mb-6 animate-bounce">
-                    <span class="material-symbols-rounded text-3xl">mail</span>
-                </span>
+        <!-- 5. EQUIPO (EL FOGÓN) -->
+        <section id="equipo" class="py-24 bg-brand-wood/5 relative">
+            <div class="max-w-7xl mx-auto px-6 text-center">
+                <span class="text-brand-orange font-bold tracking-widest uppercase text-sm mb-2 block">Quiénes
+                    Somos</span>
+                <h2 class="text-4xl font-display font-bold text-brand-dark mb-12">El Fogón Digital</h2>
 
-                <h2 class="text-4xl font-display font-bold text-brand-dark mb-4">Mandá un Chasqui</h2>
-                <p class="text-lg text-brand-wood/70 mb-10">
-                    ¿Tenés una idea dándote vueltas? Completá el formulario y nos llega como por arte de magia (o
-                    tecnología, mejor dicho). Sin compromiso, ¡como charla de vereda!
-                </p>
+                <!-- Founder Card -->
+                <div
+                    class="max-w-3xl mx-auto bg-white p-8 rounded-3xl shadow-xl border border-brand-wood/5 flex flex-col md:flex-row items-center gap-8 mb-16">
+                    <div class="relative shrink-0">
+                        <img src="public/mateo-avatar.png"
+                            onerror="this.src='https://ui-avatars.com/api/?name=Mateo+Gariboglio&background=ff6b35&color=fff&size=150'"
+                            alt="Mateo Gariboglio" class="w-32 h-32 rounded-full ring-4 ring-brand-cream shadow-lg">
+                        <span
+                            class="absolute bottom-1 right-1 w-8 h-8 bg-white rounded-full flex items-center justify-center shadow-md text-brand-dark"
+                            title="Backend Developer">
+                            <span class="material-symbols-rounded text-sm">terminal</span>
+                        </span>
+                    </div>
+                    <div class="text-left">
+                        <h3 class="text-2xl font-bold text-brand-dark">Mateo Gariboglio</h3>
+                        <p class="text-brand-orange font-medium mb-4">Fundador & Scrum Master</p>
+                        <p class="text-gray-600 mb-6 text-sm leading-relaxed">
+                            "Me obsesiona que las cosas funcionen bien. Mi rol es coordinar que todo el engranaje
+                            técnico gire perfecto para que vos solo te preocupes por vender. Vengo del Backend
+                            (Java/Spring), así que la robustez es mi prioridad."
+                        </p>
+                        <div class="flex gap-4">
+                            <a href="https://linkedin.com/in/mateo-gariboglio" target="_blank"
+                                class="text-gray-400 hover:text-[#0077b5] transition-colors"><span
+                                    class="material-symbols-rounded">work</span></a>
+                            <a href="https://github.com/Mateo-404" target="_blank"
+                                class="text-gray-400 hover:text-black transition-colors"><span
+                                    class="material-symbols-rounded">code</span></a>
+                            <a href="https://wa.me/543425370985" target="_blank"
+                                class="text-gray-400 hover:text-green-500 transition-colors"><span
+                                    class="material-symbols-rounded">chat</span></a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modelo de Colaboradores -->
+                <div class="grid md:grid-cols-2 gap-8 text-left max-w-4xl mx-auto">
+                    <div class="p-6 bg-brand-wood text-brand-cream rounded-2xl">
+                        <h4 class="font-bold text-lg mb-2 flex items-center gap-2">
+                            <span class="material-symbols-rounded text-brand-orange">group_add</span>
+                            Red de Talentos
+                        </h4>
+                        <p class="text-sm opacity-80">
+                            No somos una agencia gigante y burocrática. Armamos equipos a medida ("Squads") para cada
+                            proyecto con los mejores especialistas de nuestra base de datos.
+                        </p>
+                    </div>
+                    <div class="p-6 bg-white border border-brand-wood/10 rounded-2xl">
+                        <h4 class="font-bold text-lg mb-2 flex items-center gap-2 text-brand-dark">
+                            <span class="material-symbols-rounded text-brand-green">school</span>
+                            Formación Continua
+                        </h4>
+                        <p class="text-sm text-gray-600">
+                            Somos profesionales universitarios y autodidactas apasionados. Nunca dejamos de aprender
+                            porque la tecnología nunca deja de avanzar.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. TECH STACK & TRANSPARENCIA -->
+        <section class="py-16 bg-white border-y border-gray-100">
+            <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-8">
+                <div class="text-center md:text-left">
+                    <h3 class="font-bold text-brand-dark mb-1">Nuestras Herramientas</h3>
+                    <p class="text-sm text-gray-500">Lo que usamos bajo el capó.</p>
+                </div>
+                <!-- Tech Icons (Text placeholders for simplicity/performance) -->
+                <div
+                    class="flex flex-wrap justify-center gap-6 opacity-60 grayscale hover:grayscale-0 transition-all duration-500">
+                    <span class="font-mono font-bold text-xl hover:text-blue-500 cursor-help" title="Java">Java</span>
+                    <span class="font-mono font-bold text-xl hover:text-green-500 cursor-help"
+                        title="Spring Boot">Spring</span>
+                    <span class="font-mono font-bold text-xl hover:text-yellow-500 cursor-help"
+                        title="JavaScript">JS/Node</span>
+                    <span class="font-mono font-bold text-xl hover:text-blue-400 cursor-help"
+                        title="PostgreSQL">Postgres</span>
+                    <span class="font-mono font-bold text-xl hover:text-orange-500 cursor-help"
+                        title="HTML5">HTML5</span>
+                    <span class="font-mono font-bold text-xl hover:text-cyan-500 cursor-help"
+                        title="Docker">Docker</span>
+                </div>
+            </div>
+
+            <!-- Links de Transparencia -->
+            <div
+                class="max-w-7xl mx-auto px-6 mt-12 pt-8 border-t border-gray-100 grid items-center justify-center text-center">
+                <p class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-4">Transparencia Radical</p>
+                <div class="flex flex-wrap justify-center gap-4 text-sm font-medium text-brand-green">
+                    <a href="#" class="hover:underline flex items-center gap-1"><span
+                            class="material-symbols-rounded text-xs">description</span> Documentación</a>
+                    <span class="text-gray-300">|</span>
+                    <a href="#" class="hover:underline flex items-center gap-1"><span
+                            class="material-symbols-rounded text-xs">folder_open</span> Repositorios Públicos</a>
+                    <span class="text-gray-300">|</span>
+                    <a href="#" class="hover:underline flex items-center gap-1"><span
+                            class="material-symbols-rounded text-xs">attach_money</span> Precios (Notion)</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- 7. CTA / CONTACTO -->
+        <section id="contacto" class="py-24 bg-brand-cream relative">
+            <div class="max-w-3xl mx-auto px-6">
+                <div class="text-center mb-10">
+                    <span
+                        class="inline-block p-3 rounded-full bg-brand-orange/10 text-brand-orange mb-6 animate-bounce">
+                        <span class="material-symbols-rounded text-3xl">mail</span>
+                    </span>
+                    <h2 class="text-4xl font-display font-bold text-brand-dark mb-4">Hablemos</h2>
+                    <p class="text-lg text-brand-wood/70">
+                        ¿Tenés una idea dándote vueltas? Completá el formulario y nos llega directo. Sin compromiso,
+                        ¡como charla de vereda!
+                    </p>
+                </div>
 
                 <form id="contactForm"
-                    class="text-left bg-white p-8 rounded-2xl shadow-xl border border-brand-wood/5 relative overflow-hidden">
-                    <!-- Decoración Sello -->
+                    class="bg-white p-8 md:p-10 rounded-3xl shadow-xl border border-brand-wood/5 relative overflow-hidden group">
+                    <!-- Sello de Garantía -->
                     <div
-                        class="absolute -top-6 -right-6 w-24 h-24 bg-brand-orange/10 rounded-full flex items-center justify-center rotate-12">
-                        <span
-                            class="text-brand-orange font-bold text-xs mt-4 mr-4 uppercase tracking-widest border border-brand-orange p-1 rounded">Certificado</span>
+                        class="absolute -top-8 -right-8 w-32 h-32 bg-brand-orange/5 rounded-full flex items-center justify-center rotate-12 transition-transform group-hover:rotate-45">
                     </div>
 
-                    <div class="space-y-6">
-                        <div>
-                            <label class="block text-sm font-bold text-brand-wood mb-2">¿Cómo te llamás, che?</label>
-                            <input type="text" id="nombre"
-                                class="w-full rounded-lg border-gray-200 bg-brand-cream focus:border-brand-orange focus:ring-brand-orange transition-colors"
-                                placeholder="Tu nombre..." required>
+                    <div class="space-y-6 relative z-10">
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-sm font-bold text-brand-wood mb-2">¿Cómo te llamás,
+                                    che?</label>
+                                <input type="text" id="nombre"
+                                    class="w-full rounded-xl border-gray-200 bg-gray-50 focus:border-brand-orange focus:ring-brand-orange transition-colors py-3"
+                                    placeholder="Tu nombre..." required>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-bold text-brand-wood mb-2">¿Dónde te ubicamos?</label>
+                                <input type="text" id="contacto_dato"
+                                    class="w-full rounded-xl border-gray-200 bg-gray-50 focus:border-brand-orange focus:ring-brand-orange transition-colors py-3"
+                                    placeholder="WhatsApp o Email..." required>
+                            </div>
                         </div>
 
                         <div>
-                            <label class="block text-sm font-bold text-brand-wood mb-2">¿Dónde te ubicamos?</label>
-                            <input type="text" id="contacto_dato"
-                                class="w-full rounded-lg border-gray-200 bg-brand-cream focus:border-brand-orange focus:ring-brand-orange transition-colors"
-                                placeholder="Email o WhatsApp..." required>
+                            <label class="block text-sm font-bold text-brand-wood mb-2">¿Qué servicio te
+                                interesa?</label>
+                            <select id="asunto"
+                                class="w-full rounded-xl border-gray-200 bg-gray-50 focus:border-brand-orange focus:ring-brand-orange transition-colors py-3">
+                                <option>Quiero un sitio web / Landing</option>
+                                <option>Necesito un E-commerce</option>
+                                <option>Automatización de procesos</option>
+                                <option>Otro / Consulta general</option>
+                            </select>
                         </div>
 
                         <div>
                             <label class="block text-sm font-bold text-brand-wood mb-2">Contanos tu idea</label>
                             <textarea id="mensaje" rows="4"
-                                class="w-full rounded-lg border-gray-200 bg-brand-cream focus:border-brand-orange focus:ring-brand-orange transition-colors resize-none"
+                                class="w-full rounded-xl border-gray-200 bg-gray-50 focus:border-brand-orange focus:ring-brand-orange transition-colors resize-none py-3"
                                 placeholder="Quiero vender mis productos por internet..." required></textarea>
                         </div>
 
                         <button type="submit"
-                            class="w-full py-4 bg-brand-orange text-white font-bold rounded-xl hover:bg-orange-600 transition-all transform active:scale-95 shadow-lg shadow-brand-orange/30 flex items-center justify-center gap-2">
+                            class="w-full py-4 bg-brand-orange text-white font-bold rounded-xl hover:bg-orange-600 transition-all transform active:scale-[0.98] shadow-lg shadow-brand-orange/30 flex items-center justify-center gap-2">
                             <span>Enviar Mensaje</span>
                             <span class="material-symbols-rounded">send</span>
                         </button>
                     </div>
-
-                    <p class="text-center text-xs text-brand-wood/40 mt-6">
-                        🔒 Tus datos están más seguros que receta de abuela.
-                    </p>
                 </form>
+
+                <div class="mt-12 flex justify-center gap-8 text-sm font-bold tracking-wide text-gray-400">
+                    <a href="https://instagram.com" target="_blank"
+                        class="hover:text-brand-orange transition-colors hover:-translate-y-1 flex items-center gap-2">
+                        Instagram <span class="material-symbols-rounded text-sm">open_in_new</span>
+                    </a>
+                    <a href="https://linkedin.com/in/mateo-gariboglio" target="_blank"
+                        class="hover:text-[#0077b5] transition-colors hover:-translate-y-1 flex items-center gap-2">
+                        LinkedIn <span class="material-symbols-rounded text-sm">open_in_new</span>
+                    </a>
+                    <a href="https://github.com/Mateo-404" target="_blank"
+                        class="hover:text-black transition-colors hover:-translate-y-1 flex items-center gap-2">
+                        GitHub <span class="material-symbols-rounded text-sm">open_in_new</span>
+                    </a>
+                </div>
             </div>
         </section>
+
     </main>
 
-    <footer class="bg-brand-dark text-brand-cream/60 py-12 border-t border-white/5 mx-auto">
-        <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-3 gap-12 text-sm">
-            <div>
-                <div class="flex items-center gap-2 mb-4 text-white">
-                    <span class="material-symbols-rounded text-brand-orange">local_fire_department</span>
-                    <span class="font-bold text-lg">Matecito</span>
+    <!-- FOOTER -->
+    <footer class="bg-brand-dark text-brand-cream/60 py-12 border-t border-white/5">
+        <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-4 gap-12 text-sm">
+            <div class="col-span-1 md:col-span-2">
+                <div class="flex items-center gap-3 mb-4 text-white">
+                    <img src="public/Matecito-logo.svg" alt="Matecito Logo" class="w-8 h-8">
+                    <span class="font-display font-bold text-xl">Matecito</span>
                 </div>
-                <p>Ingeniería de software con raíces santafesinas. Desarrollamos el futuro sin olvidar de dónde venimos.
-                </p>
+                <p class="max-w-xs mb-6">Ingeniería de software con raíces santafesinas. Desarrollamos el futuro sin
+                    olvidar de dónde venimos.</p>
+                <div
+                    class="inline-flex items-center gap-2 px-3 py-1 bg-white/5 rounded-full text-xs text-brand-green border border-brand-green/20">
+                    <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+                    Sistemas Operativos
+                </div>
             </div>
 
             <div>
-                <h4 class="font-bold text-white mb-4 uppercase tracking-wider text-xs">Enlaces</h4>
-                <ul class="space-y-2">
+                <h4 class="font-bold text-white mb-4 uppercase tracking-wider text-xs">Navegación</h4>
+                <ul class="space-y-3">
                     <li><a href="#" class="hover:text-brand-orange transition-colors">Inicio</a></li>
-                    <li><a href="#filosofia" class="hover:text-brand-orange transition-colors">Filosofía</a></li>
-                    <li><a href="#fogon" class="hover:text-brand-orange transition-colors">Equipo</a></li>
+                    <li><a href="#filosofia" class="hover:text-brand-orange transition-colors">Nosotros</a></li>
+                    <li><a href="#servicios" class="hover:text-brand-orange transition-colors">Servicios</a></li>
+                    <li><a href="#equipo" class="hover:text-brand-orange transition-colors">Equipo</a></li>
                 </ul>
             </div>
 
             <div>
                 <h4 class="font-bold text-white mb-4 uppercase tracking-wider text-xs">Contacto</h4>
-                <p>Humboldt, Santa Fe, Argentina</p>
+                <p class="mb-2">Humboldt, Santa Fe, AR</p>
+                <a href="mailto:hola@matecito.tech"
+                    class="hover:text-brand-orange transition-colors block mb-2">Discord: gary_______</a>
                 <a href="https://wa.me/543425370985"
-                    class="hover:text-brand-orange transition-colors block mt-2">WhatsApp: +54 345...</a>
-                <div class="flex gap-4 mt-6">
-                    <a href="#" class="text-white hover:text-brand-orange"><i class="text-xl">IG</i></a>
-                    <!-- Placeholder para íconos sociales -->
-                    <a href="#" class="text-white hover:text-brand-orange"><i class="text-xl">LI</i></a>
-                </div>
+                    class="hover:text-brand-orange transition-colors block font-medium text-white">WhatsApp Directo
+                    -></a>
             </div>
         </div>
-        <div class="text-center mt-12 pt-8 border-t border-white/5 text-xs">
-            &copy; 2026 Matecito. Hecho con ❤️ y 🧉.
+        <div
+            class="max-w-7xl mx-auto px-6 mt-12 pt-8 border-t border-white/5 text-xs flex flex-col md:flex-row justify-between items-center gap-4">
+            <span>&copy; 2026 Matecito. Hecho con ❤️ y 🧉 en Argentina.</span>
+            <span class="opacity-50 hover:opacity-100 transition-opacity cursor-pointer">v3.1.0-FOGON</span>
         </div>
     </footer>
 
     <!-- Scripts -->
+    <script src="js/gaucho-animator.js"></script>
     <script src="js/main.js"></script>
     <script>
-        // Script para generar brasas flotantes
+        // Configuración personalizada para las animaciones del Gaucho
+        document.addEventListener('DOMContentLoaded', () => {
+            // Esperar un poco para asegurar que el DOM esté listo
+            setTimeout(() => {
+                if (typeof GauchoAnimator !== 'undefined') {
+                    // Inicializar con configuración específica para el Hero
+                    new GauchoAnimator('gaucho-svg', {
+                        codeSnippets: [
+                            'Dev', 'Java', 'Spring', 'React',
+                            'Node', 'SQL', '{code}', '()=>',
+                            'API', 'REST', 'JSON', 'Git'
+                        ],
+                        particleCount: 12,
+                        codeColor: '#4CAF50', // Verde código clásico
+                        enableSmoke: true
+                    });
+                }
+            }, 500);
+        });
+    </script>
+    <script>
+        // Script para generar brasas flotantes (Simple y ligero)
         function createEmbers() {
             const container = document.getElementById('embers-container');
-            const emberCount = 20;
+            const emberCount = 25;
 
             for (let i = 0; i < emberCount; i++) {
                 const ember = document.createElement('div');
                 ember.classList.add('ember', 'animate-ember');
 
+                // Random size
                 const size = Math.random() * 4 + 2 + 'px';
                 ember.style.width = size;
                 ember.style.height = size;
 
+                // Random position
                 ember.style.left = Math.random() * 100 + '%';
                 ember.style.top = Math.random() * 100 + '%';
 
-                ember.style.animationDuration = Math.random() * 3 + 2 + 's';
+                // Random animation props
+                ember.style.animationDuration = Math.random() * 3 + 4 + 's';
                 ember.style.animationDelay = Math.random() * 5 + 's';
+                ember.style.opacity = Math.random() * 0.5 + 0.2;
 
                 container.appendChild(ember);
             }

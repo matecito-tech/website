@@ -1,222 +1,98 @@
 /* ================================================
-   ANIMACIONES PARA GAUCHO MATE SVG
-   Humo animado y partículas de código
+   ANIMACIONES GAUCHO MATE OPTIMIZADA
+   Humo SVG y Efectos 3D
    ================================================ */
 
-/* Contenedor del SVG */
-.gaucho-container {
+/* Contenedor principal con perspectiva */
+.gaucho-hero-container {
+    perspective: 1000px;
+    transform-style: preserve-3d;
+    transition: transform 0.1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    will-change: transform;
+    /* Optimización GPU */
     position: relative;
-    display: inline-block;
+    z-index: 10;
 }
 
-/* Contenedor de partículas de código */
-.code-particles {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    overflow: visible;
+/* El SVG propiamente dicho */
+#gaucho-svg {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.15));
+    /* Sombra suave */
 }
 
-/* Partículas individuales de código */
-.code-particle {
-    position: absolute;
-    font-family: 'Courier New', monospace;
-    font-size: 12px;
-    color: #4CAF50;
+/* ================================================
+   ANIMACIÓN DE HUMO (SVG PATHS)
+   ================================================ */
+
+.smoke-wave {
     opacity: 0;
-    animation: float-code 4s ease-in-out infinite;
-    text-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
+    transform-origin: center bottom;
+    animation: smoke-rise 4s ease-out infinite;
+    will-change: transform, opacity;
+    /* Optimizar animaciones costosas */
 }
 
-/* Diferentes delays para cada partícula */
-.code-particle:nth-child(1) {
-    left: 45%;
-    top: 20%;
+.smoke-wave:nth-child(1) {
     animation-delay: 0s;
+    animation-duration: 5s;
 }
 
-.code-particle:nth-child(2) {
-    left: 50%;
-    top: 25%;
-    animation-delay: 0.5s;
-    font-size: 10px;
-}
-
-.code-particle:nth-child(3) {
-    left: 48%;
-    top: 22%;
-    animation-delay: 1s;
-    font-size: 14px;
-}
-
-.code-particle:nth-child(4) {
-    left: 52%;
-    top: 18%;
+.smoke-wave:nth-child(2) {
     animation-delay: 1.5s;
+    animation-duration: 4.5s;
+    /* Variación para naturalidad */
+    stroke-width: 4px;
 }
 
-.code-particle:nth-child(5) {
-    left: 47%;
-    top: 24%;
-    animation-delay: 2s;
-    font-size: 11px;
-}
-
-.code-particle:nth-child(6) {
-    left: 51%;
-    top: 21%;
-    animation-delay: 2.5s;
-}
-
-.code-particle:nth-child(7) {
-    left: 49%;
-    top: 19%;
+.smoke-wave:nth-child(3) {
     animation-delay: 3s;
-    font-size: 13px;
+    animation-duration: 5.5s;
+    stroke-dasharray: 5, 5;
+    /* Efecto discontinuo sutil */
 }
 
-.code-particle:nth-child(8) {
-    left: 46%;
-    top: 23%;
-    animation-delay: 3.5s;
-}
-
-/* Animación de flotación de código */
-@keyframes float-code {
+@keyframes smoke-rise {
     0% {
-        transform: translateY(0) translateX(0) rotate(0deg);
         opacity: 0;
+        transform: translateY(0) scale(0.5) translateX(0);
+        stroke-opacity: 0.6;
     }
 
-    10% {
-        opacity: 1;
-    }
-
-    50% {
-        opacity: 0.8;
-        transform: translateY(-80px) translateX(calc(var(--drift, 0) * 20px)) rotate(15deg);
+    20% {
+        opacity: 0.5;
+        stroke-opacity: 0.4;
     }
 
     100% {
-        transform: translateY(-160px) translateX(calc(var(--drift, 0) * 40px)) rotate(30deg);
         opacity: 0;
+        transform: translateY(-80px) scale(2) translateX(20px);
+        /* Sube y se disipa a la derecha */
+        stroke-opacity: 0;
+        stroke-width: 15px;
+        /* Se expande */
     }
 }
 
 /* ================================================
-   ANIMACIONES DEL HUMO EN EL SVG
+   EFECTOS GLOBALES SUTILES
    ================================================ */
 
-/* Estilo para el humo - se aplicará a elementos SVG específicos */
-#gaucho-svg .smoke-wave {
-    animation: smoke-rise 3s ease-in-out infinite;
-    transform-origin: center;
+/* Pulso suave para dar vida */
+#gaucho-svg {
+    animation: float-idle 6s ease-in-out infinite;
 }
 
-#gaucho-svg .smoke-wave:nth-child(1) {
-    animation-delay: 0s;
-}
-
-#gaucho-svg .smoke-wave:nth-child(2) {
-    animation-delay: 0.5s;
-}
-
-#gaucho-svg .smoke-wave:nth-child(3) {
-    animation-delay: 1s;
-}
-
-#gaucho-svg .smoke-wave:nth-child(4) {
-    animation-delay: 1.5s;
-}
-
-/* Animación de humo flotante */
-@keyframes smoke-rise {
-    0% {
-        opacity: 0.6;
-        transform: translateY(0) scale(1);
-    }
-
-    50% {
-        opacity: 0.3;
-        transform: translateY(-30px) scale(1.2);
-    }
-
-    100% {
-        opacity: 0;
-        transform: translateY(-60px) scale(1.5);
-    }
-}
-
-/* Pulse suave del mate */
-#gaucho-svg .mate-cup {
-    animation: gentle-pulse 4s ease-in-out infinite;
-    transform-origin: center;
-}
-
-@keyframes gentle-pulse {
+@keyframes float-idle {
 
     0%,
     100% {
-        transform: scale(1);
+        transform: translateY(0);
     }
 
     50% {
-        transform: scale(1.02);
-    }
-}
-
-/* Efecto de brillo en la bombilla */
-#gaucho-svg .bombilla-shine {
-    animation: shine-pulse 2s ease-in-out infinite;
-}
-
-@keyframes shine-pulse {
-
-    0%,
-    100% {
-        opacity: 0.7;
-        filter: brightness(1);
-    }
-
-    50% {
-        opacity: 1;
-        filter: brightness(1.3);
-    }
-}
-
-/* Ondas de calor */
-#gaucho-svg .heat-waves {
-    animation: heat-distortion 1.5s ease-in-out infinite;
-    transform-origin: center bottom;
-}
-
-@keyframes heat-distortion {
-
-    0%,
-    100% {
-        transform: scaleY(1) scaleX(1);
-        opacity: 0.2;
-    }
-
-    50% {
-        transform: scaleY(1.1) scaleX(0.95);
-        opacity: 0.4;
-    }
-}
-
-/* Variables CSS personalizables */
-:root {
-    --code-color: #4CAF50;
-    --code-glow: rgba(76, 175, 80, 0.5);
-}
-
-/* Tema oscuro */
-@media (prefers-color-scheme: dark) {
-    .code-particle {
-        color: #66BB6A;
-        text-shadow: 0 0 8px rgba(102, 187, 106, 0.7);
+        transform: translateY(-10px);
     }
 }

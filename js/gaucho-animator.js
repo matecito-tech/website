@@ -1,21 +1,22 @@
 /**
- * Gaucho Mate Animator
- * Agrega animaciones de humo y partículas de código al SVG del gaucho mate
+ * Gaucho Mate Animator v2.0
+ * Animación sutil 3D Tilt y gestión de humo optimizada
  */
 
 class GauchoAnimator {
     constructor(svgElementId, options = {}) {
         this.svgElement = document.getElementById(svgElementId);
+        this.container = this.svgElement?.closest('.gaucho-hero-container') || this.svgElement?.parentElement;
+
+        if (!this.svgElement || !this.container) {
+            console.warn('GauchoAnimator: Elemento SVG o contenedor no encontrado');
+            return;
+        }
+
         this.options = {
-            codeSnippets: [
-                '&lt;div&gt;', '{code}', '()=&gt;', 'const',
-                'function', 'let x;', '&lt;/&gt;', 'async',
-                'return', 'import', 'export', 'class'
-            ],
-            particleCount: 8,
-            enableSmoke: true,
-            enableCodeParticles: true,
-            codeColor: '#4CAF50',
+            maxTilt: 15, // Grados máximos de inclinación
+            perspective: 1000,
+            scale: 1.05,
             ...options
         };
 
@@ -23,94 +24,70 @@ class GauchoAnimator {
     }
 
     init() {
-        if (!this.svgElement) {
-            console.error('SVG element not found');
-            return;
-        }
+        // Asegurar perspectiva en el contenedor y transición suave
+        this.container.style.transformStyle = 'preserve-3d';
+        this.container.style.transition = 'transform 0.1s ease-out'; // Transición rápida para seguimiento fluido
 
-        // Crear contenedor de partículas si está habilitado
-        if (this.options.enableCodeParticles) {
-            this.createCodeParticles();
-        }
+        // Obtener capas para parallax
+        this.layers = Array.from(this.svgElement.querySelectorAll('.gaucho-layer'));
 
-        // Agregar clases de animación al SVG
-        if (this.options.enableSmoke) {
-            this.addSmokeAnimation();
-        }
-    }
+        // Tracking del mouse en el documento o sección hero para mayor área de efecto
+        const heroSection = this.container.closest('section') || document.body;
 
-    createCodeParticles() {
-        // Verificar si ya existe el contenedor
-        let container = this.svgElement.parentElement.querySelector('.code-particles');
+        // Usar requestAnimationFrame para performance (60fps)
+        let ticking = false;
 
-        if (!container) {
-            // Asegurarse de que el elemento padre tenga position relative
-            this.svgElement.parentElement.style.position = 'relative';
+        heroSection.addEventListener('mousemove', (e) => {
+            if (!ticking) {
+                window.requestAnimationFrame(() => {
+                    this.handleMouseMove(e);
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        });
 
-            // Crear contenedor de partículas
-            container = document.createElement('div');
-            container.className = 'code-particles';
-            this.svgElement.parentElement.appendChild(container);
-        } else {
-            // Limpiar partículas existentes
-            container.innerHTML = '';
-        }
+        // Reset al salir
+        heroSection.addEventListener('mouseleave', () => {
+            this.container.style.transition = 'transform 0.5s ease-out';
+            this.container.style.transform = `perspective(${this.options.perspective}px) rotateX(0deg) rotateY(0deg) scale(1)`;
 
-        // Crear partículas individuales
-        for (let i = 0; i < this.options.particleCount; i++) {
-            const particle = document.createElement('div');
-            particle.className = 'code-particle';
-
-            // Seleccionar snippet aleatorio
-            const snippetIndex = Math.floor(Math.random() * this.options.codeSnippets.length);
-            particle.innerHTML = this.options.codeSnippets[snippetIndex];
-
-            // Configurar posición y drift aleatorio
-            const drift = (Math.random() - 0.5) * 2; // -1 a 1
-            particle.style.setProperty('--drift', drift);
-            particle.style.color = this.options.codeColor;
-
-            container.appendChild(particle);
-        }
-    }
-
-    addSmokeAnimation() {
-        // Aquí puedes agregar clases específicas a elementos del SVG
-        // que representen el humo o elementos que quieras animar
-        const svgId = this.svgElement.id;
-        this.svgElement.querySelectorAll('path, circle, ellipse').forEach((element, index) => {
-            // Agregar clases de animación a elementos específicos
-            // (necesitarías identificar los elementos correctos del SVG)
+            // Reset capas
+            this.layers.forEach(layer => {
+                layer.style.transition = 'transform 0.5s ease-out';
+                layer.style.transform = 'translateX(0) translateY(0)';
+            });
         });
     }
 
-    updateColors(newColor) {
-        this.options.codeColor = newColor;
-        const particles = this.svgElement.parentElement.querySelectorAll('.code-particle');
-        particles.forEach(particle => {
-            particle.style.color = newColor;
+    handleMouseMove(e) {
+        const { left, top, width, height } = this.container.getBoundingClientRect();
+
+        // Calcular porcentajes (-1 a 1)
+        const xPct = (e.clientX - window.innerWidth / 2) / (window.innerWidth / 2);
+        const yPct = (e.clientY - window.innerHeight / 2) / (window.innerHeight / 2);
+
+        // Calcular rotación del contenedor (Tilt)
+        const rotateY = xPct * this.options.maxTilt;
+        const rotateX = -yPct * this.options.maxTilt;
+
+        // Aplicar transformación al contenedor
+        this.container.style.transform = `
+            perspective(${this.options.perspective}px) 
+            rotateX(${rotateX}deg) 
+            rotateY(${rotateY}deg) 
+            scale(${this.options.scale})
+        `;
+
+        // Aplicar Parallax a las capas internas
+        this.layers.forEach(layer => {
+            const depth = parseFloat(layer.getAttribute('data-depth')) || 0;
+            const moveX = xPct * depth * 40; // 40px máximo de desplazamiento
+            const moveY = yPct * depth * 40;
+
+            layer.style.transition = 'transform 0.1s ease-out';
+            layer.style.transform = `translateX(${-moveX}px) translateY(${-moveY}px)`; // Invertido para sensación de profundidad
         });
-    }
-
-    pause() {
-        const container = this.svgElement.parentElement.querySelector('.code-particles');
-        if (container) {
-            container.style.animationPlayState = 'paused';
-        }
-    }
-
-    resume() {
-        const container = this.svgElement.parentElement.querySelector('.code-particles');
-        if (container) {
-            container.style.animationPlayState = 'running';
-        }
-    }
-
-    destroy() {
-        const container = this.svgElement.parentElement.querySelector('.code-particles');
-        if (container) {
-            container.remove();
-        }
     }
 }
 
@@ -123,11 +100,3 @@ if (typeof module !== 'undefined' && module.exports) {
 if (typeof window !== 'undefined') {
     window.GauchoAnimator = GauchoAnimator;
 }
-
-// Auto-inicializar si se encuentra el elemento con ID específico
-document.addEventListener('DOMContentLoaded', function () {
-    const gauchoSvg = document.getElementById('gaucho-svg');
-    if (gauchoSvg && gauchoSvg.hasAttribute('data-auto-animate')) {
-        new GauchoAnimator('gaucho-svg');
-    }
-});

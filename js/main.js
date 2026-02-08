@@ -47,41 +47,51 @@ document.addEventListener('DOMContentLoaded', () => {
             btn.disabled = true;
             btn.classList.add('opacity-75', 'cursor-not-allowed');
 
-            setTimeout(() => {
-                const nombre = document.getElementById('nombre').value;
-                const contacto = document.getElementById('contacto_dato').value;
-                const servicio = document.getElementById('asunto') ? document.getElementById('asunto').value : 'Consulta General';
-                const mensaje = document.getElementById('mensaje').value;
+            const nombre = document.getElementById('nombre').value;
+            const contacto = document.getElementById('contacto_dato').value;
+            const servicio = document.getElementById('asunto') ? document.getElementById('asunto').value : 'Consulta General';
+            const mensaje = document.getElementById('mensaje').value;
 
-                if (!nombre || !contacto || !mensaje) {
-                    alert('⚠️ Che, completá todos los datos así te podemos responder bien.');
-                    btn.innerHTML = originalContent;
-                    btn.disabled = false;
-                    btn.classList.remove('opacity-75', 'cursor-not-allowed');
-                    return;
-                }
+            fetch("https://formsubmit.co/ajax/matecito.tech@gmail.com", {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({
+                    nombre: nombre,
+                    contacto: contacto,
+                    servicio: servicio,
+                    mensaje: mensaje,
+                    _subject: "Nuevo mensaje desde Web Matecito",
+                    _template: "table",
+                    _captcha: "false"
+                })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    // Confirmación visual
+                    btn.innerHTML = '<span class="material-symbols-rounded">check_circle</span> ¡Enviado!';
+                    btn.classList.remove('bg-brand-orange');
+                    btn.classList.add('bg-green-600');
 
-                // Formato de Mensaje WhatsApp
-                const text = `👋 *¡Hola Matecito! Nuevo Chasqui* %0A%0A👤 *Nombre:* ${nombre}%0A📱 *Contacto:* ${contacto}%0A📌 *Interés:* ${servicio}%0A💬 *Mensaje:* ${mensaje}%0A%0A_Enviado desde matecito.tech_`;
-
-                const url = `https://wa.me/543425370985?text=${text}`;
-
-                window.open(url, '_blank');
-
-                // Confirmación visual
-                btn.innerHTML = '<span class="material-symbols-rounded">check_circle</span> ¡Enviado!';
-                btn.classList.remove('bg-brand-orange');
-                btn.classList.add('bg-green-600');
-
-                setTimeout(() => {
-                    btn.innerHTML = originalContent;
-                    btn.disabled = false;
-                    btn.classList.remove('opacity-75', 'cursor-not-allowed', 'bg-green-600');
-                    btn.classList.add('bg-brand-orange');
-                    form.reset();
-                }, 4000);
-
-            }, 1000);
+                    setTimeout(() => {
+                        btn.innerHTML = originalContent;
+                        btn.disabled = false;
+                        btn.classList.remove('opacity-75', 'cursor-not-allowed', 'bg-green-600');
+                        btn.classList.add('bg-brand-orange');
+                        form.reset();
+                    }, 4000);
+                })
+                .catch(error => {
+                    console.log(error);
+                    btn.innerHTML = '<span class="material-symbols-rounded">error</span> Error al enviar';
+                    setTimeout(() => {
+                        btn.innerHTML = originalContent;
+                        btn.disabled = false;
+                        btn.classList.remove('opacity-75', 'cursor-not-allowed');
+                    }, 3000);
+                });
         });
     }
 

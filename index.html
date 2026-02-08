@@ -713,8 +713,14 @@
                     </p>
                 </div>
 
-                <form id="contactForm"
+                <form id="contactForm" action="https://formsubmit.co/matecito.tech@gmail.com" method="POST"
                     class="bg-white p-8 md:p-10 rounded-3xl shadow-xl border border-brand-wood/5 relative overflow-hidden group">
+                    <!-- Configuración Formsubmit -->
+                    <input type="hidden" name="_subject" value="Nuevo mensaje desde Web Matecito">
+                    <input type="hidden" name="_template" value="table">
+                    <input type="hidden" name="_captcha" value="false">
+                    <input type="hidden" name="_next" value="https://matecito.tech/gracias.html"> <!-- Fallback si JS falla -->
+
                     <!-- Sello de Garantía -->
                     <div
                         class="absolute -top-8 -right-8 w-32 h-32 bg-brand-orange/5 rounded-full flex items-center justify-center rotate-12 transition-transform group-hover:rotate-45">
@@ -813,6 +819,7 @@
             <div>
                 <h4 class="font-bold text-white mb-4 uppercase tracking-wider text-xs">Conectemos</h4>
                 <p class="mb-2">Humboldt, Santa Fe, AR</p>
+                <a href="mailto:matecito.tech@gmail.com" class="hover:text-brand-orange transition-colors block mb-2 font-medium text-white">matecito.tech@gmail.com</a>
                 <div class="flex flex-col gap-2 mt-2">
                     <a href="https://www.linkedin.com/company/matecito-tech" target="_blank"
                         class="hover:text-brand-orange transition-colors flex items-center gap-2 text-white/80"><span

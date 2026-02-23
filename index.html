@@ -357,6 +357,8 @@
                     <div class="flex-1 w-full">
                         <div style="background:#1e1e1e"
                             class="rounded-xl shadow-2xl overflow-hidden border border-brand-wood/10 font-mono text-xs md:text-sm transform rotate-1 hover:rotate-0 transition-transform duration-500 group">
+
+                            <!-- Barra superior del editor -->
                             <div style="background:#252526"
                                 class="flex items-center gap-2 px-4 py-3 border-b border-white/5">
                                 <div class="flex gap-1.5">
@@ -364,26 +366,34 @@
                                     <div class="w-3 h-3 rounded-full bg-[#ffbd2e]"></div>
                                     <div class="w-3 h-3 rounded-full bg-[#27c93f]"></div>
                                 </div>
-                                <span
-                                    class="ml-4 text-gray-400 italic group-hover:text-brand-orange transition-colors">honor_code.py</span>
+                                <span class="ml-4 text-gray-400 italic group-hover:text-brand-orange transition-colors">
+                                    nuestra_promesa.py
+                                </span>
                             </div>
-                            <pre
-                                class="p-6 text-gray-300 leading-relaxed overflow-x-auto whitespace-pre"><code><span style="color:#c586c0">class</span> <span style="color:#4ec9b0">Matecito</span>:
-    <span style="color:#6a9955"># Nuestra promesa inquebrantable</span>
-    <span style="color:#569cd6">def</span> <span style="color:#dcdcaa">__init__</span>(<span style="color:#9cdcfe">self</span>):
-        <span style="color:#9cdcfe">self</span>.pasion = <span style="color:#569cd6">True</span>
-        <span style="color:#9cdcfe">self</span>.humo = <span style="color:#569cd6">False</span>  <span style="color:#6a9955"># Sin chamuyos</span>
 
-    <span style="color:#569cd6">def</span> <span style="color:#dcdcaa">trabajar</span>(<span style="color:#9cdcfe">self</span>, <span style="color:#9cdcfe">cliente</span>):
-        <span style="color:#c586c0">if</span> <span style="color:#9cdcfe">cliente</span>.es_vecino:
-            <span style="color:#c586c0">return</span> <span style="color:#ce9178">"Darlo todo"</span>
+                            <!-- Código -->
+                            <pre class="p-6 text-gray-300 leading-relaxed overflow-x-auto whitespace-pre"><code><span style="color:#6a9955"># La única forma en que sabemos trabajar</span>
+
+<span style="color:#c586c0">class</span> <span style="color:#4ec9b0">Matecito</span>:
+
+    <span style="color:#9cdcfe">valores</span> = [<span style="color:#ce9178">"código limpio"</span>, <span style="color:#ce9178">"cero humo"</span>, <span style="color:#ce9178">"resultados reales"</span>]
+
+    <span style="color:#569cd6">def</span> <span style="color:#dcdcaa">encarar_proyecto</span>(<span style="color:#9cdcfe">self</span>, <span style="color:#9cdcfe">proyecto</span>):
+        <span style="color:#c586c0">if</span> <span style="color:#9cdcfe">proyecto</span>.<span style="color:#9cdcfe">tiene_potencial</span>:
+            <span style="color:#c586c0">return</span> <span style="color:#ce9178">"Nos la jugamos con todo 🧉"</span>
+
+        <span style="color:#c586c0">elif</span> <span style="color:#9cdcfe">proyecto</span>.<span style="color:#9cdcfe">parece_imposible</span>:
+            <span style="color:#c586c0">return</span> <span style="color:#ce9178">"Perfecto, nos gustan los desafíos"</span>
+
         <span style="color:#c586c0">else</span>:
-            <span style="color:#c586c0">return</span> <span style="color:#ce9178">"Mate y Código Limpio"</span></code></pre>
+            <span style="color:#c586c0">raise</span> <span style="color:#4ec9b0">ValueError</span>(<span style="color:#ce9178">"Aún no encontramos un caso así"</span>)
+
+    <span style="color:#569cd6">def</span> <span style="color:#dcdcaa">entregar</span>(<span style="color:#9cdcfe">self</span>):
+        <span style="color:#c586c0">assert</span> <span style="color:#9cdcfe">self</span>.<span style="color:#9cdcfe">calidad</span> == <span style="color:#ce9178">"máxima"</span><span style="color:#6a9955">  # siempre</span>
+        <span style="color:#c586c0">return</span> <span style="color:#ce9178">"Nada sale si no nos cierra el orgullo"</span>
+</code></pre>
                         </div>
                     </div>
-                </div>
-            </div>
-            </div>
         </section>
 
         <!-- 3. SERVICIOS -->

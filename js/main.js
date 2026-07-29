@@ -22,9 +22,14 @@ document.addEventListener('DOMContentLoaded', () => {
         const t = document.createElement('div');
         t.className = `toast ${type}`;
 
-        const icon = document.createElement('span');
-        icon.className = 'material-symbols-rounded';
-        icon.textContent = type === 'success' ? 'check_circle' : type === 'error' ? 'error' : 'info';
+        const ns = 'http://www.w3.org/2000/svg';
+        const icon = document.createElementNS(ns, 'svg');
+        icon.setAttribute('class', 'icon');
+        icon.setAttribute('width', '1em');
+        icon.setAttribute('height', '1em');
+        const use = document.createElementNS(ns, 'use');
+        use.setAttributeNS('http://www.w3.org/1999/xlink', 'href', `#i-${type === 'success' ? 'check_circle' : type === 'error' ? 'error' : 'info'}`);
+        icon.appendChild(use);
 
         const text = document.createElement('span');
         text.className = 'font-medium';
@@ -43,9 +48,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // 3. BUTTON STATE MANAGER
     const setBtnState = (btn, state, text) => {
         const states = {
-            loading: { html: '<span class="material-symbols-rounded animate-spin">refresh</span> Preparando el mate...', disabled: true, classes: ['opacity-75', 'cursor-not-allowed'] },
-            success: { html: '<span class="material-symbols-rounded">check_circle</span> ¡Todo listo!', disabled: false, classes: ['bg-green-600'], remove: ['bg-brand-orange'] },
-            error: { html: '<span class="material-symbols-rounded">error</span> Error al enviar', disabled: false, classes: [] },
+            loading: { html: '<svg class="icon animate-spin" width="1em" height="1em"><use href="#i-refresh"/></svg> Preparando el mate...', disabled: true, classes: ['opacity-75', 'cursor-not-allowed'] },
+            success: { html: '<svg class="icon" width="1em" height="1em"><use href="#i-check_circle"/></svg> ¡Todo listo!', disabled: false, classes: ['bg-green-600'], remove: ['bg-brand-orange'] },
+            error: { html: '<svg class="icon" width="1em" height="1em"><use href="#i-error"/></svg> Error al enviar', disabled: false, classes: [] },
             reset: { html: text, disabled: false, classes: ['bg-brand-orange'], remove: ['opacity-75', 'cursor-not-allowed', 'bg-green-600'] }
         };
 
@@ -188,12 +193,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // 6. GAUCHO ANIMATOR
     setTimeout(() => {
         if (typeof GauchoAnimator !== 'undefined') {
-            new GauchoAnimator('gaucho-svg', {
-                codeSnippets: ['Dev', 'Java', 'Spring', 'React', 'Node', 'SQL', '{code}', '()=>', 'API', 'REST', 'JSON', 'Git'],
-                particleCount: 12,
-                codeColor: '#4CAF50',
-                enableSmoke: true
-            });
+            new GauchoAnimator('gaucho-svg');
         }
     }, 500);
 });

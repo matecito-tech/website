@@ -1,4 +1,5 @@
 import { defineConfig } from 'astro/config';
+import sitemap from '@astrojs/sitemap';
 import tailwindcss from '@tailwindcss/vite';
 
 export default defineConfig({
@@ -8,7 +9,10 @@ export default defineConfig({
   vite: {
     plugins: [tailwindcss()],
   },
-  integrations: [],
+  integrations: [sitemap({
+    // /gracias/ es pagina de confirmacion (noindex) -> no va en el sitemap
+    filter: (page) => !page.includes('/gracias'),
+  })],
   compressHTML: true,
   build: {
     inlineStylesheets: 'auto',

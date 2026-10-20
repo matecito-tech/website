@@ -66,6 +66,11 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     // 4. FORM HANDLER
+    const formStatus = document.getElementById('form-status');
+    const setFormStatus = (msg) => {
+        if (formStatus) formStatus.textContent = msg;
+    };
+
     if (form) {
         form.addEventListener('submit', e => {
             e.preventDefault();
@@ -86,6 +91,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             setBtnState(btn, 'loading');
+            setFormStatus('');
 
             fetch("https://formsubmit.co/ajax/matecito.tech@gmail.com", {
                 method: "POST",
@@ -94,13 +100,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     ...data,
                     _subject: `Nuevo mensaje de ${data.nombre} - Web Matecito`,
                     _template: "table",
-                    _captcha: "false"
+                    _captcha: "true"
                 })
             })
                 .then(r => r.json())
                 .then(d => {
                     if (d.success === "false") throw new Error("FormSubmit Error");
                     showToast('¡Formulario enviado! Nos pondremos en contacto pronto.', 'success');
+                    setFormStatus('¡Formulario enviado! Nos pondremos en contacto pronto.');
                     setBtnState(btn, 'success');
                     setTimeout(() => {
                         setBtnState(btn, 'reset', orig);
@@ -110,6 +117,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 .catch(err => {
                     console.error('Error:', err);
                     showToast('Hubo un problema al enviar. Probá de nuevo más tarde.', 'error');
+                    setFormStatus('Hubo un problema al enviar. Probá de nuevo más tarde.');
                     setBtnState(btn, 'error');
                     setTimeout(() => setBtnState(btn, 'reset', orig), 3000);
                 });

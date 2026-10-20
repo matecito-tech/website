@@ -194,13 +194,19 @@ document.addEventListener('DOMContentLoaded', () => {
     const mobileMenuBtn = document.querySelector('[aria-controls="mobile-menu"]');
     const mobileMenu = document.getElementById('mobile-menu');
 
+    const closeMenu = () => {
+        mobileMenuBtn.setAttribute('aria-expanded', 'false');
+        mobileMenu.classList.add('hidden');
+    };
+
     if (mobileMenuBtn && mobileMenu) {
         mobileMenuBtn.addEventListener('click', () => {
             const expanded = mobileMenuBtn.getAttribute('aria-expanded') === 'true';
-            mobileMenuBtn.setAttribute('aria-expanded', String(!expanded));
-            mobileMenu.setAttribute('aria-hidden', String(expanded));
-            mobileMenu.classList.toggle('hidden');
-            if (!expanded) {
+            if (expanded) {
+                closeMenu();
+            } else {
+                mobileMenuBtn.setAttribute('aria-expanded', 'true');
+                mobileMenu.classList.remove('hidden');
                 const firstLink = mobileMenu.querySelector('a');
                 if (firstLink) firstLink.focus();
             }
@@ -208,22 +214,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
         mobileMenu.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') {
-                mobileMenuBtn.setAttribute('aria-expanded', 'false');
-                mobileMenu.setAttribute('aria-hidden', 'true');
-                mobileMenu.classList.add('hidden');
+                closeMenu();
                 mobileMenuBtn.focus();
             }
         });
 
         mobileMenu.querySelectorAll('a').forEach(link => {
-            link.addEventListener('click', () => {
-                mobileMenuBtn.setAttribute('aria-expanded', 'false');
-                mobileMenu.setAttribute('aria-hidden', 'true');
-                mobileMenu.classList.add('hidden');
-                mobileMenuBtn.focus();
-            });
+            link.addEventListener('click', closeMenu);
         });
     }
+
+    // Cerrar menú al cambiar a desktop (resize)
+    window.addEventListener('resize', () => {
+        if (window.innerWidth >= 1024) {
+            closeMenu();
+            mobileMenuBtn.setAttribute('aria-expanded', 'false');
+        }
+    });
 
     // 7. GAUCHO ANIMATOR
     setTimeout(() => {

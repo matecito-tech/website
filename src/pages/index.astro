@@ -2,7 +2,6 @@
 import Layout from '../layouts/Layout.astro';
 import CodeBlock from '../components/CodeBlock.astro';
 import { Image } from 'astro:assets';
-import logoImg from '../assets/Matecito-logo.svg';
 import mateoImg from '../assets/mateo-gariboglio_low-poly.webp';
 import schalbetterImg from '../assets/schalbetter-logo.webp';
 import gauchoImg from '../assets/hero/gaucho.svg';
@@ -34,7 +33,7 @@ import primerPlanoImg from '../assets/hero/primer-plano.svg';
             <!-- Capa 0 · sol (decorativo) -->
             <Image class="hero__sun" src={solImg} alt="" width={414} height={416} decoding="async" />
             <!-- Capa 2 · gaucho -->
-            <Image class="hero__gaucho" src={gauchoImg} alt="Gaucho tomando mate" width={288} height={455} fetchpriority="high" />
+            <Image class="hero__gaucho" src={gauchoImg} alt="Gaucho tomando mate" width={288} height={455} loading="eager" fetchpriority="high" />
           </div>
         </div>
       </div>
@@ -319,13 +318,13 @@ import primerPlanoImg from '../assets/hero/primer-plano.svg';
           <h3 class="font-display font-bold text-white text-2xl mb-6">Qué hicimos</h3>
           <ul class="list-disc list-inside space-y-4 text-white text-base leading-relaxed mb-14">
             <li><span class="font-bold">Todo en un solo lugar.</span> Un sitio de una página: Inicio, Conocenos, Servicios, Contacto y Trabajá con nosotros, y una línea de tiempo con la historia de la empresa.</li>
-            <li><span class="font-bold">Cotizar con un botón.</span>Botones de WhatsApp con el mensaje ya
+            <li><span class="font-bold">Cotizar con un botón.</span> Botones de WhatsApp con el mensaje ya
                             escrito, para consultar o pedir presupuesto sin empezar de cero.</li>
-            <li><span class="font-bold">Contacto a mano.</span>Mapa de Google, datos de contacto y enlaces a
+            <li><span class="font-bold">Contacto a mano.</span> Mapa de Google, datos de contacto y enlaces a
                             sus redes, con una vista previa cuidada cuando se comparte el link.</li>
-            <li><span class="font-bold">Una puerta para sumar choferes.</span>Una sección de reclutamiento
+            <li><span class="font-bold">Una puerta para sumar choferes.</span> Una sección de reclutamiento
                             con un formulario de Google para postularse.</li>
-            <li><span class="font-bold">Lo técnico, resuelto.</span>Dominio propio y hosting, SEO base
+            <li><span class="font-bold">Lo técnico, resuelto.</span> Dominio propio y hosting, SEO base
                             (título y descripción) e imágenes optimizadas en WebP.</li>
           </ul>
           <h3 class="font-display font-bold text-white text-2xl mb-6">Cómo quedó</h3>

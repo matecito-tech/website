@@ -190,6 +190,18 @@
         .object-cover { object-fit: cover; }
         .object-center { object-position: center; }
         .shadow-brand-orange-30 { box-shadow: 0 4px 6px -1px rgba(255, 107, 53, 0.3), 0 2px 4px -1px rgba(255, 107, 53, 0.2); }
+
+        /* Fondo dinámico desenfocado y oscuro para la sección #casos */
+        #casos::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background-image: url("public/bannercamion.webp");
+            background-size: cover;
+            background-position: center;
+            filter: blur(40px) brightness(0.2);
+            z-index: 0;
+        }
     </style>
 </head>
 
@@ -660,7 +672,7 @@
         </section>
 
         <!-- 7. CASOS REALES (Schalbetter Transportes) -->
-        <section id="casos" class="py-24 bg-brand-wood relative snap-start" aria-labelledby="casos-titulo">
+        <section id="casos" class="py-24 bg-brand-wood relative overflow-hidden snap-start" aria-labelledby="casos-titulo">
             <div class="max-w-7xl mx-auto px-6">
                 <div class="text-center mb-16">
                     <span class="text-brand-orange font-bold tracking-widest uppercase text-sm mb-2 block">// Casos
@@ -672,7 +684,7 @@
                 </div>
 
                 <article
-                    class="max-w-4xl mx-auto wood-card p-8 rounded-3xl border border-white-10 shadow-lg transition-all group">
+                    class="max-w-4xl mx-auto wood-card p-8 rounded-3xl border border-white-10 shadow-lg transition-all group relative z-10">
                     <div class="flex flex-col md:flex-row gap-8 items-start mb-10">
                         <div class="shrink-0">
                             <img src="public/schalbetter-logo.webp" alt="Logo de Schalbetter Transportes" loading="lazy"

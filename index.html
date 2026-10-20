@@ -201,6 +201,22 @@
             background-position: center;
             filter: blur(16px) brightness(0.45);
             z-index: 0;
+            animation: ken-burns-camion 25s ease-in-out infinite alternate;
+        }
+
+        @keyframes ken-burns-camion {
+            from {
+                transform: scale(1) translate(0, 0);
+            }
+            to {
+                transform: scale(1.15) translate(-2%, 2%);
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            #casos::before {
+                animation: none;
+            }
         }
     </style>
 </head>
@@ -679,8 +695,8 @@
                         reales</span>
                     <h2 id="casos-titulo" class="text-4xl font-display font-bold text-white">Trabajo que podés ir a
                         ver</h2>
-                    <p class="text-white mt-4 text-sm leading-relaxed max-w-2xl mx-auto">Un proyecto real, publicado y
-                        con dominio propio. Podés recorrerlo vos mismo.</p>
+                    <p class="text-brand-cream-90 text-lg font-light leading-relaxed max-w-2xl mx-auto mt-6">Un proyecto
+                        real, publicado y con dominio propio. Entrá y recorrelo vos mismo.</p>
                 </div>
 
                 <article
@@ -693,56 +709,67 @@
                         </div>
                         <div class="flex-1">
                             <h3 class="text-2xl font-bold text-brand-cream mb-2">Schalbetter Transportes</h3>
-                            <p class="text-white-90 text-sm font-medium uppercase tracking-wider mb-2">Transporte de
-                                cargas generales · Argentina, Chile, Uruguay y Bolivia</p>
-                            <p class="text-white-90 text-sm leading-relaxed">Empresa familiar de San Martín de Las
-                                Escobas, Santa Fe, que arrancó en 2004 con un solo camión.</p>
+                            <p class="text-brand-orange-90 text-sm font-medium uppercase tracking-wider mb-2">Transporte
+                                de cargas generales · Argentina, Chile, Uruguay y Bolivia</p>
+                            <p class="text-brand-cream-80 text-base leading-relaxed">Una empresa familiar de San Martín
+                                de Las Escobas, Santa Fe, que arrancó en 2004 con un solo camión y hoy cruza
+                                fronteras.</p>
+                            <h4 class="font-display font-bold text-brand-cream text-xl mb-3 mt-8">De las redes sociales a
+                                un sitio propio</h4>
                         </div>
                     </div>
 
                     <div class="bg-white-5 border border-white-10 p-6 rounded-2xl mb-10">
                         <h4 class="font-bold text-brand-orange text-sm uppercase tracking-wider mb-3">El punto de
                             partida</h4>
-                        <p class="text-white-90 text-sm leading-relaxed">No tenían sitio web. Su presencia estaba
-                            repartida entre Instagram y Facebook, con la información dispersa y los pedidos de cotización
-                            llegando de forma desordenada.</p>
+                        <p class="text-brand-cream-90 text-base leading-relaxed">Más de 20 años de ruta y ningún lugar
+                            propio en internet. La empresa vivía en Instagram y Facebook, con la información repartida y
+                            los pedidos de cotización llegando de forma desordenada.</p>
                     </div>
 
-                    <h4 class="font-bold text-brand-orange text-sm uppercase tracking-wider mb-3">Qué hicimos</h4>
-                    <ul class="list-disc list-inside space-y-2 text-white-90 text-sm leading-relaxed mb-10">
-                        <li>Sitio corporativo de una página: Inicio, Conocenos, Servicios, Contacto y Trabajá con
-                            nosotros</li>
-                        <li>Botones de cotización y de consulta por WhatsApp con mensaje prellenado</li>
-                        <li>Línea de tiempo con la historia de la empresa</li>
-                        <li>Mapa de Google, datos de contacto y enlaces a sus redes</li>
-                        <li>Formulario de Google para que postulen conductores, enlazado desde la sección de
-                            reclutamiento</li>
-                        <li>Dominio propio y hosting</li>
-                        <li>SEO base: título, descripción y vista previa al compartir en redes</li>
-                        <li>Imágenes optimizadas en formato WebP</li>
+                    <h3 class="font-display font-bold text-brand-cream text-2xl mb-6">Qué hicimos</h3>
+                    <ul class="list-disc list-inside space-y-4 text-brand-cream-90 text-base leading-relaxed mb-14">
+                        <li><span class="font-bold">Todo en un solo lugar.</span> Un sitio de una página con Inicio,
+                            Conocenos, Servicios, Contacto y Trabajá con nosotros, y una línea de tiempo con la historia
+                            de la empresa.</li>
+                        <li><span class="font-bold">Cotizar con un botón.</span> Botones de WhatsApp con el mensaje ya
+                            escrito, para consultar o pedir presupuesto sin empezar de cero.</li>
+                        <li><span class="font-bold">Contacto a mano.</span> Mapa de Google, datos de contacto y enlaces a
+                            sus redes, con una vista previa cuidada cuando se comparte el link.</li>
+                        <li><span class="font-bold">Una puerta para sumar choferes.</span> Una sección de reclutamiento
+                            con un formulario de Google para postularse.</li>
+                        <li><span class="font-bold">Lo técnico, resuelto.</span> Dominio propio y hosting, SEO base
+                            (título y descripción) e imágenes optimizadas en WebP.</li>
                     </ul>
 
-                    <h4 class="font-bold text-brand-orange text-sm uppercase tracking-wider mb-3">Cómo quedó</h4>
-                    <p class="text-white-90 text-sm leading-relaxed mb-10">Hoy la información de la empresa está en un
-                        solo lugar: qué transportan, hasta dónde llegan y cómo pedir una cotización por WhatsApp. Los
-                        pedidos siguen llegando también por sus redes.</p>
+                    <h3 class="font-display font-bold text-brand-cream text-2xl mb-6">Cómo quedó</h3>
+                    <p class="text-brand-cream-90 text-base leading-relaxed mb-14">Hoy la empresa tiene un sitio propio
+                        que cuenta qué transporta, hasta dónde llega y cómo pedir una cotización por WhatsApp. Los pedidos
+                        siguen llegando también por sus redes.</p>
 
-                    <p class="text-xs text-white-90 mb-6">Los textos y las fotos fueron aportados por la empresa.</p>
+                    <p class="text-xs text-brand-cream-70 mb-4">Los textos y las fotos los aportó la empresa.</p>
+                    <p class="text-xs text-brand-cream-70 mb-10">Transparencia: los dueños son familiares de un
+                        integrante de nuestro equipo.</p>
 
-                    <p class="text-xs text-white-90 mb-8">Este proyecto lo hicimos para la empresa familiar de un
-                        integrante del equipo.</p>
-
-                    <div class="mt-12 flex flex-col sm:flex-row gap-4 justify-center">
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center">
                         <a href="https://schalbettertransportes.com.ar/" target="_blank" rel="noopener noreferrer"
-                            class="px-8 py-4 bg-brand-orange text-white font-bold rounded-xl hover-bg-orange-600 transition-all flex items-center justify-center gap-2 shadow-lg">
-                            <span>Ver sitio en vivo</span>
+                            class="px-8 py-4 bg-brand-orange text-white font-bold rounded-xl hover:bg-orange-600 transition-colors flex items-center justify-center gap-2 shadow-lg">
+                            <span>Ver el sitio en vivo</span>
                             <svg class="icon" width="1em" height="1em"><use href="#i-open_in_new"/></svg>
                         </a>
                         <a href="https://github.com/matecito-tech/SchalbetterTransportes" target="_blank"
                             rel="noopener noreferrer"
-                            class="px-8 py-4 bg-white-5 border border-white-10 text-white font-bold rounded-xl hover-bg-white-10 transition-colors flex items-center justify-center gap-2 shadow-brand-orange-30">
-                            <span>Ver código</span>
+                            class="px-8 py-4 bg-white-5 border border-white-10 text-brand-cream font-bold rounded-xl hover:bg-white-10 transition-colors flex items-center justify-center gap-2 shadow-brand-orange-30">
+                            <span>Ver el código en GitHub</span>
                             <svg class="icon" width="1em" height="1em"><use href="#i-open_in_new"/></svg>
+                        </a>
+                    </div>
+
+                    <div class="mt-12 text-center">
+                        <p class="text-brand-cream-90 text-lg mb-4">¿Tu negocio todavía vive solo en las redes?</p>
+                        <a href="#contacto"
+                            class="px-8 py-4 bg-brand-orange text-white font-bold rounded-xl hover:bg-orange-600 transition-colors shadow-lg">
+                            Hablemos
                         </a>
                     </div>
 

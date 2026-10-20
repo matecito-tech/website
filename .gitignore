@@ -1,0 +1,8 @@
+node_modules/
+dist/
+.astro/
+test-results/
+.playwright-cli/
+lighthouse-*.json
+*.log
+.DS_Store

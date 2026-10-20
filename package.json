@@ -6,15 +6,20 @@
   "description": "Matecito - Desarrollo de Software Artesanal",
   "scripts": {
     "validate:html": "html-validate \"*.html\"",
-    "lint:js": "eslint js/*.js",
+    "lint:js": "eslint src/scripts/*.js",
     "test": "npm run validate:html && npm run lint:js",
-    "serve": "python3 -m http.server 8080",
-    "build": "postcss css/input.css -o css/output.css",
-    "dev": "postcss css/input.css -o css/output.css --watch"
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "build:css": "postcss css/input.css -o css/output.css",
+    "dev:css": "postcss css/input.css -o css/output.css --watch"
   },
   "devDependencies": {
-    "@tailwindcss/postcss": "^4.3.3",
+    "@tailwindcss/vite": "^4.3.3",
+    "apca-w3": "^0.1.9",
+    "astro": "^7.4.1",
     "autoprefixer": "^10.6.1",
+    "culori": "^4.0.2",
     "eslint": "^9.0.0",
     "globals": "^17.8.0",
     "html-validate": "^8.0.0",

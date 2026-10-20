@@ -1,0 +1,14 @@
+{
+  "extends": ["html-validate:recommended"],
+  "rules": {
+    "prefer-native-element": "off",
+    "long-title": "off",
+    "no-trailing-whitespace": "off",
+    "no-inline-style": "off",
+    "wcag/h30": "off",
+    "element-case": "off",
+    "element-name": "off",
+    "no-raw-characters": "off",
+    "no-self-closing": "off"
+  }
+}

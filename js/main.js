@@ -190,7 +190,42 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // 6. GAUCHO ANIMATOR
+    // 6. MOBILE MENU (accesible: aria-expanded, aria-controls, cierre con Esc, foco)
+    const mobileMenuBtn = document.querySelector('[aria-controls="mobile-menu"]');
+    const mobileMenu = document.getElementById('mobile-menu');
+
+    if (mobileMenuBtn && mobileMenu) {
+        mobileMenuBtn.addEventListener('click', () => {
+            const expanded = mobileMenuBtn.getAttribute('aria-expanded') === 'true';
+            mobileMenuBtn.setAttribute('aria-expanded', String(!expanded));
+            mobileMenu.setAttribute('aria-hidden', String(expanded));
+            mobileMenu.classList.toggle('hidden');
+            if (!expanded) {
+                const firstLink = mobileMenu.querySelector('a');
+                if (firstLink) firstLink.focus();
+            }
+        });
+
+        mobileMenu.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                mobileMenuBtn.setAttribute('aria-expanded', 'false');
+                mobileMenu.setAttribute('aria-hidden', 'true');
+                mobileMenu.classList.add('hidden');
+                mobileMenuBtn.focus();
+            }
+        });
+
+        mobileMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenuBtn.setAttribute('aria-expanded', 'false');
+                mobileMenu.setAttribute('aria-hidden', 'true');
+                mobileMenu.classList.add('hidden');
+                mobileMenuBtn.focus();
+            });
+        });
+    }
+
+    // 7. GAUCHO ANIMATOR
     setTimeout(() => {
         if (typeof GauchoAnimator !== 'undefined') {
             new GauchoAnimator('gaucho-svg');

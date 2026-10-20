@@ -178,6 +178,24 @@
             background: #ff6b35;
         }
 
+        /* Skip link - visible al recibir foco por teclado */
+        .skip-link {
+            position: absolute;
+            top: -100px;
+            left: 0;
+            background: #ff6b35;
+            color: #FFFFFF;
+            padding: 8px 16px;
+            z-index: 100;
+            transition: top 0.3s;
+            text-decoration: underline;
+            font-weight: bold;
+            border-radius: 4px;
+        }
+        .skip-link:focus {
+            top: 0;
+        }
+
         /* Utilitarios faltantes para la sección #casos (no están en output.css) */
         .bg-white-5 { background-color: rgba(255, 255, 255, 0.05); }
         .border-white-10 { border-color: rgba(255, 255, 255, 0.1); }
@@ -223,6 +241,8 @@
 
 <body
     class="bg-brand-cream text-brand-dark antialiased selection:bg-brand-orange selection:text-white overflow-x-hidden font-sans">
+        <!-- Skip link para navegación por teclado -->
+        <a href="#main" class="skip-link">Saltar al contenido principal</a>
 
     <!-- NAVBAR -->
     <nav class="fixed w-full z-50 glass-card border-b border-brand-wood/5 top-0 transition-all duration-300"
@@ -248,13 +268,23 @@
                 </a>
             </div>
             <!-- Mobile Menu Icon -->
-            <button type="button" class="lg:hidden text-brand-wood" aria-label="Menú">
+            <button type="button" class="lg:hidden text-brand-wood" aria-label="Menú" aria-expanded="false" aria-controls="mobile-menu">
                 <svg class="icon text-3xl" width="1em" height="1em"><use href="#i-menu"/></svg>
             </button>
         </div>
     </nav>
 
-    <main class="pt-20">
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="lg:hidden absolute top-full left-0 right-0 bg-brand-cream border-b border-brand-wood/5 p-6 hidden z-40 flex flex-col gap-4">
+        <a href="#filosofia" class="block py-2 text-brand-wood/80 hover:text-brand-orange transition-colors">Nosotros</a>
+        <a href="#servicios" class="block py-2 text-brand-wood/80 hover:text-brand-orange transition-colors">Servicios</a>
+        <a href="#metodologia" class="block py-2 text-brand-wood/80 hover:text-brand-orange transition-colors">Cómo Trabajamos</a>
+        <a href="#equipo" class="block py-2 text-brand-wood/80 hover:text-brand-orange transition-colors">El Equipo</a>
+        <a href="#casos" class="block py-2 text-brand-wood/80 hover:text-brand-orange transition-colors">Casos</a>
+        <a href="#contacto" class="block py-2 bg-brand-orange text-white px-4 rounded-xl font-bold text-center hover:bg-orange-600 transition-all shadow-lg shadow-brand-orange/20">Hablemos</a>
+    </div>
+
+    <main id="main" class="pt-20">
 
         <!-- 1. HERO SECTION -->
         <section
@@ -614,9 +644,9 @@
                             (Java/Spring), así que la robustez es mi prioridad."
                         </p>
                         <div class="flex gap-4">
-                            <a href="https://www.linkedin.com/in/mateo-gariboglio/" target="_blank"
+                            <a href="https://www.linkedin.com/in/mateo-gariboglio/" target="_blank" rel="noopener noreferrer"
                                 class="text-gray-400 hover:text-[#0077b5] transition-colors"><svg class="icon" width="1em" height="1em"><use href="#i-work"/></svg></a>
-                            <a href="https://github.com/Mateo-404" target="_blank"
+                            <a href="https://github.com/Mateo-404" target="_blank" rel="noopener noreferrer"
                                 class="text-gray-400 hover:text-black transition-colors"><svg class="icon" width="1em" height="1em"><use href="#i-code"/></svg></a>
                         </div>
                     </div>
@@ -854,15 +884,15 @@
                 </form>
 
                 <div class="mt-12 flex justify-center gap-8 text-sm font-bold tracking-wide text-gray-400">
-                    <a href="https://www.instagram.com/matecito.tech/" target="_blank"
+                    <a href="https://www.instagram.com/matecito.tech/" target="_blank" rel="noopener noreferrer"
                         class="hover:text-brand-orange transition-colors hover:-translate-y-1 flex items-center gap-2">
                         Instagram <svg class="icon text-sm" width="1em" height="1em"><use href="#i-open_in_new"/></svg>
                     </a>
-                    <a href="https://www.linkedin.com/company/matecito-tech/about/?viewAsMember=true" target="_blank"
+                    <a href="https://www.linkedin.com/company/matecito-tech/about/?viewAsMember=true" target="_blank" rel="noopener noreferrer"
                         class="hover:text-[#0077b5] transition-colors hover:-translate-y-1 flex items-center gap-2">
                         LinkedIn <svg class="icon text-sm" width="1em" height="1em"><use href="#i-open_in_new"/></svg>
                     </a>
-                    <a href="https://github.com/matecito-tech" target="_blank"
+                    <a href="https://github.com/matecito-tech" target="_blank" rel="noopener noreferrer"
                         class="hover:text-black transition-colors hover:-translate-y-1 flex items-center gap-2">
                         GitHub <svg class="icon text-sm" width="1em" height="1em"><use href="#i-open_in_new"/></svg>
                     </a>
@@ -906,11 +936,11 @@
                 <a href="mailto:matecito.tech@gmail.com"
                     class="hover:text-brand-orange transition-colors block mb-2 font-medium text-white">matecito.tech@gmail.com</a>
                 <div class="flex flex-col gap-2 mt-2">
-                    <a href="https://www.linkedin.com/company/matecito-tech" target="_blank"
+                    <a href="https://www.linkedin.com/company/matecito-tech" target="_blank" rel="noopener noreferrer"
                         class="hover:text-brand-orange transition-colors flex items-center gap-2 text-white"><svg class="icon text-sm" width="1em" height="1em"><use href="#i-work"/></svg> LinkedIn</a>
-                    <a href="https://github.com/matecito-tech" target="_blank"
+                    <a href="https://github.com/matecito-tech" target="_blank" rel="noopener noreferrer"
                         class="hover:text-brand-orange transition-colors flex items-center gap-2 text-white"><svg class="icon text-sm" width="1em" height="1em"><use href="#i-code"/></svg> GitHub</a>
-                    <a href="https://www.instagram.com/matecito.tech/" target="_blank"
+                    <a href="https://www.instagram.com/matecito.tech/" target="_blank" rel="noopener noreferrer"
                         class="hover:text-brand-orange transition-colors flex items-center gap-2 text-white"><svg class="icon text-sm" width="1em" height="1em"><use href="#i-photo_camera"/></svg> Instagram</a>
                 </div>
                 <div>
@@ -932,7 +962,7 @@
             <div class="flex flex-col md:flex-row items-center gap-2 md:gap-4 text-center md:text-left">
                 <span>&copy; 2026 Matecito. Hecho con ❤️ y 🧉 en Argentina.</span>
                 <span class="hidden md:inline opacity-20">|</span>
-                <span class="opacity-60">Ilustración Gaucho por <a href="https://www.freepik.com" target="_blank"
+                <span class="opacity-60">Ilustración Gaucho por <a href="https://www.freepik.com" target="_blank" rel="noopener noreferrer"
                         class="hover:text-brand-orange transition-colors underline decoration-white/10"
                         title="Dibujado a mano ilustración gaucho bebiendo">Freepik</a></span>
             </div>

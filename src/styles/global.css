@@ -11,21 +11,21 @@
   font-style: normal;
   font-weight: 300 800;
   font-display: swap;
-  src: url('/fonts/Manrope-VariableFont_wght.ttf') format('truetype');
+  src: url('/fonts/Manrope.woff2') format('woff2');
 }
 @font-face {
   font-family: 'Space Grotesk';
   font-style: normal;
   font-weight: 500 700;
   font-display: swap;
-  src: url('/fonts/SpaceGrotesk-VariableFont_wght.ttf') format('truetype');
+  src: url('/fonts/SpaceGrotesk.woff2') format('woff2');
 }
 @font-face {
   font-family: 'JetBrains Mono';
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: url('/fonts/JetBrainsMono-Regular.ttf') format('truetype');
+  src: url('/fonts/JetBrainsMono.woff2') format('woff2');
 }
 
 @theme {

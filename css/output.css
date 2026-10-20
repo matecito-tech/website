@@ -273,9 +273,6 @@
   .static {
     position: static;
   }
-  .-inset-10 {
-    inset: calc(var(--spacing) * -10);
-  }
   .inset-0 {
     inset: 0px;
   }
@@ -671,11 +668,17 @@
     margin-block-start: calc(calc(var(--spacing) * 8) * var(--tw-space-y-reverse));
     margin-block-end: calc(calc(var(--spacing) * 8) * calc(1 - var(--tw-space-y-reverse)));
   }
+  .overflow-clip {
+    overflow: clip;
+  }
   .overflow-hidden {
     overflow: hidden;
   }
   .overflow-x-auto {
     overflow-x: auto;
+  }
+  .overflow-x-clip {
+    overflow-x: clip;
   }
   .overflow-x-hidden {
     overflow-x: hidden;
@@ -807,12 +810,6 @@
   }
   .bg-green-600 {
     background-color: var(--color-green-600);
-  }
-  .bg-orange-500\/20 {
-    background-color: color-mix(in srgb, oklch(70.5% 0.213 47.604) 20%, transparent);
-    @supports (color: color-mix(in lab, red, red)) {
-      background-color: color-mix(in oklab, var(--color-orange-500) 20%, transparent);
-    }
   }
   .bg-white {
     background-color: var(--color-white);
@@ -1167,8 +1164,8 @@
     --tw-blur: blur(var(--blur-3xl));
     filter: var(--tw-blur,) var(--tw-brightness,) var(--tw-contrast,) var(--tw-grayscale,) var(--tw-hue-rotate,) var(--tw-invert,) var(--tw-saturate,) var(--tw-sepia,) var(--tw-drop-shadow,);
   }
-  .blur-\[60px\] {
-    --tw-blur: blur(60px);
+  .blur-\[40px\] {
+    --tw-blur: blur(40px);
     filter: var(--tw-blur,) var(--tw-brightness,) var(--tw-contrast,) var(--tw-grayscale,) var(--tw-hue-rotate,) var(--tw-invert,) var(--tw-saturate,) var(--tw-sepia,) var(--tw-drop-shadow,);
   }
   .drop-shadow-2xl {
@@ -1355,9 +1352,6 @@
     }
     .hover\:text-green-500:hover {
       color: var(--color-green-500);
-    }
-    .hover\:text-orange-500:hover {
-      color: var(--color-orange-500);
     }
     .hover\:text-yellow-500:hover {
       color: var(--color-yellow-500);

@@ -1,6 +1,5 @@
 ---
 import '../styles/global.css';
-import '../styles/gaucho-animation.css';
 import IconSprite from '../components/IconSprite.astro';
 import { Image } from 'astro:assets';
 import logoImg from '../assets/Matecito-logo.svg';
@@ -241,6 +240,7 @@ const ogImageURL = 'https://matecito.qzz.io/Matecito-logo.svg';
                 <span>&copy; 2026 Matecito. Hecho con ❤️ y 🧉 en Argentina.</span>
                 <span class="hidden md:inline opacity-20">|</span>
                 <span class="opacity-60">Ilustración Gaucho por <a href="https://www.freepik.com" target="_blank" rel="noopener noreferrer" class="hover:text-brand-verde transition-colors underline decoration-white/10" title="Dibujado a mano ilustración gaucho bebiendo">Freepik</a></span>
+            <span class="opacity-60 block mt-1">Vaca y tractor: Twemoji © Twitter, Inc. y contributors, CC-BY 4.0 (<a href="https://github.com/jdecked/twemoji" target="_blank" rel="noopener noreferrer" class="hover:text-brand-verde transition-colors underline decoration-white/10">https://github.com/jdecked/twemoji</a>), recoloreados</span>
             </div>
 
             <div class="flex items-center gap-6">
@@ -263,7 +263,6 @@ const ogImageURL = 'https://matecito.qzz.io/Matecito-logo.svg';
     <!-- Scripts -->
     <script>
         import '../scripts/main.js';
-        import '../scripts/gaucho-animator.js';
     </script>
 </body>
 </html>

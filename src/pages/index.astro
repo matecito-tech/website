@@ -1,49 +1,47 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import CodeBlock from '../components/CodeBlock.astro';
-import { readFileSync } from 'node:fs';
-import { resolve } from 'node:path';
 import { Image } from 'astro:assets';
 import logoImg from '../assets/Matecito-logo.svg';
 import mateoImg from '../assets/mateo-gariboglio_low-poly.webp';
 import schalbetterImg from '../assets/schalbetter-logo.webp';
-const rawSvg = readFileSync(resolve(process.cwd(), 'public/gaucho.svg'), 'utf-8');
-const gauchoSvg = rawSvg.replace(/<\?xml[^?]*\?>/, '').replace(/<!--[^>]*-->/g, '').trim();
+import gauchoImg from '../assets/hero/gaucho.svg';
+import solImg from '../assets/hero/sol.svg';
+import campoImg from '../assets/hero/campo.svg';
+import primerPlanoImg from '../assets/hero/primer-plano.svg';
 ---
 <Layout title="Matecito | Desarrollo de Software Artesanal | Humboldt, Santa Fe" description="Impulsá tu negocio con desarrollo de software artesanal en Humboldt y Santa Fe. Sitios web de alto impacto, tiendas online y sistemas a medida que venden solos.">
-    <section class="min-h-[90vh] flex flex-col lg:flex-row items-center justify-between max-w-7xl mx-auto px-6 py-12 gap-12 relative snap-start overflow-hidden">
+    <header class="hero">
       <div id="embers-container" class="absolute inset-0 pointer-events-none overflow-hidden z-0"></div>
-      <div class="flex-1 space-y-8 relative z-10 lg:pr-12 animate-fade-in-up">
-        <div class="inline-flex items-center gap-2 px-4 py-2 bg-brand-verde/10 text-brand-verde text-xs font-bold rounded-full uppercase tracking-wider border border-brand-verde/20">
-          <Image src={logoImg} alt="Matecito" loading="eager" width={16} height={16} class="w-4 h-4 animate-pulse dark:brightness-0 dark:invert" />
-          Software a Medida
+      <!-- Capa 1 · campo full-bleed (decorativo) -->
+      <Image class="hero__field" src={campoImg} alt="" width={1920} height={240} decoding="async" />
+
+      <div class="hero__inner">
+        <div class="hero__copy">
+          <span class="badge">Software a medida</span>
+          <h1>Hacemos eficiente <em>tu flujo de trabajo.</em></h1>
+          <p class="lead">Reducimos costos, agilizamos procesos y automatizamos lo aburrido. Enfocate en lo que hacés bien, nosotros nos encargamos de que la tecnología te acompañe, no que te frene.</p>
+          <div class="cta">
+            <a class="btn btn--primary" href="#contacto">Empezar Ahora
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+            <a class="btn btn--ghost" href="#servicios">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>Ver Servicios</a>
+          </div>
         </div>
-        <h1 class="text-5xl lg:text-7xl font-display font-bold leading-[1.1] text-brand-dark dark:text-brand-crema">
-          Hacemos eficiente <br>
-          <span class="text-brand-verde">tu
-                        flujo de trabajo.</span>
-        </h1>
-        <p class="text-xl text-brand-verde-profundo/90 dark:text-brand-crema/85 leading-relaxed font-light max-w-2xl">
-          Reducimos costos, agilizamos procesos y automatizamos lo aburrido. Enfocate en lo que hacés bien,
-          nosotros nos encargamos de que la tecnología te acompañe, no que te frene.
-        </p>
-        <div class="flex flex-col sm:flex-row gap-4 pt-4">
-          <a href="#contacto" class="group px-8 py-4 bg-brand-dark text-white dark:bg-brand-crema dark:text-brand-dark dark:hover:bg-white rounded-xl font-bold hover:bg-black transition-all flex items-center justify-center gap-3 shadow-xl hover:shadow-2xl hover:-translate-y-1">
-            <span>Empezar Ahora</span>
-            <svg class="icon group-hover:translate-x-1 transition-transform" aria-hidden="true" focusable="false" width="1em" height="1em"><use href="#i-arrow_forward"/></svg>
-          </a>
-          <a href="#servicios" class="px-8 py-4 bg-white border border-brand-verde-profundo/10 text-brand-verde-profundo dark:bg-white/10 dark:border-white/20 dark:text-brand-crema rounded-xl font-semibold hover:border-brand-verde/50 hover:text-brand-verde transition-all flex items-center justify-center gap-2">
-            <svg class="icon" aria-hidden="true" focusable="false" width="1em" height="1em"><use href="#i-visibility"/></svg>
-            Ver Servicios
-          </a>
-        </div>
-      </div>
-      <div class="flex-1 w-full relative z-10 flex justify-center items-center">
-        <div class="absolute inset-0 bg-brand-verde/10 blur-[80px] rounded-full opacity-30 animate-pulse-slow pointer-events-none"></div>
-        <div class="gaucho-hero-container" id="gaucho-container" set:html={gauchoSvg}>
+
+        <div class="hero__art">
+          <div class="hero__figure">
+            <!-- Capa 0 · sol (decorativo) -->
+            <Image class="hero__sun" src={solImg} alt="" width={414} height={416} decoding="async" />
+            <!-- Capa 2 · gaucho -->
+            <Image class="hero__gaucho" src={gauchoImg} alt="Gaucho tomando mate" width={288} height={455} fetchpriority="high" />
+          </div>
         </div>
       </div>
-    </section>
+
+      <!-- Capa 3 · primer plano: pasto oscuro por delante del gaucho (decorativo) -->
+      <Image class="hero__front" src={primerPlanoImg} alt="" width={1920} height={240} decoding="async" />
+    </header>
     <section id="filosofia" class="py-24 bg-white dark:bg-white/5 relative overflow-hidden snap-start">
       <div class="absolute inset-0 overflow-clip">
         <div class="absolute top-0 right-0 w-64 h-64 bg-brand-verde/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
@@ -415,4 +413,140 @@ const gauchoSvg = rawSvg.replace(/<\?xml[^?]*\?>/, '').replace(/<!--[^>]*-->/g, 
         </div>
       </div>
     </section>
+
+<style is:global>
+  /* ---------- Hero (capas) ---------- */
+  .hero {
+    --bg: var(--color-brand-crema);
+    --ink: var(--color-brand-dark);
+    --ink-soft: var(--color-brand-verde-profundo);
+    --green: var(--color-brand-verde);
+    --line: var(--color-border);
+    --maxw: 75rem;
+    --gutter: clamp(1.25rem, 4vw, 2rem);
+    --gap: clamp(1rem, 3vw, 3rem);
+    --field-h: clamp(120px, 12.5vw, 340px);
+    position: relative;
+    isolation: isolate;
+    container-type: inline-size;
+    overflow: hidden;
+    display: flex;
+    min-height: min(100svh, 57.5rem);
+    background: var(--bg);
+  }
+
+  :root.dark .hero {
+    --bg: var(--color-brand-dark);
+    --ink: var(--color-brand-crema);
+    --ink-soft: var(--color-brand-crema);
+    background: var(--bg);
+  }
+
+  .hero__field,
+  .hero__front {
+    position: absolute; inset: auto 0 0 0;
+    width: 100%; height: var(--field-h, clamp(120px, 12.5vw, 340px));
+    object-fit: cover; object-position: 50% 100%;
+    pointer-events: none; user-select: none;
+  }
+  .hero__field { z-index: 1; }
+  .hero__front { z-index: 3; }
+
+  .hero__inner {
+    position: relative;
+    flex: 0 1 auto;
+    width: min(100% - 2 * var(--gutter, clamp(1.25rem, 4vw, 2rem)), var(--maxw, 75rem));
+    margin-inline: auto;
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr);
+    column-gap: var(--gap, clamp(1rem, 3vw, 3rem));
+  }
+
+  .hero__copy {
+    position: relative; z-index: 4;
+    align-self: center;
+    max-width: 36rem;
+    padding-block: clamp(4.5rem, 11vh, 7rem) calc(var(--field-h, clamp(120px, 12.5vw, 340px)) * .5 + 2rem);
+  }
+
+  .badge {
+    display: inline-flex; align-items: center; gap: .5rem;
+    padding: .4rem .85rem; border-radius: 999px;
+    background: color-mix(in srgb, var(--color-brand-verde) 10%, transparent);
+    border: 1px solid color-mix(in srgb, var(--color-brand-verde) 20%, transparent);
+    color: var(--color-brand-verde); font-size: .75rem; font-weight: 700; letter-spacing: .04em; text-transform: uppercase;
+  }
+  .badge::before { content: ""; width: .4rem; height: .4rem; border-radius: 50%; background: currentColor; }
+
+  .hero h1 {
+    margin: 1.25rem 0 1.5rem;
+    font-size: clamp(2.5rem, 5.2vw, 4.4rem);
+    line-height: 1.04; letter-spacing: -.02em; font-weight: 800;
+    text-wrap: balance;
+    font-family: var(--font-space-grotesk, 'Space Grotesk');
+  }
+  .hero h1 em { display: block; font-style: normal; color: var(--color-brand-verde); }
+
+  .hero .lead { margin: 0 0 2.25rem; max-width: 34rem; font-size: clamp(1rem, 1.25vw, 1.125rem); line-height: 1.8; color: var(--color-brand-verde-profundo); }
+  :root.dark .hero .lead { color: var(--color-brand-crema); opacity: 0.85; }
+
+  .hero .cta { display: flex; flex-wrap: wrap; gap: 1rem; }
+  .hero .btn {
+    display: inline-flex; align-items: center; gap: .6rem;
+    min-height: 3.25rem; padding: 0 1.9rem; border-radius: .8rem;
+    font: inherit; font-weight: 700; text-decoration: none; cursor: pointer;
+    border: 1px solid transparent;
+    transition: transform .15s ease, box-shadow .15s ease, background-color .15s ease;
+  }
+  .hero .btn svg { width: 1rem; height: 1rem; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .hero .btn--primary { background: var(--color-brand-dark); color: #fff; box-shadow: 0 10px 24px -10px rgba(20,12,12,.55); }
+  :root.dark .hero .btn--primary { background: var(--color-brand-crema); color: var(--color-brand-dark); }
+  .hero .btn--ghost { background: #fff; color: var(--color-brand-verde-profundo); border-color: var(--color-border); }
+  :root.dark .hero .btn--ghost { background: color-mix(in srgb, var(--color-brand-dark) 80%, transparent); color: var(--color-brand-crema); border-color: color-mix(in srgb, var(--color-brand-crema) 20%, transparent); }
+  .hero .btn:hover { transform: translateY(-1px); }
+  .hero .btn:focus-visible { outline: 3px solid var(--color-brand-verde); outline-offset: 3px; }
+
+  .hero__art { position: relative; align-self: end; }
+
+  .hero__figure {
+    --col: calc((min(100cqw - 2 * var(--gutter, clamp(1.25rem, 4vw, 2rem)), var(--maxw, 75rem)) - var(--gap, clamp(1rem, 3vw, 3rem))) * .45);
+    --h: min(clamp(21rem, 72svh, 42rem), calc(var(--col) * 1.23));
+    --field-h: clamp(120px, 12.5vw, 340px);
+    --lift: calc(var(--field-h) * .13);
+    position: relative;
+    height: var(--h);
+    aspect-ratio: 288 / 455;
+    margin-inline: auto;
+    bottom: var(--lift);
+    left: 8%;
+  }
+
+  .hero__gaucho { position: relative; z-index: 2; display: block; width: 100%; height: 100%; }
+
+  .hero__sun { position: absolute; z-index: 0; left: -31.25%; top: 5.93%; width: 143.75%; height: auto; pointer-events: none; }
+
+  .hero__figure::before {
+    content: ""; position: absolute; z-index: 0; pointer-events: none;
+    left: 40.5%; top: 52.3%; width: 230%; aspect-ratio: 1; transform: translate(-50%, -50%);
+    background: radial-gradient(closest-side, rgba(249,188,61,.16), rgba(249,188,61,0) 72%);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .hero__sun { animation: sol-sube .9s cubic-bezier(.2,.7,.2,1) both; }
+    @keyframes sol-sube { from { opacity: 0; transform: translateY(7%); } to { opacity: 1; transform: none; } }
+  }
+
+  @media (max-width: 859px) {
+    .hero { min-height: 0; }
+    .hero__inner { grid-template-columns: minmax(0, 1fr); }
+    .hero__copy { padding-block: 3.5rem 1.5rem; max-width: none; }
+    .hero__figure {
+      --col: calc(100cqw - 2 * var(--gutter, clamp(1.25rem, 4vw, 2rem)));
+      --h: min(clamp(18rem, 50svh, 30rem), calc(var(--col) * 1.23));
+      left: 6%;
+    }
+    .hero .btn { flex: 1 1 auto; justify-content: center; }
+  }
+</style>
+
 </Layout>

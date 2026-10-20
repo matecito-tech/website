@@ -235,10 +235,6 @@
       animation: none !important;
     }
 
-    /* Sin tilt 3D si el usuario pidió menos movimiento */
-    .gaucho-hero-container {
-      transform: none !important;
-    }
   }
 
   /* Superficies translúcidas: los valores vienen de --glass-* (tema claro/oscuro) */
@@ -271,11 +267,6 @@
     pointer-events: none;
   }
 
-  /* Tilt 3D del gaucho: la rotación se compone en CSS a partir de las custom
-     properties que escribe gaucho-animator.js (--rx / --ry / --scale). Así el
-     navegador no reconstruye el string de `transform` en cada frame y el
-     drop-shadow queda en el <img> hijo (otra capa): compositing, no repaint. */
-  /* .gaucho-hero-container styles are in gaucho-animation.css */
 
   .text-glow-verde {
     text-shadow: 0 0 20px oklch(0.65 0.12 161 / 0.4);

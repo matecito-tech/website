@@ -177,6 +177,19 @@
         ::-webkit-scrollbar-thumb:hover {
             background: #ff6b35;
         }
+
+        /* Utilitarios faltantes para la sección #casos (no están en output.css) */
+        .bg-white-5 { background-color: rgba(255, 255, 255, 0.05); }
+        .border-white-10 { border-color: rgba(255, 255, 255, 0.1); }
+        .text-white-90 { color: rgba(255, 255, 255, 0.9); }
+        .hover-bg-white-10:hover { background-color: rgba(255, 255, 255, 0.1); }
+        .hover-bg-orange-600:hover { background-color: #ea580c; }
+        .list-disc { list-style-type: disc; }
+        .list-inside { list-style-position: inside; }
+        .space-y-2 > * + * { margin-top: 0.5rem; }
+        .object-cover { object-fit: cover; }
+        .object-center { object-position: center; }
+        .shadow-brand-orange-30 { box-shadow: 0 4px 6px -1px rgba(255, 107, 53, 0.3), 0 2px 4px -1px rgba(255, 107, 53, 0.2); }
     </style>
 </head>
 
@@ -199,6 +212,7 @@
                 <a href="#servicios" class="hover:text-brand-orange transition-colors">Servicios</a>
                 <a href="#metodologia" class="hover:text-brand-orange transition-colors">Cómo Trabajamos</a>
                 <a href="#equipo" class="hover:text-brand-orange transition-colors">El Equipo</a>
+                <a href="#casos" class="hover:text-brand-orange transition-colors">Casos</a>
                 <a href="#contacto"
                     class="bg-brand-orange text-white px-5 py-2.5 rounded-full hover:bg-orange-600 transition-all hover:scale-105 shadow-lg shadow-brand-orange/20 font-bold flex items-center gap-2">
                     <svg class="icon text-sm" width="1em" height="1em"><use href="#i-chat_bubble"/></svg>
@@ -646,83 +660,84 @@
         </section>
 
         <!-- 7. CASOS REALES (Schalbetter Transportes) -->
-        <section id="casos" class="py-24 bg-brand-wood relative snap-start" hidden aria-labelledby="casos-titulo">
+        <section id="casos" class="py-24 bg-brand-wood relative snap-start" aria-labelledby="casos-titulo">
             <div class="max-w-7xl mx-auto px-6">
                 <div class="text-center mb-16">
                     <span class="text-brand-orange font-bold tracking-widest uppercase text-sm mb-2 block">// Casos
                         reales</span>
                     <h2 id="casos-titulo" class="text-4xl font-display font-bold text-white">Trabajo que podés ir a
                         ver</h2>
+                    <p class="text-white mt-4 text-sm leading-relaxed max-w-2xl mx-auto">Un proyecto real, publicado y
+                        con dominio propio. Podés recorrerlo vos mismo.</p>
                 </div>
 
-                <!--
-                  PENDIENTE: TESTIMONIO_TEXTO, TESTIMONIO_PERSONA, TESTIMONIO_CARGO,
-                  CONSENTIMIENTO_ESCRITO_PARA_PUBLICAR_NOMBRE_FOTO_CITA_LOGO_E_IMAGENES.
-                  Imagen principal (camión) opcional, omitida mientras no se confirme.
-                -->
-                <article class="max-w-4xl mx-auto wood-card p-8 md:p-12 rounded-3xl border border-white/10 shadow-lg hover:shadow-2xl transition-all group">
+                <article
+                    class="max-w-4xl mx-auto wood-card p-8 rounded-3xl border border-white-10 shadow-lg transition-all group">
                     <div class="flex flex-col md:flex-row gap-8 items-start mb-10">
                         <div class="shrink-0">
-                            <img src="public/schalbetter.webp" alt="Logo Schalbetter Transportes" loading="lazy"
-                                width="120" height="120" class="rounded-xl ring-4 ring-brand-cream shadow-lg object-cover object-center"
-                                onerror="this.src='https://ui-avatars.com/api/?name=ST&amp;background=ff6b35&amp;color=fff&amp;size=120'">
+                            <img src="public/schalbetter-logo.webp" alt="Logo de Schalbetter Transportes" loading="lazy"
+                                width="120" height="120"
+                                class="rounded-xl ring-4 ring-brand-cream shadow-lg object-cover object-center">
                         </div>
                         <div class="flex-1">
                             <h3 class="text-2xl font-bold text-brand-cream mb-2">Schalbetter Transportes</h3>
-                            <p class="text-white/90 text-sm font-medium uppercase tracking-wider">Transporte de cargas
-                                generales nacionales e internacionales</p>
+                            <p class="text-white-90 text-sm font-medium uppercase tracking-wider mb-2">Transporte de
+                                cargas generales · Argentina, Chile, Uruguay y Bolivia</p>
+                            <p class="text-white-90 text-sm leading-relaxed">Empresa familiar de San Martín de Las
+                                Escobas, Santa Fe, que arrancó en 2004 con un solo camión.</p>
                         </div>
                     </div>
 
-                    <div class="grid md:grid-cols-2 gap-8 mb-10">
-                        <div class="bg-white/5 border border-white/10 p-6 rounded-2xl">
-                            <h4 class="font-bold text-brand-orange text-sm uppercase tracking-wider mb-3">Problema</h4>
-                            <p class="text-brand-cream/90 text-sm leading-relaxed">Empresa familiar de transporte de
-                                cargas que necesitaba mayor visibilidad y un canal sencillo para recibir cotizaciones
-                                tras expandirse a Chile, Uruguay y Bolivia.</p>
-                        </div>
-                        <div class="bg-white/5 border border-white/10 p-6 rounded-2xl">
-                            <h4 class="font-bold text-brand-orange text-sm uppercase tracking-wider mb-3">Qué hicimos</h4>
-                            <ul class="list-disc list-inside text-brand-cream/90 text-sm leading-relaxed space-y-2">
-                                <li>Sitio corporativo de una página con las secciones Inicio, Conocenos, Servicios, Contacto y Trabajá con nosotros</li>
-                                <li>Botones de cotización y de consulta por WhatsApp con mensaje prellenado</li>
-                                <li>Línea de tiempo de la historia de la empresa (2004 hasta hoy)</li>
-                                <li>Mapa de Google embebido, datos de contacto y enlaces a Facebook e Instagram</li>
-                                <li>Sección de reclutamiento de conductores con enlace a formulario de postulación</li>
-                                <li>SEO base: título, descripción, palabras clave y vista previa para redes (Open Graph y Twitter Card)</li>
-                                <li>Imágenes optimizadas en formato WebP</li>
-                            </ul>
-                        </div>
+                    <div class="bg-white-5 border border-white-10 p-6 rounded-2xl mb-10">
+                        <h4 class="font-bold text-brand-orange text-sm uppercase tracking-wider mb-3">El punto de
+                            partida</h4>
+                        <p class="text-white-90 text-sm leading-relaxed">No tenían sitio web. Su presencia estaba
+                            repartida entre Instagram y Facebook, con la información dispersa y los pedidos de cotización
+                            llegando de forma desordenada.</p>
                     </div>
 
-                    <!-- Testimonio -->
-                    <figure class="mt-10 border-l-4 border-brand-orange pl-6 py-4 italic text-brand-cream/90 leading-relaxed">
-                        <blockquote>
-                            "Pendiente de cita literal del cliente (TESTIMONIO_TEXTO no confirmado)."
-                        </blockquote>
-                        <figcaption class="mt-4 text-sm font-bold text-brand-cream block">
-                            Pendiente — nombre y cargo (TESTIMONIO_PERSONA / TESTIMONIO_CARGO)
-                        </figcaption>
-                    </figure>
+                    <h4 class="font-bold text-brand-orange text-sm uppercase tracking-wider mb-3">Qué hicimos</h4>
+                    <ul class="list-disc list-inside space-y-2 text-white-90 text-sm leading-relaxed mb-10">
+                        <li>Sitio corporativo de una página: Inicio, Conocenos, Servicios, Contacto y Trabajá con
+                            nosotros</li>
+                        <li>Botones de cotización y de consulta por WhatsApp con mensaje prellenado</li>
+                        <li>Línea de tiempo con la historia de la empresa</li>
+                        <li>Mapa de Google, datos de contacto y enlaces a sus redes</li>
+                        <li>Formulario de Google para que postulen conductores, enlazado desde la sección de
+                            reclutamiento</li>
+                        <li>Dominio propio y hosting</li>
+                        <li>SEO base: título, descripción y vista previa al compartir en redes</li>
+                        <li>Imágenes optimizadas en formato WebP</li>
+                    </ul>
+
+                    <h4 class="font-bold text-brand-orange text-sm uppercase tracking-wider mb-3">Cómo quedó</h4>
+                    <p class="text-white-90 text-sm leading-relaxed mb-10">Hoy la información de la empresa está en un
+                        solo lugar: qué transportan, hasta dónde llegan y cómo pedir una cotización por WhatsApp. Los
+                        pedidos siguen llegando también por sus redes.</p>
+
+                    <p class="text-xs text-white-90 mb-6">Los textos y las fotos fueron aportados por la empresa.</p>
+
+                    <p class="text-xs text-white-90 mb-8">Este proyecto lo hicimos para la empresa familiar de un
+                        integrante del equipo.</p>
 
                     <div class="mt-12 flex flex-col sm:flex-row gap-4 justify-center">
                         <a href="https://schalbettertransportes.com.ar/" target="_blank" rel="noopener noreferrer"
-                            class="px-8 py-4 bg-brand-orange text-white font-bold rounded-xl hover:bg-orange-600 transition-all flex items-center justify-center gap-2 shadow-lg shadow-brand-orange/30">
+                            class="px-8 py-4 bg-brand-orange text-white font-bold rounded-xl hover-bg-orange-600 transition-all flex items-center justify-center gap-2 shadow-lg">
                             <span>Ver sitio en vivo</span>
                             <svg class="icon" width="1em" height="1em"><use href="#i-open_in_new"/></svg>
                         </a>
                         <a href="https://github.com/matecito-tech/SchalbetterTransportes" target="_blank"
                             rel="noopener noreferrer"
-                            class="px-8 py-4 bg-white/5 border border-white/10 text-brand-cream font-bold rounded-xl hover:bg-white/10 transition-colors flex items-center justify-center gap-2">
+                            class="px-8 py-4 bg-white-5 border border-white-10 text-white font-bold rounded-xl hover-bg-white-10 transition-colors flex items-center justify-center gap-2 shadow-brand-orange-30">
                             <span>Ver código</span>
                             <svg class="icon" width="1em" height="1em"><use href="#i-open_in_new"/></svg>
                         </a>
                     </div>
 
                     <div class="mt-12 text-center">
-                        <p class="text-brand-cream/90 text-sm mb-4">¿Querés un resultado así para tu negocio?</p>
+                        <p class="text-white-90 text-sm mb-4">¿Querés un resultado así para tu negocio?</p>
                         <a href="#contacto"
-                            class="px-8 py-4 bg-brand-orange text-white font-bold rounded-xl hover:bg-orange-600 transition-all shadow-lg shadow-brand-orange/30">
+                            class="px-8 py-4 bg-brand-orange text-white font-bold rounded-xl hover-bg-orange-600 transition-all shadow-lg">
                             Hablemos
                         </a>
                     </div>
@@ -861,6 +876,7 @@
                     <li><a href="#filosofia" class="hover:text-brand-orange transition-colors">Nosotros</a></li>
                     <li><a href="#servicios" class="hover:text-brand-orange transition-colors">Servicios</a></li>
                     <li><a href="#equipo" class="hover:text-brand-orange transition-colors">Equipo</a></li>
+                    <li><a href="#casos" class="hover:text-brand-orange transition-colors">Casos</a></li>
                 </ul>
             </div>
 

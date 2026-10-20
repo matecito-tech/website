@@ -27,30 +27,3 @@ Abrir `index.html` en el navegador o usar un servidor local:
 ```bash
 python -m http.server 8000
 ```
-
-### Gestor de paquetes
-
-Este proyecto **no usa `npm`**. Usá **`bun`** (recomendado) o **`pnpm`** para instalar dependencias y correr scripts:
-
-```bash
-# Instalar dependencias
-bun install          # recomendado
-# o
-pnpm install
-
-# Correr tests (validar HTML + lint JS)
-bun run test
-# o
-pnpm run test
-
-# Solo validar HTML
-bun run validate:html
-
-# Solo lint JS
-bun run lint:js
-
-# Servidor local
-bun run serve        # o python3 -m http.server 8080
-```
-
-Nunca uses `npm install` ni `npm run`: el `package-lock.json` y los scripts están pensados para `bun` / `pnpm`.

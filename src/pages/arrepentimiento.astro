@@ -2,19 +2,19 @@
 import Layout from '../layouts/Layout.astro';
 ---
 
-<Layout title="Botón de Arrepentimiento | Matecito" description="Ejercé tu derecho de arrepentimiento en Matecito. Devoluciones y cancelaciones de servicios de desarrollo de software. Humboldt, Santa Fe.">
+<Layout title="Botón de Arrepentimiento | Matecito" description="Ejercé tu derecho de arrepentimiento en Matecito. Devoluciones y cancelaciones de servicios de desarrollo de software. Humboldt, Santa Fe." noindex>
   <main id="main" class="pt-20 max-w-4xl mx-auto px-6 py-24">
     <h1 class="text-4xl font-display font-bold text-brand-dark mb-8">Botón de Arrepentimiento</h1>
     <p class="text-lg text-brand-verde-profundo/90 mb-8">De acuerdo con la legislación vigente, tenés derecho a arrepentirte de tu compra dentro de los 10 días corridos desde la celebración del contrato o la recepción del servicio.</p>
 
-    <div class="bg-white p-8 rounded-3xl shadow-xl border border-brand-verde-profundo/5 mb-8">
-      <h2 class="text-2xl font-bold text-brand-dark mb-4">¿Cómo ejercer tu derecho?</h2>
-      <p class="text-brand-verde-profundo/90 mb-4">Podés notificarnos tu decisión de arrepentimiento a través de cualquiera de los siguientes medios:</p>
-      <ul class="space-y-3 text-brand-verde-profundo/90 mb-6">
-        <li class="flex items-center gap-2"><svg class="icon text-brand-verde" width="1em" height="1em"><use href="#i-check_circle"/></svg> Enviando un email a <a href="mailto:matecito.tech@gmail.com" class="underline hover:text-brand-verde">matecito.tech@gmail.com</a> con el asunto "Arrepentimiento - [Tu Nombre]"</li>
-        <li class="flex items-center gap-2"><svg class="icon text-brand-verde" width="1em" height="1em"><use href="#i-check_circle"/></svg> Completando el formulario de contacto en nuestra web con el asunto "Arrepentimiento"</li>
+    <div class="bg-white dark:bg-brand-dark p-8 rounded-3xl shadow-xl border border-brand-verde-profundo/5 mb-8">
+      <h2 class="text-2xl font-bold text-brand-dark dark:text-brand-crema mb-4">¿Cómo ejercer tu derecho?</h2>
+      <p class="text-brand-verde-profundo/90 dark:text-brand-crema/90 mb-4">Podés notificarnos tu decisión de arrepentimiento a través de cualquiera de los siguientes medios:</p>
+      <ul class="space-y-3 text-brand-verde-profundo/90 dark:text-brand-crema/90 mb-6">
+        <li class="flex items-center gap-2"><svg class="icon text-brand-verde dark:text-brand-verde" width="1em" height="1em"><use href="#i-check_circle"/></svg> Enviando un email a <a href="mailto:matecito.tech@gmail.com" class="underline hover:text-brand-verde dark:hover:text-brand-verde">matecito.tech@gmail.com</a> con el asunto "Arrepentimiento - [Tu Nombre]"</li>
+        <li class="flex items-center gap-2"><svg class="icon text-brand-verde dark:text-brand-verde" width="1em" height="1em"><use href="#i-check_circle"/></svg> Completando el formulario de contacto en nuestra web con el asunto "Arrepentimiento"</li>
       </ul>
-      <p class="text-brand-verde-profundo/90 mb-6">Una vez recibida tu solicitud, procederemos a la devolución del importe abonado dentro de los 10 días hábiles, utilizando el mismo medio de pago utilizado en la transacción original.</p>
+      <p class="text-brand-verde-profundo/90 dark:text-brand-crema/90 mb-6">Una vez recibida tu solicitud, procederemos a la devolución del importe abonado dentro de los 10 días hábiles, utilizando el mismo medio de pago utilizado en la transacción original.</p>
     </div>
 
     <div class="bg-brand-verde/5 border border-brand-verde/20 p-6 rounded-2xl">
@@ -23,9 +23,9 @@ import Layout from '../layouts/Layout.astro';
     </div>
 
     <div class="mt-10 text-center">
-      <a href="/" class="px-8 py-4 bg-brand-verde text-white font-bold rounded-xl hover:bg-brand-verde-700 transition-all shadow-lg shadow-brand-verde/20 flex items-center justify-center gap-2 inline-block">
+      <a href="/" class="px-8 py-4 bg-brand-verde text-white font-bold rounded-xl hover:bg-brand-verde-700 transition-all shadow-lg shadow-brand-verde/20 dark:hover:bg-brand-verde-500 flex items-center justify-center gap-2 inline-block">
         <span>Volver al inicio</span>
-        <svg class="icon" width="1em" height="1em"><use href="#i-arrow_forward"/></svg>
+        <svg class="icon" aria-hidden="true" focusable="false" width="1em" height="1em"><use href="#i-arrow_forward"/></svg>
       </a>
     </div>
   </main>

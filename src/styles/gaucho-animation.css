@@ -1,51 +1,81 @@
 /* ================================================
-   ANIMACIONES GAUCHO MATE OPTIMIZADA
-   Humo SVG y Efectos 3D
+   ANIMACIONES GAUCHO MATE
+   Efecto 3D con parallax por capas
    ================================================ */
 
-/* Contenedor principal con perspectiva */
+/* Contenedor principal con perspectiva 3D */
 .gaucho-hero-container {
-    perspective: 1000px;
+    perspective: 1200px;
     transform-style: preserve-3d;
-    transition: transform 0.1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transform: perspective(var(--perspective, 1200px)) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) scale(var(--scale, 1));
+    transition: transform 0.12s ease-out;
     will-change: transform;
-    /* Optimización GPU */
     position: relative;
-    z-index: 10;
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    overflow: visible;
+}
+
+/* Capas parallax del gaucho - separadas en profundidad con translateZ */
+.gaucho-hero-container .gaucho-layer {
+    transition: transform 0.15s ease-out;
+    will-change: transform;
+    transform-origin: center center;
+}
+
+/* Capa de fondo (sol/cielo) - más lejana */
+.gaucho-hero-container #layer-back {
+    transform: translateZ(-50px);
+}
+
+/* Capa media (colina/escritorio) - profundidad media */
+.gaucho-hero-container #layer-desk {
+    transform: translateZ(0px);
+}
+
+/* Capa frontal (personaje) - más cercana */
+.gaucho-hero-container #layer-char {
+    transform: translateZ(50px);
 }
 
 /* El SVG propiamente dicho */
-#gaucho-svg {
+.gaucho-hero-container svg {
     display: block;
-    max-width: 100%;
+    width: 100%;
     height: auto;
-    filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.15));
-    /* Sombra suave */
+    filter: drop-shadow(0 8px 24px rgba(0, 0, 0, 0.1));
 }
 
-/* ================================================
-   EFECTOS GLOBALES SUTILES
-   ================================================ */
-
 /* Pulso suave para dar vida */
-#gaucho-svg {
+.gaucho-hero-container svg {
     animation: float-idle 6s ease-in-out infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {
-    #gaucho-svg {
+    .gaucho-hero-container svg {
         animation: none;
+    }
+    .gaucho-hero-container {
+        transform: none !important;
+    }
+    .gaucho-hero-container .gaucho-layer {
+        transform: none !important;
     }
 }
 
 @keyframes float-idle {
-
-    0%,
-    100% {
+    0%, 100% {
         transform: translateY(0);
     }
-
     50% {
-        transform: translateY(-10px);
+        transform: translateY(-8px);
+    }
+}
+
+/* Responsive: mobile */
+@media (max-width: 1024px) {
+    .gaucho-hero-container {
+        max-width: 400px;
     }
 }

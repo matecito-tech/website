@@ -5,7 +5,7 @@
   "type": "module",
   "description": "Matecito - Desarrollo de Software Artesanal",
   "scripts": {
-    "validate:html": "html-validate \"*.html\"",
+    "validate:html": "html-validate \"*.html\" \"public/**/*.html\"",
     "lint:js": "eslint src/scripts/*.js",
     "test": "bun run validate:html && bun run lint:js",
     "dev": "node scripts/dev.mjs",
@@ -23,9 +23,9 @@
     "astro": "^7.4.1",
     "autoprefixer": "^10.6.1",
     "culori": "^4.0.2",
-    "eslint": "^9.0.0",
-    "globals": "^17.8.0",
-    "html-validate": "^8.0.0",
+    "eslint": "^10.13.0",
+    "globals": "^17.13.0",
+    "html-validate": "^11.17.0",
     "postcss": "^8.5.31",
     "postcss-cli": "^12.0.0",
     "tailwindcss": "^4.3.3"

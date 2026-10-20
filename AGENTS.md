@@ -50,28 +50,41 @@
 ## Project Structure
 ```
 ├── AGENTS.md                    # This file
-├── index.html                   # Main landing page (single-page app)
-├── arrepentimiento.html         # Right of withdrawal (B2B legal)
-├── politica-de-privacidad.html  # Privacy policy
-├── terminos-y-condiciones.html  # Terms and conditions
-├── js/
-│   ├── main.js                  # Site JS (scroll animations, price calc, form)
-│   └── gaucho-animator.js       # Gaucho SVG animation
-├── public/
-│   ├── Matecito-logo.svg        # Main logo (light)
-│   ├── matecito-favicon.svg     # Favicon (217KB, large SVG)
-│   ├── gaucho.svg               # Gaucho illustration (large SVG)
-│   └── Matecito-brand-og.jpg    # Open Graph image
+├── astro.config.mjs             # Astro 7 + sitemap + Tailwind v4 (vite plugin)
+├── src/
+│   ├── pages/                   # Rutas (Astro): index, gracias, terminos,
+│   │                             # politica-de-privacidad, arrepentimiento
+│   ├── layouts/
+│   │   └── Layout.astro         # Shell: <head>, navbar, menú móvil, footer,
+│   │                             # #toast-container (región viva), sprite de iconos
+│   ├── components/
+│   │   ├── IconSprite.astro     # Sprite SVG de iconos (#i-*)
+│   │   └── CodeBlock.astro      # Bloques de código con copiado
+│   ├── styles/
+│   │   ├── global.css           # @import "tailwindcss" + tokens @theme + utilidades
+│   │   └── gaucho-animation.css # Animación idle del gaucho
+│   └── scripts/
+│       ├── main.js              # Scroll, toasts, menú móvil, tema, cotizador, form
+│       └── gaucho-animator.js   # Tilt 3D del gaucho (custom properties CSS)
+├── public/                      # Se sirve tal cual: favicons, fuentes, logos,
+│                                 # gaucho.svg, llms.txt, robots.txt, CNAME
+├── scripts/                     # Utilidades de dev (scripts/dev.mjs)
 ├── .github/workflows/ci.yml     # CI pipeline
 ├── .htmlvalidate.json            # HTML validation config
 ├── eslint.config.js              # ESLint flat config
 └── package.json                 # devDependencies and scripts
 ```
 
+> Los `.html` sueltos en la raíz (`index.html`, `gracias.html`, etc.) son restos
+> pre-Astro: ya no los usa nadie (las rutas se generan desde `src/pages/`).
+> Los archivos `js/` y `tailwind.config.js` también se eliminaron por el mismo
+> motivo (Tailwind v4 no lee `tailwind.config.js` sin `@config`).
+
 ## Common Commands
 ```bash
-npm run test             # Validate HTML + lint JS
-npm run validate:html    # html-validate on all HTML files
-npm run lint:js          # eslint on js/*.js
-npm run serve            # python3 -m http.server 8080
+bun run test             # Validate HTML + lint JS (src/scripts/*.js)
+bun run validate:html    # html-validate on all HTML files
+bun run lint:js          # eslint on src/scripts/*.js
+bun run build            # astro build -> dist/
+bun run dev              # servidor de desarrollo
 ```

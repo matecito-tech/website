@@ -29,6 +29,12 @@
 }
 
 @theme {
+  /* Tokens base de marca (aliases de la escala) - requeridos por el markup */
+  --color-brand-verde: oklch(0.65 0.12 161);
+  --color-brand-verde-profundo: oklch(0.32 0.06 161);
+  --color-brand-dorado: oklch(0.70 0.10 80);
+  --color-brand-blanco: oklch(1 0 0);
+
   --color-brand-verde-50: oklch(0.97 0.01 161);
   --color-brand-verde-100: oklch(0.94 0.02 161);
   --color-brand-verde-200: oklch(0.87 0.04 161);
@@ -64,6 +70,9 @@
   --color-muted-foreground: oklch(0.45 0.02 45);
   --color-ring: oklch(0.65 0.12 161);
 
+  /* Verde semántico de éxito para badges de estado (ej. "En Línea") */
+  --color-success: oklch(0.65 0.16 145);
+
   --font-manrope: 'Manrope';
   --font-space-grotesk: 'Space Grotesk';
   --font-jetbrains-mono: 'JetBrains Mono';
@@ -80,6 +89,10 @@
   @keyframes fadeInUp {
     0% { opacity: 0; transform: translateY(20px); }
     100% { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
   }
   @keyframes float {
     0%, 100% { transform: translateY(0); }
@@ -105,6 +118,13 @@
     --color-muted-foreground: oklch(0.45 0.02 45);
     --color-border: oklch(0.90 0.01 85);
     --color-ring: oklch(0.65 0.12 161);
+
+    /* Superficies translúcidas (glass) - tema claro */
+    --glass-bg: rgba(255, 255, 255, 0.8);
+    --glass-border: rgba(255, 255, 255, 0.6);
+    --glass-shadow: rgba(50, 30, 25, 0.05);
+
+    color-scheme: light;
   }
 
   .dark {
@@ -116,6 +136,13 @@
     --color-muted-foreground: oklch(0.70 0.01 85);
     --color-border: oklch(0.25 0.02 45);
     --color-ring: oklch(0.65 0.12 161);
+
+    /* Superficies translúcidas (glass) - tema oscuro */
+    --glass-bg: rgba(30, 57, 50, 0.85);
+    --glass-border: rgba(255, 255, 255, 0.12);
+    --glass-shadow: rgba(0, 0, 0, 0.3);
+
+    color-scheme: dark;
   }
 
   * {
@@ -148,12 +175,26 @@
 }
 
 @layer utilities {
+  /* Sprite de iconos SVG - hereda el color del texto */
+  .icon {
+    width: 1em;
+    height: 1em;
+    display: inline-block;
+    vertical-align: middle;
+    fill: currentColor;
+    flex-shrink: 0;
+  }
+
   .text-balance {
     text-wrap: balance;
   }
 
   .animate-fade-in-up {
     animation: fadeInUp 0.8s ease-out forwards;
+  }
+
+  .animate-fade-in {
+    animation: fadeIn 0.5s ease-out forwards;
   }
 
   .animate-float {
@@ -193,18 +234,24 @@
     .animate-fade-in-up {
       animation: none !important;
     }
+
+    /* Sin tilt 3D si el usuario pidió menos movimiento */
+    .gaucho-hero-container {
+      transform: none !important;
+    }
   }
 
+  /* Superficies translúcidas: los valores vienen de --glass-* (tema claro/oscuro) */
   .wood-card {
     background: linear-gradient(145deg, oklch(0.32 0.06 161), oklch(0.25 0.05 161));
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid var(--wood-border, rgba(255, 255, 255, 0.1));
   }
 
   .glass-card {
-    background: rgba(255, 255, 255, 0.8);
+    background: var(--glass-bg, rgba(255, 255, 255, 0.8));
     backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.6);
-    box-shadow: 0 8px 32px 0 rgba(50, 30, 25, 0.05);
+    border: 1px solid var(--glass-border, rgba(255, 255, 255, 0.6));
+    box-shadow: 0 8px 32px 0 var(--glass-shadow, rgba(50, 30, 25, 0.05));
   }
 
   .ember {
@@ -224,13 +271,11 @@
     pointer-events: none;
   }
 
-  .gaucho-hero-container {
-    position: relative;
-    width: 100%;
-    max-width: 500px;
-    margin: 0 auto;
-    filter: drop-shadow(0 20px 40px oklch(0.65 0.12 161 / 0.15));
-  }
+  /* Tilt 3D del gaucho: la rotación se compone en CSS a partir de las custom
+     properties que escribe gaucho-animator.js (--rx / --ry / --scale). Así el
+     navegador no reconstruye el string de `transform` en cada frame y el
+     drop-shadow queda en el <img> hijo (otra capa): compositing, no repaint. */
+  /* .gaucho-hero-container styles are in gaucho-animation.css */
 
   .text-glow-verde {
     text-shadow: 0 0 20px oklch(0.65 0.12 161 / 0.4);
@@ -339,4 +384,15 @@
       animation: none;
     }
   }
+}
+
+/* --- Modo oscuro: red de seguridad para textos de marca -----------------
+   Las páginas secundarias (legal, gracias) usan utilidades de texto de
+   marca que no se pueden variantear por página. Este bloque va SIN capa
+   (gana a las utilidades de Tailwind) y aclara esos textos cuando la
+   variante `dark` está activa. Los elementos que ya traen una variante
+   explícita `dark:text-*` quedan excluidos para no pisar la intención
+   local de cada componente. */
+:where(.dark) :where(.text-brand-dark, [class*="text-brand-verde-profundo"]):not([class*="dark:text-"]) {
+  color: var(--color-brand-crema);
 }

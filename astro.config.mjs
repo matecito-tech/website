@@ -5,6 +5,7 @@ import tailwindcss from '@tailwindcss/vite';
 export default defineConfig({
   site: 'https://matecito.qzz.io',
   base: '/',
+  trailingSlash: 'always',
   output: 'static',
   vite: {
     plugins: [tailwindcss()],

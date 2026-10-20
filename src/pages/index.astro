@@ -1,93 +1,99 @@
 ---
-import { Font } from 'astro:assets';
 import Layout from '../layouts/Layout.astro';
 import CodeBlock from '../components/CodeBlock.astro';
+import { readFileSync } from 'node:fs';
+import { resolve } from 'node:path';
+import { Image } from 'astro:assets';
+import logoImg from '../assets/Matecito-logo.svg';
+import mateoImg from '../assets/mateo-gariboglio_low-poly.webp';
+import schalbetterImg from '../assets/schalbetter-logo.webp';
+const rawSvg = readFileSync(resolve(process.cwd(), 'public/gaucho.svg'), 'utf-8');
+const gauchoSvg = rawSvg.replace(/<\?xml[^?]*\?>/, '').replace(/<!--[^>]*-->/g, '').trim();
 ---
-<Layout title="Matecito | Desarrollo de Software Artesanal | Humboldt, Santa Fe" description="Impulsa tu negocio con desarrollo de software artesanal en Humboldt y Santa Fe. Sitios web de alto impacto, tiendas online y sistemas a medida que venden solos.">
-  <main id="main" class="pt-20">
+<Layout title="Matecito | Desarrollo de Software Artesanal | Humboldt, Santa Fe" description="Impulsá tu negocio con desarrollo de software artesanal en Humboldt y Santa Fe. Sitios web de alto impacto, tiendas online y sistemas a medida que venden solos.">
     <section class="min-h-[90vh] flex flex-col lg:flex-row items-center justify-between max-w-7xl mx-auto px-6 py-12 gap-12 relative snap-start overflow-hidden">
       <div id="embers-container" class="absolute inset-0 pointer-events-none overflow-hidden z-0"></div>
-      <div class="flex-1 space-y-8 z-10 lg:pr-12 animate-fade-in-up">
+      <div class="flex-1 space-y-8 relative z-10 lg:pr-12 animate-fade-in-up">
         <div class="inline-flex items-center gap-2 px-4 py-2 bg-brand-verde/10 text-brand-verde text-xs font-bold rounded-full uppercase tracking-wider border border-brand-verde/20">
-          <img src="/Matecito-logo.svg" alt="Matecito" loading="eager" class="w-4 h-4 animate-pulse">
+          <Image src={logoImg} alt="Matecito" loading="eager" width={16} height={16} class="w-4 h-4 animate-pulse dark:brightness-0 dark:invert" />
           Software a Medida
         </div>
-        <h1 class="text-5xl lg:text-7xl font-display font-bold leading-[1.1] text-brand-dark">
+        <h1 class="text-5xl lg:text-7xl font-display font-bold leading-[1.1] text-brand-dark dark:text-brand-crema">
           Hacemos eficiente <br>
-          <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-verde to-brand-verde-700 text-glow-verde">tu flujo de trabajo.</span>
+          <span class="text-brand-verde">tu
+                        flujo de trabajo.</span>
         </h1>
-        <p class="text-xl text-brand-verde-profundo/90 leading-relaxed font-light max-w-2xl">
-          Reducimos costos, agilizamos procesos y automatizamos lo aburrido. Enfocate en lo que haces bien,
-          nosotros nos encargamos de que la tecnologia te acompane, no que te frene.
+        <p class="text-xl text-brand-verde-profundo/90 dark:text-brand-crema/85 leading-relaxed font-light max-w-2xl">
+          Reducimos costos, agilizamos procesos y automatizamos lo aburrido. Enfocate en lo que hacés bien,
+          nosotros nos encargamos de que la tecnología te acompañe, no que te frene.
         </p>
         <div class="flex flex-col sm:flex-row gap-4 pt-4">
-          <a href="#contacto" class="group px-8 py-4 bg-brand-dark text-white rounded-xl font-bold hover:bg-black transition-all flex items-center justify-center gap-3 shadow-xl hover:shadow-2xl hover:-translate-y-1">
+          <a href="#contacto" class="group px-8 py-4 bg-brand-dark text-white dark:bg-brand-crema dark:text-brand-dark dark:hover:bg-white rounded-xl font-bold hover:bg-black transition-all flex items-center justify-center gap-3 shadow-xl hover:shadow-2xl hover:-translate-y-1">
             <span>Empezar Ahora</span>
-            <svg class="icon group-hover:translate-x-1 transition-transform" width="1em" height="1em"><use href="#i-arrow_forward"/></svg>
+            <svg class="icon group-hover:translate-x-1 transition-transform" aria-hidden="true" focusable="false" width="1em" height="1em"><use href="#i-arrow_forward"/></svg>
           </a>
-          <a href="#servicios" class="px-8 py-4 bg-white border border-brand-verde-profundo/10 text-brand-verde-profundo rounded-xl font-semibold hover:border-brand-verde/50 hover:text-brand-verde transition-all flex items-center justify-center gap-2">
-            <svg class="icon" width="1em" height="1em"><use href="#i-visibility"/></svg>
+          <a href="#servicios" class="px-8 py-4 bg-white border border-brand-verde-profundo/10 text-brand-verde-profundo dark:bg-white/10 dark:border-white/20 dark:text-brand-crema rounded-xl font-semibold hover:border-brand-verde/50 hover:text-brand-verde transition-all flex items-center justify-center gap-2">
+            <svg class="icon" aria-hidden="true" focusable="false" width="1em" height="1em"><use href="#i-visibility"/></svg>
             Ver Servicios
           </a>
         </div>
       </div>
-      <div class="flex-1 w-full relative group perspective-[1000px] z-10 flex justify-center overflow-hidden">
-        <div class="absolute -inset-10 bg-brand-verde/20 blur-[60px] rounded-full opacity-60 animate-pulse-slow pointer-events-none"></div>
-        <div class="relative w-full max-w-[500px] transform transition-transform duration-700 hover:rotate-y-3 hover:rotate-x-3 rotate-y-6 rotate-x-3">
-          <div class="gaucho-hero-container">
-            <img id="gaucho-svg" src="/gaucho.svg" data-auto-animate alt="Ilustracion Gaucho por Freepik" title="Dibujado a mano ilustracion gaucho bebiendo - Freepik" loading="eager" class="w-full h-auto drop-shadow-2xl">
-          </div>
+      <div class="flex-1 w-full relative z-10 flex justify-center items-center">
+        <div class="absolute inset-0 bg-brand-verde/10 blur-[80px] rounded-full opacity-30 animate-pulse-slow pointer-events-none"></div>
+        <div class="gaucho-hero-container" id="gaucho-container" set:html={gauchoSvg}>
         </div>
       </div>
     </section>
-    <section id="filosofia" class="py-24 bg-white relative overflow-hidden snap-start">
-      <div class="absolute top-0 right-0 w-64 h-64 bg-brand-verde/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
+    <section id="filosofia" class="py-24 bg-white dark:bg-white/5 relative overflow-hidden snap-start">
+      <div class="absolute inset-0 overflow-clip">
+        <div class="absolute top-0 right-0 w-64 h-64 bg-brand-verde/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
+      </div>
       <div class="max-w-7xl mx-auto px-6 relative z-10 overflow-clip">
         <div class="text-center mb-16">
-          <span class="text-brand-verde font-bold tracking-widest uppercase text-sm mb-2 block">Identidad & Propósito</span>
-          <h2 class="text-4xl font-display font-bold text-brand-dark">Nuestra Brujula</h2>
+          <span class="text-brand-verde-profundo font-bold tracking-widest uppercase text-sm mb-2 block">Identidad & Propósito</span>
+          <h2 class="text-4xl font-display font-bold text-brand-dark dark:text-brand-crema">Nuestra Brújula</h2>
         </div>
         <div class="grid md:grid-cols-2 gap-12 mb-20">
-          <div class="p-8 rounded-3xl bg-brand-crema border border-brand-verde-profundo/5 relative group hover:shadow-lg transition-all">
-            <div class="w-12 h-12 bg-white rounded-xl shadow-sm flex items-center justify-center text-brand-verde mb-6">
-              <svg class="icon text-3xl" width="1em" height="1em"><use href="#i-rocket_launch"/></svg>
+          <div class="p-8 rounded-3xl bg-brand-crema dark:bg-white/10 border border-brand-verde-profundo/5 dark:border-white/10 relative group hover:shadow-lg transition-all">
+            <div class="w-12 h-12 bg-white dark:bg-white/15 rounded-xl shadow-sm flex items-center justify-center text-brand-verde mb-6">
+              <svg class="icon text-3xl" aria-hidden="true" focusable="false" width="1em" height="1em"><use href="#i-rocket_launch"/></svg>
             </div>
             <h3 class="text-2xl font-bold mb-4 font-display">Nuestra Misión</h3>
-            <p class="text-brand-verde-profundo/80 leading-relaxed">Queremos que los negocios de nuestra region puedan competir de igual a igual. Hacemos que la tecnologia sea una herramienta de crecimiento, no un dolor de cabeza, ayudandote a <strong>vender mas y trabajar mejor</strong>.</p>
+            <p class="text-brand-verde-profundo/80 dark:text-brand-crema/75 leading-relaxed">Queremos que los negocios de nuestra región puedan competir de igual a igual. Hacemos que la tecnología sea una herramienta de crecimiento, no un dolor de cabeza, ayudándote a <strong>vender más y trabajar mejor</strong>.</p>
           </div>
-          <div class="p-8 rounded-3xl bg-brand-crema border border-brand-verde-profundo/5 relative group hover:shadow-lg transition-all">
-            <div class="w-12 h-12 bg-white rounded-xl shadow-sm flex items-center justify-center text-brand-verde-profundo mb-6">
-              <svg class="icon text-3xl" width="1em" height="1em"><use href="#i-visibility"/></svg>
+          <div class="p-8 rounded-3xl bg-brand-crema dark:bg-white/10 border border-brand-verde-profundo/5 dark:border-white/10 relative group hover:shadow-lg transition-all">
+            <div class="w-12 h-12 bg-white dark:bg-white/15 rounded-xl shadow-sm flex items-center justify-center text-brand-verde-profundo dark:text-brand-crema mb-6">
+              <svg class="icon text-3xl" aria-hidden="true" focusable="false" width="1em" height="1em"><use href="#i-visibility"/></svg>
             </div>
             <h3 class="text-2xl font-bold mb-4 font-display">Nuestra Visión</h3>
-            <p class="text-brand-verde-profundo/80 leading-relaxed">Ser el socio tecnologico de confianza para emprendedores y PyMEs. En 5 anos, imaginamos un ecosistema local digitalizado, eficiente y conectado al mundo, impulsado por soluciones creadas aca, por gente de aca.</p>
+            <p class="text-brand-verde-profundo/80 dark:text-brand-crema/75 leading-relaxed">Ser el socio tecnologico de confianza para emprendedores y PyMEs. En 5 anos, imaginamos un ecosistema local digitalizado, eficiente y conectado al mundo, impulsado por soluciones creadas aca, por gente de aca.</p>
           </div>
         </div>
         <div class="flex flex-col lg:flex-row gap-12 items-center mb-10">
           <div class="flex-1">
             <h3 class="text-2xl font-bold font-display mb-8 text-center lg:text-left">Pilares del Fogón</h3>
             <div class="grid grid-cols-2 gap-4">
-              <div class="p-4 bg-brand-crema border border-brand-verde-profundo/5 rounded-2xl text-center hover:bg-white transition-colors group/icon">
-                <div class="mb-2 text-brand-verde-profundo group-hover/icon:text-brand-verde transition-colors">
-                  <svg class="icon text-3xl" width="1em" height="1em"><use href="#i-handshake"/></svg>
+              <div class="p-4 bg-brand-crema dark:bg-white/10 border border-brand-verde-profundo/5 dark:border-white/10 rounded-2xl text-center hover:bg-white dark:hover:bg-white/15 transition-colors group/icon">
+                <div class="mb-2 text-brand-verde-profundo dark:text-brand-crema/80 group-hover/icon:text-brand-verde transition-colors">
+                  <svg class="icon text-3xl" aria-hidden="true" focusable="false" width="1em" height="1em"><use href="#i-handshake"/></svg>
                 </div>
                 <h4 class="font-bold text-sm">Cercania</h4>
               </div>
-              <div class="p-4 bg-brand-crema border border-brand-verde-profundo/5 rounded-2xl text-center hover:bg-white transition-colors group/icon">
-                <div class="mb-2 text-brand-verde-profundo group-hover/icon:text-brand-verde transition-colors">
-                  <svg class="icon text-3xl" width="1em" height="1em"><use href="#i-fact_check"/></svg>
+              <div class="p-4 bg-brand-crema dark:bg-white/10 border border-brand-verde-profundo/5 dark:border-white/10 rounded-2xl text-center hover:bg-white dark:hover:bg-white/15 transition-colors group/icon">
+                <div class="mb-2 text-brand-verde-profundo dark:text-brand-crema/80 group-hover/icon:text-brand-verde transition-colors">
+                  <svg class="icon text-3xl" aria-hidden="true" focusable="false" width="1em" height="1em"><use href="#i-fact_check"/></svg>
                 </div>
                 <h4 class="font-bold text-sm">Transparencia</h4>
               </div>
-              <div class="p-4 bg-brand-crema border border-brand-verde-profundo/5 rounded-2xl text-center hover:bg-white transition-colors group/icon">
-                <div class="mb-2 text-brand-verde-profundo group-hover/icon:text-brand-verde transition-colors">
-                  <svg class="icon text-3xl" width="1em" height="1em"><use href="#i-workspace_premium"/></svg>
+              <div class="p-4 bg-brand-crema dark:bg-white/10 border border-brand-verde-profundo/5 dark:border-white/10 rounded-2xl text-center hover:bg-white dark:hover:bg-white/15 transition-colors group/icon">
+                <div class="mb-2 text-brand-verde-profundo dark:text-brand-crema/80 group-hover/icon:text-brand-verde transition-colors">
+                  <svg class="icon text-3xl" aria-hidden="true" focusable="false" width="1em" height="1em"><use href="#i-workspace_premium"/></svg>
                 </div>
                 <h4 class="font-bold text-sm">Calidad</h4>
               </div>
-              <div class="p-4 bg-brand-crema border border-brand-verde-profundo/5 rounded-2xl text-center hover:bg-white transition-colors group/icon">
-                <div class="mb-2 text-brand-verde-profundo group-hover/icon:text-brand-verde transition-colors">
-                  <svg class="icon text-3xl" width="1em" height="1em"><use href="#i-bolt"/></svg>
+              <div class="p-4 bg-brand-crema dark:bg-white/10 border border-brand-verde-profundo/5 dark:border-white/10 rounded-2xl text-center hover:bg-white dark:hover:bg-white/15 transition-colors group/icon">
+                <div class="mb-2 text-brand-verde-profundo dark:text-brand-crema/80 group-hover/icon:text-brand-verde transition-colors">
+                  <svg class="icon text-3xl" aria-hidden="true" focusable="false" width="1em" height="1em"><use href="#i-bolt"/></svg>
                 </div>
                 <h4 class="font-bold text-sm">Simplicidad</h4>
               </div>
@@ -101,7 +107,7 @@ import CodeBlock from '../components/CodeBlock.astro';
                   <div class="w-3 h-3 rounded-full bg-[#ffbd2e]"></div>
                   <div class="w-3 h-3 rounded-full bg-[#27c93f]"></div>
                 </div>
-                <span class="ml-4 text-gray-400 italic group-hover:text-brand-verde transition-colors">nuestra_promesa.py</span>
+                <span class="ml-4 text-brand-crema/60 italic group-hover:text-brand-verde transition-colors">nuestra_promesa.py</span>
               </div>
               <CodeBlock />
             </div>
@@ -112,94 +118,104 @@ import CodeBlock from '../components/CodeBlock.astro';
     <section id="servicios" class="py-24 bg-brand-verde-profundo text-white relative snap-start">
       <div class="max-w-7xl mx-auto px-6">
         <div class="text-center mb-16">
-          <span class="text-brand-dorado font-bold tracking-widest uppercase text-sm mb-2 block">// Soluciones</span>
+          <span class="text-brand-crema font-bold tracking-widest uppercase text-sm mb-2 block">//
+                        Soluciones</span>
           <h2 class="text-4xl font-display font-bold text-white">¿Qué necesitás hoy?</h2>
         </div>
         <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           <div class="bg-white/5 border border-white/10 p-8 rounded-2xl hover:bg-white/10 transition-colors group">
-            <svg class="icon text-4xl text-brand-verde mb-4 group-hover:scale-110 transition-transform block" width="1em" height="1em"><use href="#i-shopping_cart"/></svg>
+            <svg class="icon text-4xl text-brand-verde-300 mb-4 group-hover:scale-110 transition-transform block" aria-hidden="true" focusable="false" width="1em" height="1em"><use href="#i-shopping_cart"/></svg>
             <h3 class="text-xl font-bold mb-2">E-commerce</h3>
-            <p class="text-sm text-gray-400">Tiendas online que venden solas. Integración con pagos, envíos y catálogo autogestionable.</p>
+            <p class="text-sm text-brand-crema/70">Tiendas online que venden solas. Integración con pagos, envíos
+                            y catálogo autogestionable.</p>
           </div>
           <div class="bg-white/5 border border-white/10 p-8 rounded-2xl hover:bg-white/10 transition-colors group">
-            <svg class="icon text-4xl text-brand-verde mb-4 group-hover:scale-110 transition-transform block" width="1em" height="1em"><use href="#i-web"/></svg>
+            <svg class="icon text-4xl text-brand-verde-300 mb-4 group-hover:scale-110 transition-transform block" aria-hidden="true" focusable="false" width="1em" height="1em"><use href="#i-web"/></svg>
             <h3 class="text-xl font-bold mb-2">Sitios Web</h3>
-            <p class="text-sm text-gray-400">Landing pages de alto impacto y sitios corporativos optimizados para Google (SEO).</p>
+            <p class="text-sm text-brand-crema/70">Landing pages de alto impacto y sitios corporativos optimizados
+                            para Google (SEO).</p>
           </div>
           <div class="bg-white/5 border border-white/10 p-8 rounded-2xl hover:bg-white/10 transition-colors group">
-            <svg class="icon text-4xl text-brand-verde mb-4 group-hover:scale-110 transition-transform block" width="1em" height="1em"><use href="#i-smart_toy"/></svg>
+            <svg class="icon text-4xl text-brand-verde-300 mb-4 group-hover:scale-110 transition-transform block" aria-hidden="true" focusable="false" width="1em" height="1em"><use href="#i-smart_toy"/></svg>
             <h3 class="text-xl font-bold mb-2">Automatización (SaaS)</h3>
-            <p class="text-sm text-gray-400">Sistemas a medida para gestión de turnos, stock o clientes. Ahorrá horas de trabajo manual.</p>
+            <p class="text-sm text-brand-crema/70">Sistemas a medida para gestión de turnos, stock o clientes.
+                            Ahorrá horas de trabajo manual.</p>
           </div>
           <div class="bg-white/5 border border-white/10 p-8 rounded-2xl hover:bg-white/10 transition-colors group">
-            <svg class="icon text-4xl text-brand-verde mb-4 group-hover:scale-110 transition-transform block" width="1em" height="1em"><use href="#i-build"/></svg>
+            <svg class="icon text-4xl text-brand-verde-300 mb-4 group-hover:scale-110 transition-transform block" aria-hidden="true" focusable="false" width="1em" height="1em"><use href="#i-build"/></svg>
             <h3 class="text-xl font-bold mb-2">Mantenimiento</h3>
-            <p class="text-sm text-gray-400">Tu negocio no para, tu web tampoco. Soporte tecnico, actualizaciones y seguridad continua.</p>
+            <p class="text-sm text-brand-crema/70">Tu negocio no para, tu web tampoco. Soporte tecnico, actualizaciones y seguridad continua.</p>
           </div>
           <div class="bg-white/5 border border-white/10 p-8 rounded-2xl hover:bg-white/10 transition-colors group">
-            <svg class="icon text-4xl text-brand-verde mb-4 group-hover:scale-110 transition-transform block" width="1em" height="1em"><use href="#i-campaign"/></svg>
+            <svg class="icon text-4xl text-brand-verde-300 mb-4 group-hover:scale-110 transition-transform block" aria-hidden="true" focusable="false" width="1em" height="1em"><use href="#i-campaign"/></svg>
             <h3 class="text-xl font-bold mb-2">Digitalizacion</h3>
-            <p class="text-sm text-gray-400">Transformamos tus procesos en papel a digital. Llevá tu negocio en el bolsillo.</p>
+            <p class="text-sm text-brand-crema/70">Transformamos tus procesos en papel a digital. Llevá tu negocio
+                            en el bolsillo.</p>
           </div>
           <div class="bg-white/5 border border-white/10 p-8 rounded-2xl hover:bg-white/10 transition-colors group">
-            <svg class="icon text-4xl text-brand-verde mb-4 group-hover:scale-110 transition-transform block" width="1em" height="1em"><use href="#i-school"/></svg>
+            <svg class="icon text-4xl text-brand-verde-300 mb-4 group-hover:scale-110 transition-transform block" aria-hidden="true" focusable="false" width="1em" height="1em"><use href="#i-school"/></svg>
             <h3 class="text-xl font-bold mb-2">Consultoría</h3>
-            <p class="text-sm text-gray-400">Te asesoramos sobre qué tecnología te conviene. No gastes de más en lo que no usás.</p>
+            <p class="text-sm text-brand-crema/70">Te asesoramos sobre qué tecnología te conviene. No gastes de
+                            más en lo que no usás.</p>
           </div>
         </div>
       </div>
     </section>
-    <section id="metodologia" class="py-24 bg-brand-crema relative snap-start">
+    <section id="metodologia" class="py-24 bg-brand-crema dark:bg-brand-dark relative snap-start">
       <div class="max-w-7xl mx-auto px-6">
         <div class="flex flex-col lg:flex-row gap-16 items-center">
           <div class="lg:w-1/2">
-            <span class="text-brand-verde font-bold tracking-widest uppercase text-sm mb-2 block">Metodología Ágil</span>
-            <h2 class="text-4xl font-display font-bold text-brand-dark mb-6">Trabajamos con SCRUM</h2>
-            <p class="text-lg text-brand-verde-profundo/90 mb-8">Ordenamos el caos. Usamos metodologías internacionales adaptadas a la realidad local. Entregas semanales, comunicación clara y cero sorpresas.</p>
+            <span class="text-brand-verde-profundo dark:text-brand-crema font-bold tracking-widest uppercase text-sm mb-2 block">Metodología
+                            Ágil</span>
+            <h2 class="text-4xl font-display font-bold text-brand-dark dark:text-brand-crema mb-6">Trabajamos con SCRUM</h2>
+            <p class="text-lg text-brand-verde-profundo/90 dark:text-brand-crema/85 mb-8">Ordenamos el caos. Usamos metodologías internacionales adaptadas a la realidad local. Entregas semanales, comunicación clara y cero sorpresas.</p>
             <div class="space-y-6">
               <div class="flex gap-4">
                 <div class="w-10 h-10 rounded-full bg-brand-verde text-white flex items-center justify-center font-bold flex-shrink-0">1</div>
                 <div>
-                  <h4 class="font-bold text-brand-dark">Sprint Semanal</h4>
-                  <p class="text-sm text-gray-600">Planificamos objetivos cortos. Cada semana ves avances reales, no promesas.</p>
+                  <h3 class="font-bold text-brand-dark dark:text-brand-crema">Sprint Semanal</h3>
+                  <p class="text-sm text-brand-verde-profundo/70 dark:text-brand-crema/70">Planificamos objetivos cortos. Cada semana ves
+                                        avances reales, no promesas.</p>
                 </div>
               </div>
               <div class="flex gap-4">
                 <div class="w-10 h-10 rounded-full bg-brand-verde text-white flex items-center justify-center font-bold flex-shrink-0">2</div>
                 <div>
-                  <h4 class="font-bold text-brand-dark">Comunicación Asincrónica</h4>
-                  <p class="text-sm text-gray-600">Usamos Discord y Notion. Menos reuniones eternas, más tiempo trabajando en tu proyecto.</p>
+                  <h3 class="font-bold text-brand-dark dark:text-brand-crema">Comunicación Asincrónica</h3>
+                  <p class="text-sm text-brand-verde-profundo/70 dark:text-brand-crema/70">Usamos Discord y Notion. Menos reuniones eternas,
+                                        más tiempo trabajando en tu proyecto.</p>
                 </div>
               </div>
               <div class="flex gap-4">
                 <div class="w-10 h-10 rounded-full bg-brand-verde text-white flex items-center justify-center font-bold flex-shrink-0">3</div>
                 <div>
-                  <h4 class="font-bold text-brand-dark">Transparencia Total</h4>
-                  <p class="text-sm text-gray-600">Tenés acceso a ver el estado de cada tarea. Nada se esconde bajo la alfombra.</p>
+                  <h3 class="font-bold text-brand-dark dark:text-brand-crema">Transparencia Total</h3>
+                  <p class="text-sm text-brand-verde-profundo/70 dark:text-brand-crema/70">Tenés acceso a ver el estado de cada tarea. Nada se
+                                        esconde bajo la alfombra.</p>
                 </div>
               </div>
             </div>
           </div>
           <div class="lg:w-1/2">
-            <div class="bg-white p-6 rounded-2xl shadow-xl border border-brand-verde-profundo/5 rotate-2">
+            <div class="bg-white dark:bg-white/5 p-6 rounded-2xl shadow-xl border border-brand-verde-profundo/5 dark:border-white/10 rotate-2">
               <div class="flex justify-between items-center mb-4 border-b pb-2">
                 <span class="font-bold text-sm">Proyecto: Tu E-commerce</span>
-                <span class="text-xs bg-green-100 text-green-700 px-2 py-1 rounded">Sprint 2</span>
+                <span class="text-xs bg-green-100 text-green-700 dark:bg-brand-verde/20 dark:text-brand-verde-200 px-2 py-1 rounded">Sprint 2</span>
               </div>
               <div class="grid grid-cols-3 gap-2 text-xs">
-                <div class="bg-gray-50 p-2 rounded">
-                  <div class="font-bold mb-2 text-gray-500">POR HACER</div>
-                  <div class="bg-white p-2 rounded shadow-sm border mb-2">Configurar envios</div>
+                <div class="bg-gray-50 dark:bg-white/5 p-2 rounded">
+                  <div class="font-bold mb-2 text-brand-verde-profundo dark:text-brand-crema/70">POR HACER</div>
+                  <div class="bg-white dark:bg-white/10 p-2 rounded shadow-sm border mb-2">Configurar envíos</div>
                 </div>
-                <div class="bg-gray-50 p-2 rounded">
-                  <div class="font-bold mb-2 text-blue-500">EN PROGRESO</div>
-                  <div class="bg-white p-2 rounded shadow-sm border border-l-4 border-l-blue-500 mb-2">Integrar MercadoPago</div>
-                  <div class="bg-white p-2 rounded shadow-sm border border-l-4 border-l-blue-500">Diseno Mobile</div>
+                <div class="bg-gray-50 dark:bg-white/5 p-2 rounded">
+                  <div class="font-bold mb-2 text-brand-dorado">EN PROGRESO</div>
+                  <div class="bg-white dark:bg-white/10 p-2 rounded shadow-sm border border-l-4 border-l-blue-500 mb-2">Integrar MercadoPago</div>
+                  <div class="bg-white dark:bg-white/10 p-2 rounded shadow-sm border border-l-4 border-l-blue-500">Diseño Mobile</div>
                 </div>
-                <div class="bg-gray-50 p-2 rounded">
-                  <div class="font-bold mb-2 text-green-500">HECHO</div>
-                  <div class="bg-white p-2 rounded shadow-sm border border-l-4 border-l-green-500 mb-2 opacity-75 line-through">Inicio</div>
-                  <div class="bg-white p-2 rounded shadow-sm border border-l-4 border-l-green-500 opacity-75 line-through">Hosting</div>
+                <div class="bg-gray-50 dark:bg-white/5 p-2 rounded">
+                  <div class="font-bold mb-2 text-brand-verde">HECHO</div>
+                  <div class="bg-white dark:bg-white/10 p-2 rounded shadow-sm border border-l-4 border-l-green-500 mb-2 opacity-75 line-through">Inicio</div>
+                  <div class="bg-white dark:bg-white/10 p-2 rounded shadow-sm border border-l-4 border-l-green-500 opacity-75 line-through">Hosting</div>
                 </div>
               </div>
             </div>
@@ -207,52 +223,53 @@ import CodeBlock from '../components/CodeBlock.astro';
         </div>
       </div>
     </section>
-    <section id="equipo" class="py-24 bg-brand-verde-profundo/5 relative snap-start">
+    <section id="equipo" class="py-24 bg-brand-verde-profundo/5 dark:bg-white/5 relative snap-start">
       <div class="max-w-7xl mx-auto px-6 text-center">
-        <span class="text-brand-verde font-bold tracking-widest uppercase text-sm mb-2 block">Quiénes Somos</span>
-        <h2 class="text-4xl font-display font-bold text-brand-dark mb-12">El Fogón Digital</h2>
-        <div class="max-w-3xl mx-auto bg-white p-8 rounded-3xl shadow-xl border border-brand-verde-profundo/5 flex flex-col md:flex-row items-center gap-8 mb-16">
+        <span class="text-brand-verde-profundo dark:text-brand-crema font-bold tracking-widest uppercase text-sm mb-2 block">Quiénes
+                    Somos</span>
+        <h2 class="text-4xl font-display font-bold text-brand-dark dark:text-brand-crema mb-12">El Fogón Digital</h2>
+        <div class="max-w-3xl mx-auto bg-white dark:bg-white/10 p-8 rounded-3xl shadow-xl border border-brand-verde-profundo/5 dark:border-white/10 flex flex-col md:flex-row items-center gap-8 mb-16">
           <div class="relative shrink-0">
-            <div class="w-32 h-32 rounded-full ring-4 ring-brand-crema shadow-lg overflow-hidden">
-              <img src="/mateo-gariboglio_low-poly.webp" onerror="this.src='https://ui-avatars.com/api/?name=Mateo+Gariboglio&background=00704A&color=fff&size=150'" alt="Mateo Gariboglio" loading="lazy" class="w-full h-full object-cover object-top">
+            <div class="w-32 h-32 rounded-full ring-4 ring-brand-crema dark:ring-white/20 shadow-lg overflow-hidden">
+              <Image src={mateoImg} alt="Mateo Gariboglio" loading="lazy" width={128} height={128} class="w-full h-full object-cover object-top" onerror="this.src='https://ui-avatars.com/api/?name=Mateo+Gariboglio&background=00704A&color=fff&size=150'" />
             </div>
-            <span class="absolute bottom-1 right-1 w-8 h-8 bg-white rounded-full flex items-center justify-center shadow-md text-brand-dark" title="Backend Developer">
-              <svg class="icon text-sm" width="1em" height="1em"><use href="#i-terminal"/></svg>
+            <span class="absolute bottom-1 right-1 w-8 h-8 bg-white dark:bg-white rounded-full flex items-center justify-center shadow-md text-brand-dark dark:text-brand-dark" title="Backend Developer">
+              <svg class="icon text-sm" aria-hidden="true" focusable="false" width="1em" height="1em"><use href="#i-terminal"/></svg>
             </span>
           </div>
           <div class="text-left">
-            <h3 class="text-2xl font-bold text-brand-dark">Mateo Gariboglio</h3>
+            <h3 class="text-2xl font-bold text-brand-dark dark:text-brand-crema">Mateo Gariboglio</h3>
             <p class="text-brand-verde font-medium mb-4">Fundador & Scrum Master</p>
-            <p class="text-gray-600 mb-6 text-sm leading-relaxed">"Me obsesiona que las cosas funcionen bien. Mi rol es coordinar que todo el engranaje tecnico gire perfecto para que vos solo te preocupes por vender. Vengo del Backend (Java/Spring), asi que la robustez es mi prioridad."</p>
+            <p class="text-brand-verde-profundo/70 dark:text-brand-crema/70 mb-6 text-sm leading-relaxed">"Me obsesiona que las cosas funcionen bien. Mi rol es coordinar que todo el engranaje tecnico gire perfecto para que vos solo te preocupes por vender. Vengo del Backend (Java/Spring), asi que la robustez es mi prioridad."</p>
             <div class="flex gap-4">
-              <a href="https://www.linkedin.com/in/mateo-gariboglio/" target="_blank" class="text-gray-400 hover:text-[#0077b5] transition-colors"><svg class="icon" width="1em" height="1em"><use href="#i-work"/></svg></a>
-              <a href="https://github.com/Mateo-404" target="_blank" class="text-gray-400 hover:text-black transition-colors"><svg class="icon" width="1em" height="1em"><use href="#i-code"/></svg></a>
+              <a href="https://www.linkedin.com/in/mateo-gariboglio/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn de Mateo Gariboglio" class="text-brand-verde-profundo/60 dark:text-brand-crema/50 dark:text-brand-crema/60 hover:text-[#0077b5] transition-colors"><svg class="icon" aria-hidden="true" focusable="false" width="1em" height="1em"><use href="#i-work"/></svg></a>
+              <a href="https://github.com/Mateo-404" target="_blank" rel="noopener noreferrer" aria-label="GitHub de Mateo Gariboglio" class="text-brand-verde-profundo/60 dark:text-brand-crema/50 dark:text-brand-crema/60 hover:text-black dark:hover:text-white transition-colors"><svg class="icon" aria-hidden="true" focusable="false" width="1em" height="1em"><use href="#i-code"/></svg></a>
             </div>
           </div>
         </div>
         <div class="grid md:grid-cols-2 gap-8 text-left max-w-4xl mx-auto">
           <div class="p-6 bg-brand-verde-profundo text-white rounded-2xl">
             <h4 class="font-bold text-lg mb-2 flex items-center gap-2">
-              <svg class="icon text-brand-dorado" width="1em" height="1em"><use href="#i-group_add"/></svg>
+              <svg class="icon text-brand-dorado" aria-hidden="true" focusable="false" width="1em" height="1em"><use href="#i-group_add"/></svg>
               Red de Talentos
             </h4>
             <p class="text-sm opacity-80">No perdemos tiempo en procesos lentos. Formamos equipos de especialistas seleccionados según la complejidad de tu proyecto. Ingeniería directa, honesta y enfocada en resultados.</p>
           </div>
-          <div class="p-6 bg-white border border-brand-verde-profundo/10 rounded-2xl">
-            <h4 class="font-bold text-lg mb-2 flex items-center gap-2 text-brand-dark">
-              <svg class="icon text-brand-verde-profundo" width="1em" height="1em"><use href="#i-school"/></svg>
+          <div class="p-6 bg-white dark:bg-white/10 border border-brand-verde-profundo/10 dark:border-white/10 rounded-2xl">
+            <h4 class="font-bold text-lg mb-2 flex items-center gap-2 text-brand-dark dark:text-brand-crema">
+              <svg class="icon text-brand-verde-profundo dark:text-brand-crema/80" aria-hidden="true" focusable="false" width="1em" height="1em"><use href="#i-school"/></svg>
               Formacion Continua
             </h4>
-            <p class="text-sm text-gray-600">Combinamos rigor académico con agilidad técnica. Investigamos y dominamos cada avance del sector para que tu negocio siempre cuente con la tecnología más eficiente y rentable.</p>
+            <p class="text-sm text-brand-verde-profundo/70 dark:text-brand-crema/70">Combinamos rigor académico con agilidad técnica. Investigamos y dominamos cada avance del sector para que tu negocio siempre cuente con la tecnología más eficiente y rentable.</p>
       </div>
         </div>
       </div>
     </section>
-    <section class="py-16 bg-white border-y border-gray-100 snap-start">
+    <section class="py-16 bg-white dark:bg-white/5 border-y border-gray-100 dark:border-white/10 snap-start">
       <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-8">
         <div class="text-center md:text-left">
-          <h3 class="font-bold text-brand-dark mb-1">Nuestras Herramientas</h3>
-          <p class="text-sm text-gray-500">Lo que usamos bajo el capo.</p>
+          <h3 class="font-bold text-brand-dark dark:text-brand-crema mb-1">Nuestras Herramientas</h3>
+          <p class="text-sm text-brand-verde-profundo/50 dark:text-brand-crema/60">Lo que usamos bajo el capó.</p>
         </div>
         <div class="flex flex-wrap justify-center gap-6 opacity-60 grayscale hover:grayscale-0 transition-all duration-500">
           <span class="font-mono font-bold text-xl hover:text-blue-500 cursor-help" title="Java">Java</span>
@@ -263,83 +280,86 @@ import CodeBlock from '../components/CodeBlock.astro';
           <span class="font-mono font-bold text-xl hover:text-cyan-500 cursor-help" title="Docker">Docker</span>
         </div>
       </div>
-      <div class="max-w-7xl mx-auto px-6 mt-12 pt-8 border-t border-gray-100 grid items-center justify-center text-center">
-        <p class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-4">Transparencia Radical</p>
+      <div class="max-w-7xl mx-auto px-6 mt-12 pt-8 border-t border-gray-100 dark:border-white/10 grid items-center justify-center text-center">
+        <p class="text-xs font-bold text-brand-verde-profundo dark:text-brand-crema/50 uppercase tracking-widest mb-4">Transparencia Radical</p>
         <div class="flex flex-wrap justify-center gap-4 text-sm font-medium text-brand-verde">
-          <a href="https://github.com/matecito-tech" class="hover:underline flex items-center gap-1"><svg class="icon text-xs" width="1em" height="1em"><use href="#i-description"/></svg> Documentacion</a>
-          <span class="text-gray-300">|</span>
-          <a href="https://github.com/orgs/matecito-tech/repositories" class="hover:underline flex items-center gap-1"><svg class="icon text-xs" width="1em" height="1em"><use href="#i-folder_open"/></svg> Repositorios Publicos</a>
-          <span class="text-gray-300">|</span>
-          <a href="#" class="hover:underline flex items-center gap-1"><svg class="icon text-xs" width="1em" height="1em"><use href="#i-attach_money"/></svg> Precios (Notion)</a>
+          <a href="https://github.com/matecito-tech" class="hover:underline flex items-center gap-1"><svg class="icon text-xs" width="1em" height="1em"><use href="#i-description"/></svg> Documentación</a>
+          <span class="text-brand-verde-profundo/30 dark:text-brand-crema/30" aria-hidden="true">|</span>
+          <a href="https://github.com/orgs/matecito-tech/repositories" class="hover:underline flex items-center gap-1"><svg class="icon text-xs" width="1em" height="1em"><use href="#i-folder_open"/></svg> Repositorios Públicos</a>
+          <span class="text-brand-verde-profundo/30 dark:text-brand-crema/30" aria-hidden="true">|</span>
+          <a href="https://www.notion.so/matecito-tech" target="_blank" rel="noopener noreferrer" class="hover:underline flex items-center gap-1"><svg class="icon text-xs" aria-hidden="true" focusable="false" width="1em" height="1em"><use href="#i-attach_money"/></svg> Precios (Notion)</a>
         </div>
       </div>
     </section>
     <section id="casos" class="py-24 bg-brand-verde-profundo relative overflow-clip snap-start" aria-labelledby="casos-titulo">
       <div class="max-w-7xl mx-auto px-6">
         <div class="text-center mb-16">
-          <span class="text-brand-dorado font-bold tracking-widest uppercase text-sm mb-2 block">// Casos reales</span>
-          <h2 id="casos-titulo" class="text-4xl font-display font-bold text-white">Trabajo que podes ir a ver</h2>
-          <p class="text-white mt-4 text-sm leading-relaxed max-w-2xl mx-auto">Un proyecto real, publicado y con dominio propio. Podes recorrerlo vos mismo.</p>
+          <span class="text-brand-crema font-bold tracking-widest uppercase text-sm mb-2 block">// Casos
+                        reales</span>
+          <h2 id="casos-titulo" class="text-4xl font-display font-bold text-white">Trabajo que podés ir a ver</h2>
+          <p class="text-white text-lg font-light leading-relaxed max-w-2xl mx-auto mt-6">Un proyecto real, publicado y con dominio propio. Entrá y recorrelo vos mismo.</p>
         </div>
-        <article class="max-w-4xl mx-auto wood-card p-8 md:p-12 rounded-3xl border border-white/10 shadow-lg transition-all group">
+        <article class="max-w-4xl mx-auto wood-card p-8 md:p-12 rounded-3xl border border-white/10 shadow-lg hover:shadow-2xl transition-all group relative z-10">
           <div class="flex flex-col md:flex-row gap-8 items-start mb-10">
             <div class="shrink-0">
-              <img src="/schalbetter-logo.webp" alt="Logo Schalbetter Transportes" loading="lazy" width="120" height="120" class="rounded-xl ring-4 ring-brand-crema shadow-lg object-cover object-center">
+              <Image src={schalbetterImg} alt="Logo de Schalbetter Transportes" loading="lazy" width={240} height={240} class="rounded-xl ring-4 ring-brand-crema shadow-lg object-cover object-center" />
             </div>
             <div class="flex-1">
               <h3 class="text-2xl font-bold text-white mb-2">Schalbetter Transportes</h3>
-              <p class="text-white text-sm font-medium uppercase tracking-wider mb-2">Transporte de cargas generales · Argentina, Chile, Uruguay y Bolivia</p>
+              <p class="text-white text-sm font-medium uppercase tracking-wider mb-2">Transporte
+                                de cargas generales · Argentina, Chile, Uruguay y Bolivia</p>
               <p class="text-white text-base leading-relaxed">Empresa familiar de San Martín de Las Escobas, Santa Fe, que arrancó en 2004 con un solo camión y hoy cruza fronteras.</p>
-              <h4 class="font-display font-bold text-white text-xl mb-3 mt-8">De las redes sociales a un sitio propio</h4>
+              <h4 class="font-display font-bold text-white text-xl mb-3 mt-8">De las redes sociales a
+                                un sitio propio</h4>
             </div>
           </div>
           <div class="bg-white/5 border border-white/10 p-6 rounded-2xl mb-10">
-            <h4 class="font-bold text-brand-dorado text-sm uppercase tracking-wider mb-3">El punto de partida</h4>
+            <h4 class="font-bold text-brand-dorado text-sm uppercase tracking-wider mb-3">El punto de
+                            partida</h4>
             <p class="text-white text-base leading-relaxed">No tenían sitio web. Su presencia estaba repartida entre Instagram y Facebook, con la información dispersa y los pedidos de cotización llegando de forma desordenada.</p>
           </div>
           <h3 class="font-display font-bold text-white text-2xl mb-6">Qué hicimos</h3>
           <ul class="list-disc list-inside space-y-4 text-white text-base leading-relaxed mb-14">
-            <li><span class="font-bold">Todo en un solo lugar.</span> Un sitio de una pagina: Inicio, Conocenos, Servicios, Contacto y Trabaja con nosotros, y una linea de tiempo con la historia de la empresa.</li>
-            <li><span class="font-bold">Cotizar con un boton.</span> Botones de WhatsApp con el mensaje ya escrito, para consultar o pedir presupuesto sin empezar de cero.</li>
-            <li><span class="font-bold">Contacto a mano.</span> Mapa de Google, datos de contacto y enlaces a sus redes, con una vista previa cuidada cuando se comparte el link.</li>
-            <li><span class="font-bold">Una puerta para sumar choferes.</span> Una seccion de reclutamiento con un formulario de Google para postularse.</li>
-            <li><span class="font-bold">Lo tecnico, resuelto.</span> Dominio propio y hosting, SEO base (titulo y descripcion) e imagenes optimizadas en WebP.</li>
+            <li><span class="font-bold">Todo en un solo lugar.</span> Un sitio de una página: Inicio, Conocenos, Servicios, Contacto y Trabajá con nosotros, y una línea de tiempo con la historia de la empresa.</li>
+            <li><span class="font-bold">Cotizar con un botón.</span>Botones de WhatsApp con el mensaje ya
+                            escrito, para consultar o pedir presupuesto sin empezar de cero.</li>
+            <li><span class="font-bold">Contacto a mano.</span>Mapa de Google, datos de contacto y enlaces a
+                            sus redes, con una vista previa cuidada cuando se comparte el link.</li>
+            <li><span class="font-bold">Una puerta para sumar choferes.</span>Una sección de reclutamiento
+                            con un formulario de Google para postularse.</li>
+            <li><span class="font-bold">Lo técnico, resuelto.</span>Dominio propio y hosting, SEO base
+                            (título y descripción) e imágenes optimizadas en WebP.</li>
           </ul>
           <h3 class="font-display font-bold text-white text-2xl mb-6">Cómo quedó</h3>
-          <p class="text-white text-base leading-relaxed mb-14">Hoy la empresa tiene un sitio propio que cuenta qué transportan, hasta dónde llegan y cómo pedir una cotización por WhatsApp. Los pedidos siguen llegando también por sus redes.</p>
-          <p class="text-xs text-white/70 mb-4">Los textos y las fotos fueron aportados por la empresa.</p>
-          <p class="text-xs text-white/70 mb-8">Transparencia: los duenos son familiares de un integrante del equipo.</p>
+          <p class="text-white text-base leading-relaxed mb-14">Hoy la empresa tiene un sitio propio que cuenta qué transporta, hasta dónde llega y cómo pedir una cotización por WhatsApp. Los pedidos siguen llegando también por sus redes.</p>
+          <p class="text-xs text-white/70 mb-6">Los textos y las fotos fueron aportados por la empresa.</p>
           <div class="flex flex-col sm:flex-row gap-4 justify-center">
             <a href="https://schalbettertransportes.com.ar/" target="_blank" rel="noopener noreferrer" class="px-8 py-4 bg-brand-verde text-white font-bold rounded-xl hover:bg-brand-verde-700 transition-colors flex items-center justify-center gap-2 shadow-lg">
               <span>Ver el sitio en vivo</span>
-              <svg class="icon" width="1em" height="1em"><use href="#i-open_in_new"/></svg>
+              <svg class="icon" aria-hidden="true" focusable="false" width="1em" height="1em"><use href="#i-open_in_new"/></svg>
             </a>
-            <a href="https://github.com/matecito-tech/SchalbetterTransportes" target="_blank" rel="noopener noreferrer" class="px-8 py-4 bg-white/5 border border-white/10 text-white font-bold rounded-xl hover:bg-white/10 transition-colors flex items-center justify-center gap-2">
-              <span>Ver código</span>
-              <svg class="icon" width="1em" height="1em"><use href="#i-open_in_new"/></svg>
+            <a href="https://github.com/matecito-tech/SchalbetterTransportes" target="_blank" rel="noopener noreferrer" class="px-8 py-4 bg-white/5 border border-white/10 text-white font-bold rounded-xl hover:bg-white/10 transition-colors flex items-center justify-center gap-2 shadow-brand-verde/30">
+              <span>Ver el código en GitHub</span>
+              <svg class="icon" aria-hidden="true" focusable="false" width="1em" height="1em"><use href="#i-open_in_new"/></svg>
             </a>
-          </div>
-          <div class="mt-12 text-center">
-            <p class="text-white/90 text-lg mb-4">¿Querés un resultado así para tu negocio?</p>
-            <a href="#contacto" class="px-8 py-4 bg-brand-verde text-white font-bold rounded-xl hover:bg-brand-verde-700 transition-all shadow-lg shadow-brand-verde/30">Hablemos</a>
           </div>
         </article>
       </div>
     </section>
-    <section id="contacto" class="py-24 bg-brand-crema relative snap-start">
+    <section id="contacto" class="py-24 bg-brand-crema dark:bg-brand-dark relative snap-start">
       <div class="max-w-3xl mx-auto px-6">
         <div class="text-center mb-10">
           <span class="inline-block p-3 rounded-full bg-brand-verde/10 text-brand-verde mb-6 animate-bounce">
-            <svg class="icon text-3xl" width="1em" height="1em"><use href="#i-mail"/></svg>
+            <svg class="icon text-3xl" aria-hidden="true" focusable="false" width="1em" height="1em"><use href="#i-mail"/></svg>
           </span>
-          <h2 class="text-4xl font-display font-bold text-brand-dark mb-4">Hablemos</h2>
-          <p class="text-lg text-brand-verde-profundo/90">¿Tenés una idea dándote vueltas? Completá el formulario y nos llega directo. ¡Sin compromiso!</p>
+          <h2 class="text-4xl font-display font-bold text-brand-dark dark:text-brand-crema mb-4">Hablemos</h2>
+          <p class="text-lg text-brand-verde-profundo/90 dark:text-brand-crema/85">¿Tenés una idea dándote vueltas? Completá el formulario y nos llega directo. ¡Sin compromiso!</p>
         </div>
-        <form id="contactForm" action="https://formsubmit.co/matecito.tech@gmail.com" method="POST" class="bg-white p-8 md:p-10 rounded-3xl shadow-xl border border-brand-verde-profundo/5 relative overflow-clip group">
+        <form id="contactForm" action="https://formsubmit.co/matecito.tech@gmail.com" method="POST" class="bg-white dark:bg-white/5 p-8 md:p-10 rounded-3xl shadow-xl border border-brand-verde-profundo/5 dark:border-white/10 relative overflow-clip group">
           <input type="hidden" name="_subject" value="Nuevo mensaje desde Web Matecito">
           <input type="hidden" name="_template" value="table">
           <input type="hidden" name="_captcha" value="true">
-          <input type="hidden" name="_next" value="https://matecito.qzz.io/gracias.html">
+          <input type="hidden" name="_next" value="https://matecito.qzz.io/gracias/">
           <input type="text" name="_honey" style="display:none">
           <!-- Confirmación accesible del envío (role=status para lectores de pantalla) -->
           <p id="form-status" role="status" aria-live="polite" class="sr-only"></p>
@@ -347,17 +367,19 @@ import CodeBlock from '../components/CodeBlock.astro';
           <div class="space-y-6 relative z-10">
             <div class="grid md:grid-cols-2 gap-6">
               <div>
-                <label class="block text-sm font-bold text-brand-verde-profundo mb-2">¿Cómo te llamás, che?</label>
-                <input type="text" id="nombre" class="w-full rounded-xl border-gray-200 bg-gray-50 focus:border-brand-verde focus:ring-brand-verde transition-colors py-3" placeholder="Tu nombre..." required>
+                <label for="nombre" class="block text-sm font-bold text-brand-verde-profundo dark:text-brand-crema/85 mb-2">¿Cómo te llamás,
+                                    che?</label>
+                <input type="text" id="nombre" name="nombre" class="w-full rounded-xl border-gray-200 dark:border-white/15 bg-gray-50 dark:bg-white/5 dark:text-brand-crema focus:border-brand-verde focus:ring-brand-verde transition-colors py-3" placeholder="Tu nombre..." required>
               </div>
               <div>
-                <label class="block text-sm font-bold text-brand-verde-profundo mb-2">¿Dónde te ubicamos?</label>
-                <input type="text" id="contacto_dato" class="w-full rounded-xl border-gray-200 bg-gray-50 focus:border-brand-verde focus:ring-brand-verde transition-colors py-3" placeholder="WhatsApp o Email..." required>
+                <label for="contacto_dato" class="block text-sm font-bold text-brand-verde-profundo dark:text-brand-crema/85 mb-2">¿Dónde te ubicamos?</label>
+                <input type="text" id="contacto_dato" name="contacto_dato" class="w-full rounded-xl border-gray-200 dark:border-white/15 bg-gray-50 dark:bg-white/5 dark:text-brand-crema focus:border-brand-verde focus:ring-brand-verde transition-colors py-3" placeholder="WhatsApp o Email..." required>
               </div>
             </div>
             <div>
-              <label class="block text-sm font-bold text-brand-verde-profundo mb-2">¿Qué servicio te interesa?</label>
-              <select id="asunto" class="w-full rounded-xl border-gray-200 bg-gray-50 focus:border-brand-verde focus:ring-brand-verde transition-colors py-3">
+              <label for="asunto" class="block text-sm font-bold text-brand-verde-profundo dark:text-brand-crema/85 mb-2">¿Qué servicio te
+                                interesa?</label>
+              <select id="asunto" class="w-full rounded-xl border-gray-200 dark:border-white/15 bg-gray-50 dark:bg-white/5 dark:text-brand-crema focus:border-brand-verde focus:ring-brand-verde transition-colors py-3">
                 <option value="" disabled selected>Selecciona un servicio...</option>
                 <option value="landing">Sitio Web / Landing (USD 250)</option>
                 <option value="ecommerce">E-commerce Completo (USD 550)</option>
@@ -369,29 +391,28 @@ import CodeBlock from '../components/CodeBlock.astro';
             <div id="precio-estimado-container" class="hidden animate-fade-in">
               <div class="p-4 rounded-xl bg-brand-verde/5 border border-brand-verde/20 flex items-center justify-between">
                 <div>
-                  <p class="text-xs font-bold text-brand-verde uppercase tracking-wider mb-1">Inversion Estimada</p>
-                  <h3 id="precio-estimado" class="text-2xl font-bold text-brand-dark"><span class="hidden">Cargando...</span></h3>
-                  <p id="precio-mensaje" class="text-[10px] text-brand-verde-profundo/60 mt-1"></p>
+                  <p class="text-xs font-bold text-brand-verde uppercase tracking-wider mb-1">Inversión Estimada</p>
+                  <h3 id="precio-estimado" class="text-2xl font-bold text-brand-dark dark:text-brand-crema"><span class="hidden">Cargando...</span></h3>
+                  <p id="precio-mensaje" class="text-[10px] text-brand-verde-profundo/60 dark:text-brand-crema/60 mt-1"></p>
                 </div>
-                <svg class="icon text-brand-verde text-3xl" width="1em" height="1em"><use href="#i-payments"/></svg>
+                <svg class="icon text-brand-verde text-3xl" aria-hidden="true" focusable="false" width="1em" height="1em"><use href="#i-payments"/></svg>
               </div>
             </div>
             <div>
-              <label class="block text-sm font-bold text-brand-verde-profundo mb-2">Contanos tu idea</label>
-              <textarea id="mensaje" rows="4" class="w-full rounded-xl border-gray-200 bg-gray-50 focus:border-brand-verde focus:ring-brand-verde transition-colors resize-none py-3" placeholder="Quiero vender mis productos por internet..." required></textarea>
+              <label for="mensaje" class="block text-sm font-bold text-brand-verde-profundo dark:text-brand-crema/85 mb-2">Contanos tu idea</label>
+              <textarea id="mensaje" name="mensaje" rows="4" class="w-full rounded-xl border-gray-200 dark:border-white/15 bg-gray-50 dark:bg-white/5 dark:text-brand-crema focus:border-brand-verde focus:ring-brand-verde transition-colors resize-none py-3" placeholder="Quiero vender mis productos por internet..." required></textarea>
             </div>
-            <button type="submit" class="w-full py-4 bg-brand-verde text-white font-bold rounded-xl hover:bg-brand-verde-700 transition-all transform active:scale-[0.98] shadow-lg shadow-brand-verde/30 flex items-center justify-center gap-2">
+            <button type="submit" class="w-full py-4 bg-brand-verde text-white font-bold rounded-xl hover:bg-brand-verde-700 dark:hover:bg-brand-verde-500 transition-all transform active:scale-[0.98] shadow-lg shadow-brand-verde/30 flex items-center justify-center gap-2">
               <span>Enviar Mensaje</span>
-              <svg class="icon" width="1em" height="1em"><use href="#i-send"/></svg>
+              <svg class="icon" aria-hidden="true" focusable="false" width="1em" height="1em"><use href="#i-send"/></svg>
             </button>
           </div>
         </form>
-        <div class="mt-12 flex justify-center gap-8 text-sm font-bold tracking-wide text-gray-400">
-          <a href="https://www.instagram.com/matecito.tech/" target="_blank" class="hover:text-brand-verde transition-colors hover:-translate-y-1 flex items-center gap-2">Instagram <svg class="icon text-sm" width="1em" height="1em"><use href="#i-open_in_new"/></svg></a>
-          <a href="https://www.linkedin.com/company/matecito-tech/about/?viewAsMember=true" target="_blank" class="hover:text-[#0077b5] transition-colors hover:-translate-y-1 flex items-center gap-2">LinkedIn <svg class="icon text-sm" width="1em" height="1em"><use href="#i-open_in_new"/></svg></a>
-          <a href="https://github.com/matecito-tech" target="_blank" class="hover:text-black transition-colors hover:-translate-y-1 flex items-center gap-2">GitHub <svg class="icon text-sm" width="1em" height="1em"><use href="#i-open_in_new"/></svg></a>
+        <div class="mt-12 flex justify-center gap-8 text-sm font-bold tracking-wide text-brand-verde-profundo dark:text-brand-crema/70">
+          <a href="https://www.instagram.com/matecito.tech/" target="_blank" rel="noopener noreferrer" class="hover:text-brand-verde transition-colors hover:-translate-y-1 flex items-center gap-2">Instagram <svg class="icon text-sm" aria-hidden="true" focusable="false" width="1em" height="1em"><use href="#i-open_in_new"/></svg></a>
+          <a href="https://www.linkedin.com/company/matecito-tech/about/?viewAsMember=true" target="_blank" rel="noopener noreferrer" class="hover:text-[#0077b5] transition-colors hover:-translate-y-1 flex items-center gap-2">LinkedIn <svg class="icon text-sm" aria-hidden="true" focusable="false" width="1em" height="1em"><use href="#i-open_in_new"/></svg></a>
+          <a href="https://github.com/matecito-tech" target="_blank" rel="noopener noreferrer" class="hover:text-black dark:hover:text-white transition-colors hover:-translate-y-1 flex items-center gap-2">GitHub <svg class="icon text-sm" aria-hidden="true" focusable="false" width="1em" height="1em"><use href="#i-open_in_new"/></svg></a>
         </div>
       </div>
     </section>
-  </main>
 </Layout>

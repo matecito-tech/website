@@ -1,20 +1,14 @@
 ---
+// Bloque de código estático (renderizado en el HTML del servidor, indexable y sin JS)
 ---
-<div class="relative">
-  <pre class="p-6 text-gray-300 leading-relaxed overflow-x-auto whitespace-pre">
-    <code id="code-block" class="language-python"></code>
-  </pre>
-</div>
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const code = `<span style="color:#6a9955"># La única forma en que sabemos trabajar</span>
+
+<pre class="p-6 text-brand-verde-profundo/70 dark:text-brand-crema/70 leading-relaxed overflow-x-auto whitespace-pre" tabindex="0" aria-label="Bloque de código de ejemplo de promesa de Matecito"><code><span style="color:#6a9955"># La única forma en que sabemos trabajar</span>
 
 <span style="color:#c586c0">class</span> <span style="color:#4ec9b0">Matecito</span>:
 
     <span style="color:#9cdcfe">valores</span> = [<span style="color:#ce9178">"código limpio"</span>, <span style="color:#ce9178">"cero humo"</span>, <span style="color:#ce9178">"resultados reales"</span>]
 
     <span style="color:#569cd6">def</span> <span style="color:#dcdcaa">encarar_proyecto</span>(<span style="color:#9cdcfe">self</span>, <span style="color:#9cdcfe">proyecto</span>):
-
         <span style="color:#c586c0">if</span> <span style="color:#9cdcfe">proyecto</span>.<span style="color:#9cdcfe">tiene_potencial</span>:
             <span style="color:#c586c0">return</span> <span style="color:#ce9178">"Nos la jugamos con todo 🧉"</span>
 
@@ -24,12 +18,7 @@
         <span style="color:#c586c0">else</span>:
             <span style="color:#c586c0">raise</span> <span style="color:#4ec9b0">ValueError</span>(<span style="color:#ce9178">"Aún no encontramos un caso así"</span>)
 
-    <span style="color:#569cd6">def</span> <span style="color:#dcdcaa">entregar</span> <span style="color:#9cdcfe">self</span>:
+    <span style="color:#569cd6">def</span> <span style="color:#dcdcaa">entregar</span>(<span style="color:#9cdcfe">self</span>):
         <span style="color:#c586c0">assert</span> <span style="color:#9cdcfe">self</span>.<span style="color:#9cdcfe">calidad</span> == <span style="color:#ce9178">"máxima"</span><span style="color:#6a9955">  # siempre</span>
-        <span style="color:#c586c0">return</span> <span style="color:#ce9178">"Nada sale si no nos cierra el orgullo"</span>`;
-    const codeEl = document.getElementById('code-block');
-    if (codeEl) {
-      codeEl.innerHTML = code;
-    }
-  });
-</script>
+        <span style="color:#c586c0">return</span> <span style="color:#ce9178">"Nada sale si no nos cierra el orgullo"</span>
+</code></pre>

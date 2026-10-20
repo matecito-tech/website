@@ -1,0 +1,80 @@
+# Matecito — Documentación completa
+
+> Estudio de desarrollo de software artesanal en Humboldt, Santa Fe, Argentina. Construimos sitios web, e-commerce y sistemas a medida para negocios de la región.
+
+## Descripción
+
+Matecito es un estudio de desarrollo de software con raíces en Santa Fe, Argentina. Trabajamos con emprendedores y PyMEs de la región, construyendo tecnología que les permita competir en igualdad de condiciones con empresas de cualquier lugar.
+
+Nuestra propuesta es simple: que la tecnología sea una herramienta de crecimiento y no un dolor de cabeza. Nos ocupamos de que vos te dediques a vender, y nosotros nos encargamos de la tecnología.
+
+## Servicios
+
+### Sitios web
+Sitios corporativos de una página, landings de alto impacto y sitios optimizados para buscadores (SEO). Incluye línea de tiempo, formularios de contacto, integración con WhatsApp y diseño responsive.
+
+### E-commerce
+Tiendas online con integración de pagos, gestión de envíos y catálogo autogestionable.
+
+### Automatización (SaaS)
+Sistemas a medida para gestión de turnos, stock o clientes. Automatiza procesos manuales y ahorra horas de trabajo.
+
+### Mantenimiento
+Soporte técnico, actualizaciones y seguridad continua. Tu negocio no para y tu web tampoco.
+
+### Digitalización
+Convertimos procesos en papel a sistemas digitales que llevás en el bolsillo.
+
+### Consultoría
+Te asesoramos sobre qué tecnología te conviene. No gastes de más en lo que no usás.
+
+## Metodología
+
+Trabajamos con metodologías ágiles (SCRUM) adaptadas a la realidad local:
+
+1. **Sprint Semanal** — Planificamos objetivos cortos. Cada semana ves avances reales, no promesas.
+2. **Comunicación Asíncrona** — Discord y Notion. Menos reuniones eternas, más tiempo trabajando en tu proyecto.
+3. **Transparencia Total** — Tenés acceso a ver el estado de cada tarea. Nada se esconde bajo la alfombra.
+
+## Casos reales
+
+### Schalbetter Transportes
+Empresa familiar de San Martín de las Escobas, Santa Fe, fundada en 2004 con un solo camión. Hoy transporta cargas generales hacia Argentina, Chile, Uruguay y Bolivia, con unidades con seguimiento satelital 24/7.
+
+**El punto de partida:** más de 20 años de ruta y ningún lugar propio en internet. La empresa vivía en Instagram y Facebook, con la información repartida y los pedidos de cotización llegando de forma desordenada.
+
+**Qué hicimos:**
+- Todo en un solo lugar: sitio corporativo de una página (Inicio, Conocenos, Servicios, Contacto y Trabajá con nosotros) con línea de tiempo de la historia de la empresa.
+- Cotizar con un botón: botones de WhatsApp con el mensaje ya escrito, para consultar o pedir presupuesto sin empezar de cero.
+- Contacto a mano: mapa de Google, datos de contacto, enlaces a sus redes y vista previa cuidada al compartir el link.
+- Una puerta para sumar choferes: sección de reclutamiento con formulario de Google para postularse.
+- Lo técnico, resuelto: dominio propio y hosting, SEO base (título y descripción) e imágenes optimizadas en WebP.
+
+**Cómo quedó:** hoy la empresa tiene un sitio propio que cuenta qué transporta, hasta dónde llega y cómo pedir una cotización por WhatsApp. Los pedidos siguen llegando también por sus redes.
+
+- Sitio en vivo: https://schalbettertransportes.com.ar/
+- Código: https://github.com/matecito-tech/SchalbetterTransportes
+- Los textos y las fotos fueron aportados por la empresa.
+
+## Cómo trabajamos juntos
+
+1. **Contacto** — Completás el formulario con tu idea y qué servicio te interesa.
+2. **Presupuesto** — Te enviamos una propuesta clara con alcance, plazo y precio.
+3. **Sprint** — Entregas semanales con avance visible.
+4. **Lanzamiento** — Publicamos y te acompañamos en la puesta en marcha.
+
+## Ubicación y cobertura
+
+Humboldt, Santa Fe, Argentina. Cubrimos Humboldt, Rafaela, Esperanza, Santa Fe y toda la región. También trabajamos con clientes de otras provincias y del extranjero.
+
+## Contacto
+
+- Email: matecito.tech@gmail.com
+- Sitio: https://matecito.qzz.io/
+- LinkedIn: https://www.linkedin.com/company/matecito-tech
+- GitHub: https://github.com/matecito-tech
+- Instagram: https://www.instagram.com/matecito.tech/
+
+## Stack técnico
+
+Java, Spring Boot, JavaScript, PostgreSQL, HTML5, Docker.

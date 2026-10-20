@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+
+# Paginas de confirmacion (noindex en el HTML)
+Disallow: /gracias/
+
+Sitemap: https://matecito.qzz.io/sitemap-index.xml

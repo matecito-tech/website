@@ -49,9 +49,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const setBtnState = (btn, state, text) => {
         const states = {
             loading: { html: '<svg class="icon animate-spin" width="1em" height="1em"><use href="#i-refresh"/></svg> Preparando el mate...', disabled: true, classes: ['opacity-75', 'cursor-not-allowed'] },
-            success: { html: '<svg class="icon" width="1em" height="1em"><use href="#i-check_circle"/></svg> ¡Todo listo!', disabled: false, classes: ['bg-green-600'], remove: ['bg-brand-orange'] },
+            success: { html: '<svg class="icon" width="1em" height="1em"><use href="#i-check_circle"/></svg> ¡Todo listo!', disabled: false, classes: ['bg-green-600'], remove: ['bg-brand-verde'] },
             error: { html: '<svg class="icon" width="1em" height="1em"><use href="#i-error"/></svg> Error al enviar', disabled: false, classes: [] },
-            reset: { html: text, disabled: false, classes: ['bg-brand-orange'], remove: ['opacity-75', 'cursor-not-allowed', 'bg-green-600'] }
+            reset: { html: text, disabled: false, classes: ['bg-brand-verde'], remove: ['opacity-75', 'cursor-not-allowed', 'bg-green-600'] }
         };
 
         const s = states[state];

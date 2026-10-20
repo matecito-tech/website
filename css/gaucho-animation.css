@@ -32,6 +32,12 @@
     animation: float-idle 6s ease-in-out infinite;
 }
 
+@media (prefers-reduced-motion: reduce) {
+    #gaucho-svg {
+        animation: none;
+    }
+}
+
 @keyframes float-idle {
 
     0%,

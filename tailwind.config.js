@@ -5,20 +5,17 @@ module.exports = {
         extend: {
             colors: {
                 brand: {
-                    orange: '#ff6b35',
-                    wood: '#3e2723',
-                    cream: '#fdfbf7',
+                    verde: '#00704A',
+                    verdeProfundo: '#1E3932',
+                    crema: '#FDFBF7',
                     dark: '#1a120e',
-                    green: '#2e7d32',
-                    accent: '#F59E0B'
-                }
+                    dorado: '#CBA258',
+                    blanco: '#FFFFFF',
+                },
             },
             fontFamily: {
                 sans: ['Manrope', 'sans-serif'],
                 display: ['Space Grotesk', 'sans-serif'],
-            },
-            backgroundImage: {
-                'paper-texture': "url('https://www.transparenttextures.com/patterns/cream-paper.png')",
             },
             animation: {
                 'float': 'float 6s ease-in-out infinite',

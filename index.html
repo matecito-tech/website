@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#ff6b35">
+    <meta name="theme-color" content="#00704A">
 
     <!-- Primary Meta Tags -->
     <title>Matecito | Desarrollo de Software Artesanal | Humboldt, Santa Fe</title>
@@ -120,8 +120,8 @@
 
 
     <style>
-        .text-glow-orange {
-            text-shadow: 0 0 20px rgba(255, 107, 53, 0.4);
+        .text-glow-verde {
+            text-shadow: 0 0 20px rgba(0, 112, 74, 0.4);
         }
 
         .glass-card {
@@ -132,13 +132,13 @@
         }
 
         .wood-card {
-            background: linear-gradient(145deg, #3e2723, #2d1b18);
+            background: linear-gradient(145deg, #1E3932, #0f1c17);
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .ember {
             position: absolute;
-            background: #ff6b35;
+            background: #00704A;
             border-radius: 50%;
             filter: blur(1px);
         }
@@ -149,7 +149,7 @@
             width: 100%;
             max-width: 500px;
             margin: 0 auto;
-            filter: drop-shadow(0 20px 40px rgba(255, 107, 53, 0.15));
+            filter: drop-shadow(0 20px 40px rgba(0, 112, 74, 0.15));
         }
 
         /* Ajustes responsive para partículas de código */
@@ -169,13 +169,13 @@
         }
 
         ::-webkit-scrollbar-thumb {
-            background: #3e2723;
+            background: #1E3932;
             border-radius: 5px;
-            border: 2px solid #fdfbf7;
+            border: 2px solid #FDFBF7;
         }
 
         ::-webkit-scrollbar-thumb:hover {
-            background: #ff6b35;
+            background: #00704A;
         }
 
         /* Skip link - visible al recibir foco por teclado */
@@ -183,7 +183,7 @@
             position: absolute;
             top: -100px;
             left: 0;
-            background: #ff6b35;
+            background: #00704A;
             color: #FFFFFF;
             padding: 8px 16px;
             z-index: 100;
@@ -201,13 +201,13 @@
         .border-white-10 { border-color: rgba(255, 255, 255, 0.1); }
         .text-white-90 { color: rgba(255, 255, 255, 0.9); }
         .hover-bg-white-10:hover { background-color: rgba(255, 255, 255, 0.1); }
-        .hover-bg-orange-600:hover { background-color: #ea580c; }
+        .hover-bg-brand-verde:hover { background-color: #00704A; }
         .list-disc { list-style-type: disc; }
         .list-inside { list-style-position: inside; }
         .space-y-2 > * + * { margin-top: 0.5rem; }
         .object-cover { object-fit: cover; }
         .object-center { object-position: center; }
-        .shadow-brand-orange-30 { box-shadow: 0 4px 6px -1px rgba(255, 107, 53, 0.3), 0 2px 4px -1px rgba(255, 107, 53, 0.2); }
+        .shadow-brand-verde-30 { box-shadow: 0 4px 6px -1px rgba(0, 112, 74, 0.3), 0 2px 4px -1px rgba(0, 112, 74, 0.2); }
 
         /* Fondo dinámico desenfocado y oscuro para la sección #casos */
         #casos::before {
@@ -235,17 +235,34 @@
             #casos::before {
                 animation: none;
             }
+            #gaucho-svg {
+                animation: none;
+            }
+            .ember {
+                animation: none;
+            }
+            .animate-pulse {
+                animation: none;
+            }
+            .animate-bounce {
+                animation: none;
+            }
+            .animate-fade-in-up {
+                animation: none;
+                opacity: 1;
+                transform: none;
+            }
         }
     </style>
 </head>
 
 <body
-    class="bg-brand-cream text-brand-dark antialiased selection:bg-brand-orange selection:text-white overflow-x-hidden font-sans">
+    class="bg-brand-cream text-brand-dark antialiased selection:bg-brand-verde selection:text-white overflow-x-hidden font-sans">
         <!-- Skip link para navegación por teclado -->
         <a href="#main" class="skip-link">Saltar al contenido principal</a>
 
     <!-- NAVBAR -->
-    <nav class="fixed w-full z-50 glass-card border-b border-brand-wood/5 top-0 transition-all duration-300"
+    <nav class="fixed w-full z-50 glass-card border-b border-brand-verde-profundo/5 top-0 transition-all duration-300"
         id="navbar">
         <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
             <!-- Logo -->
@@ -255,33 +272,33 @@
                 <span class="font-display font-bold text-xl tracking-tight text-brand-dark">Matecito</span>
             </a>
 
-            <div class="hidden lg:flex items-center gap-8 font-medium text-sm text-brand-wood/80">
-                <a href="#filosofia" class="hover:text-brand-orange transition-colors">Nosotros</a>
-                <a href="#servicios" class="hover:text-brand-orange transition-colors">Servicios</a>
-                <a href="#metodologia" class="hover:text-brand-orange transition-colors">Cómo Trabajamos</a>
-                <a href="#equipo" class="hover:text-brand-orange transition-colors">El Equipo</a>
-                <a href="#casos" class="hover:text-brand-orange transition-colors">Casos</a>
+            <div class="hidden lg:flex items-center gap-8 font-medium text-sm text-brand-verde-profundo/80">
+                <a href="#filosofia" class="hover:text-brand-verde transition-colors">Nosotros</a>
+                <a href="#servicios" class="hover:text-brand-verde transition-colors">Servicios</a>
+                <a href="#metodologia" class="hover:text-brand-verde transition-colors">Cómo Trabajamos</a>
+                <a href="#equipo" class="hover:text-brand-verde transition-colors">El Equipo</a>
+                <a href="#casos" class="hover:text-brand-verde transition-colors">Casos</a>
                 <a href="#contacto"
-                    class="bg-brand-orange text-white px-5 py-2.5 rounded-full hover:bg-orange-600 transition-all hover:scale-105 shadow-lg shadow-brand-orange/20 font-bold flex items-center gap-2">
+                    class="bg-brand-verde text-white px-5 py-2.5 rounded-full hover:bg-brand-verde transition-all hover:scale-105 shadow-lg shadow-brand-verde/20 font-bold flex items-center gap-2">
                     <svg class="icon text-sm" width="1em" height="1em"><use href="#i-chat_bubble"/></svg>
                     Hablemos
                 </a>
             </div>
             <!-- Mobile Menu Icon -->
-            <button type="button" class="lg:hidden text-brand-wood" aria-label="Menú" aria-expanded="false" aria-controls="mobile-menu">
+            <button type="button" class="lg:hidden text-brand-verde-profundo" aria-label="Menú" aria-expanded="false" aria-controls="mobile-menu">
                 <svg class="icon text-3xl" width="1em" height="1em"><use href="#i-menu"/></svg>
             </button>
         </div>
     </nav>
 
     <!-- Mobile Menu -->
-    <div id="mobile-menu" class="lg:hidden absolute top-full left-0 right-0 bg-brand-cream border-b border-brand-wood/5 p-6 hidden z-40 flex flex-col gap-4">
-        <a href="#filosofia" class="block py-2 text-brand-wood/80 hover:text-brand-orange transition-colors">Nosotros</a>
-        <a href="#servicios" class="block py-2 text-brand-wood/80 hover:text-brand-orange transition-colors">Servicios</a>
-        <a href="#metodologia" class="block py-2 text-brand-wood/80 hover:text-brand-orange transition-colors">Cómo Trabajamos</a>
-        <a href="#equipo" class="block py-2 text-brand-wood/80 hover:text-brand-orange transition-colors">El Equipo</a>
-        <a href="#casos" class="block py-2 text-brand-wood/80 hover:text-brand-orange transition-colors">Casos</a>
-        <a href="#contacto" class="block py-2 bg-brand-orange text-white px-4 rounded-xl font-bold text-center hover:bg-orange-600 transition-all shadow-lg shadow-brand-orange/20">Hablemos</a>
+    <div id="mobile-menu" class="lg:hidden absolute top-full left-0 right-0 bg-brand-cream border-b border-brand-verde-profundo/5 p-6 hidden z-40 flex flex-col gap-4">
+        <a href="#filosofia" class="block py-2 text-brand-verde-profundo/80 hover:text-brand-verde transition-colors">Nosotros</a>
+        <a href="#servicios" class="block py-2 text-brand-verde-profundo/80 hover:text-brand-verde transition-colors">Servicios</a>
+        <a href="#metodologia" class="block py-2 text-brand-verde-profundo/80 hover:text-brand-verde transition-colors">Cómo Trabajamos</a>
+        <a href="#equipo" class="block py-2 text-brand-verde-profundo/80 hover:text-brand-verde transition-colors">El Equipo</a>
+        <a href="#casos" class="block py-2 text-brand-verde-profundo/80 hover:text-brand-verde transition-colors">Casos</a>
+        <a href="#contacto" class="block py-2 bg-brand-verde text-white px-4 rounded-xl font-bold text-center hover:bg-brand-verde transition-all shadow-lg shadow-brand-verde/20">Hablemos</a>
     </div>
 
     <main id="main" class="pt-20">
@@ -293,7 +310,7 @@
 
             <div class="flex-1 space-y-8 z-10 lg:pr-12 animate-fade-in-up">
                 <div
-                    class="inline-flex items-center gap-2 px-4 py-2 bg-brand-orange/10 text-brand-orange text-xs font-bold rounded-full uppercase tracking-wider border border-brand-orange/20">
+                    class="inline-flex items-center gap-2 px-4 py-2 bg-brand-verde/10 text-brand-verde text-xs font-bold rounded-full uppercase tracking-wider border border-brand-verde/20">
                     <img src="public/Matecito-logo.svg" alt="Matecito" loading="eager" class="w-4 h-4 animate-pulse">
                     Software a Medida
                 </div>
@@ -301,11 +318,11 @@
                 <h1 class="text-5xl lg:text-7xl font-display font-bold leading-[1.1] text-brand-dark">
                     Hacemos eficiente <br>
                     <span
-                        class="text-transparent bg-clip-text bg-gradient-to-r from-brand-orange to-red-600 text-glow-orange">tu
+                        class="text-transparent bg-clip-text bg-gradient-to-r from-brand-verde to-brand-dorado text-glow-verde">tu
                         flujo de trabajo.</span>
                 </h1>
 
-                <p class="text-xl text-brand-wood/90 leading-relaxed font-light max-w-2xl">
+                <p class="text-xl text-brand-verde-profundo/90 leading-relaxed font-light max-w-2xl">
                     Reducimos costos, agilizamos procesos y automatizamos lo aburrido. Enfocate en lo que hacés bien,
                     nosotros nos encargamos de que la tecnología te acompañe, no que te frene.
                 </p>
@@ -317,7 +334,7 @@
                         <svg class="icon group-hover:translate-x-1 transition-transform" width="1em" height="1em"><use href="#i-arrow_forward"/></svg>
                     </a>
                     <a href="#servicios"
-                        class="px-8 py-4 bg-white border border-brand-wood/10 text-brand-wood rounded-xl font-semibold hover:border-brand-orange/50 hover:text-brand-orange transition-all flex items-center justify-center gap-2">
+                        class="px-8 py-4 bg-white border border-brand-verde-profundo/10 text-brand-verde-profundo rounded-xl font-semibold hover:border-brand-verde/50 hover:text-brand-verde transition-all flex items-center justify-center gap-2">
                         <svg class="icon" width="1em" height="1em"><use href="#i-visibility"/></svg>
                         Ver Servicios
                     </a>
@@ -358,13 +375,13 @@
                 <div class="grid md:grid-cols-2 gap-12 mb-20">
                     <!-- Misión -->
                     <div
-                        class="p-8 rounded-3xl bg-brand-cream border border-brand-wood/5 relative group hover:shadow-lg transition-all">
+                        class="p-8 rounded-3xl bg-brand-cream border border-brand-verde-profundo/5 relative group hover:shadow-lg transition-all">
                         <div
-                            class="w-12 h-12 bg-white rounded-xl shadow-sm flex items-center justify-center text-brand-orange mb-6">
+                            class="w-12 h-12 bg-white rounded-xl shadow-sm flex items-center justify-center text-brand-verde mb-6">
                             <svg class="icon text-3xl" width="1em" height="1em"><use href="#i-rocket_launch"/></svg>
                         </div>
                         <h3 class="text-2xl font-bold mb-4 font-display">Nuestra Misión</h3>
-                        <p class="text-brand-wood/80 leading-relaxed">
+                        <p class="text-brand-verde-profundo/80 leading-relaxed">
                             Queremos que los negocios de nuestra región puedan competir de
                             igual a igual. Hacemos que la tecnología sea una herramienta de crecimiento, no un dolor de
                             cabeza, ayudándote a <strong>vender más y trabajar mejor</strong>.
@@ -373,13 +390,13 @@
 
                     <!-- Visión -->
                     <div
-                        class="p-8 rounded-3xl bg-brand-cream border border-brand-wood/5 relative group hover:shadow-lg transition-all">
+                        class="p-8 rounded-3xl bg-brand-cream border border-brand-verde-profundo/5 relative group hover:shadow-lg transition-all">
                         <div
                             class="w-12 h-12 bg-white rounded-xl shadow-sm flex items-center justify-center text-brand-green mb-6">
                             <svg class="icon text-3xl" width="1em" height="1em"><use href="#i-visibility"/></svg>
                         </div>
                         <h3 class="text-2xl font-bold mb-4 font-display">Nuestra Visión</h3>
-                        <p class="text-brand-wood/80 leading-relaxed">
+                        <p class="text-brand-verde-profundo/80 leading-relaxed">
                             Ser el socio tecnológico de confianza para emprendedores y PyMEs. En 5 años, imaginamos un
                             ecosistema local digitalizado, eficiente y conectado al mundo, impulsado por soluciones
                             creadas acá, por gente de acá.
@@ -393,29 +410,29 @@
                         <h3 class="text-2xl font-bold font-display mb-8 text-center lg:text-left">Pilares del Fogón</h3>
                         <div class="grid grid-cols-2 gap-4">
                             <div
-                                class="p-4 bg-brand-cream border border-brand-wood/5 rounded-2xl text-center hover:bg-white transition-colors group/icon">
-                                <div class="mb-2 text-brand-wood group-hover/icon:text-brand-orange transition-colors">
+                                class="p-4 bg-brand-cream border border-brand-verde-profundo/5 rounded-2xl text-center hover:bg-white transition-colors group/icon">
+                                <div class="mb-2 text-brand-verde-profundo group-hover/icon:text-brand-verde transition-colors">
                                     <svg class="icon text-3xl" width="1em" height="1em"><use href="#i-handshake"/></svg>
                                 </div>
                                 <h4 class="font-bold text-sm">Cercanía</h4>
                             </div>
                             <div
-                                class="p-4 bg-brand-cream border border-brand-wood/5 rounded-2xl text-center hover:bg-white transition-colors group/icon">
-                                <div class="mb-2 text-brand-wood group-hover/icon:text-brand-orange transition-colors">
+                                class="p-4 bg-brand-cream border border-brand-verde-profundo/5 rounded-2xl text-center hover:bg-white transition-colors group/icon">
+                                <div class="mb-2 text-brand-verde-profundo group-hover/icon:text-brand-verde transition-colors">
                                     <svg class="icon text-3xl" width="1em" height="1em"><use href="#i-fact_check"/></svg>
                                 </div>
                                 <h4 class="font-bold text-sm">Transparencia</h4>
                             </div>
                             <div
-                                class="p-4 bg-brand-cream border border-brand-wood/5 rounded-2xl text-center hover:bg-white transition-colors group/icon">
-                                <div class="mb-2 text-brand-wood group-hover/icon:text-brand-orange transition-colors">
+                                class="p-4 bg-brand-cream border border-brand-verde-profundo/5 rounded-2xl text-center hover:bg-white transition-colors group/icon">
+                                <div class="mb-2 text-brand-verde-profundo group-hover/icon:text-brand-verde transition-colors">
                                     <svg class="icon text-3xl" width="1em" height="1em"><use href="#i-workspace_premium"/></svg>
                                 </div>
                                 <h4 class="font-bold text-sm">Calidad</h4>
                             </div>
                             <div
-                                class="p-4 bg-brand-cream border border-brand-wood/5 rounded-2xl text-center hover:bg-white transition-colors group/icon">
-                                <div class="mb-2 text-brand-wood group-hover/icon:text-brand-orange transition-colors">
+                                class="p-4 bg-brand-cream border border-brand-verde-profundo/5 rounded-2xl text-center hover:bg-white transition-colors group/icon">
+                                <div class="mb-2 text-brand-verde-profundo group-hover/icon:text-brand-verde transition-colors">
                                     <svg class="icon text-3xl" width="1em" height="1em"><use href="#i-bolt"/></svg>
                                 </div>
                                 <h4 class="font-bold text-sm">Simplicidad</h4>
@@ -426,7 +443,7 @@
                     <!-- Código de Honor (Python Block) -->
                     <div class="flex-1 w-full">
                         <div style="background:#1e1e1e"
-                            class="rounded-xl shadow-2xl overflow-hidden border border-brand-wood/10 font-mono text-xs md:text-sm transform rotate-1 hover:rotate-0 transition-transform duration-500 group">
+                            class="rounded-xl shadow-2xl overflow-hidden border border-brand-verde-profundo/10 font-mono text-xs md:text-sm transform rotate-1 hover:rotate-0 transition-transform duration-500 group">
 
                             <!-- Barra superior del editor -->
                             <div style="background:#252526"
@@ -436,7 +453,7 @@
                                     <div class="w-3 h-3 rounded-full bg-[#ffbd2e]"></div>
                                     <div class="w-3 h-3 rounded-full bg-[#27c93f]"></div>
                                 </div>
-                                <span class="ml-4 text-gray-400 italic group-hover:text-brand-orange transition-colors">
+                                <span class="ml-4 text-gray-400 italic group-hover:text-brand-verde transition-colors">
                                     nuestra_promesa.py
                                 </span>
                             </div>
@@ -469,10 +486,10 @@
         </section>
 
         <!-- 3. SERVICIOS -->
-        <section id="servicios" class="py-24 bg-brand-wood text-white relative snap-start">
+        <section id="servicios" class="py-24 bg-brand-verde-profundo text-white relative snap-start">
             <div class="max-w-7xl mx-auto px-6">
                 <div class="text-center mb-16">
-                    <span class="text-brand-orange font-bold tracking-widest uppercase text-sm mb-2 block">//
+                    <span class="text-brand-verde font-bold tracking-widest uppercase text-sm mb-2 block">//
                         Soluciones</span>
                     <h2 class="text-4xl font-display font-bold text-white">¿Qué necesitás hoy?</h2>
                 </div>
@@ -481,7 +498,7 @@
                     <!-- Servicio 1 -->
                     <div
                         class="bg-white/5 border border-white/10 p-8 rounded-2xl hover:bg-white/10 transition-colors group">
-                        <svg class="icon text-4xl text-brand-orange mb-4 group-hover:scale-110 transition-transform block" width="1em" height="1em"><use href="#i-shopping_cart"/></svg>
+                        <svg class="icon text-4xl text-brand-verde mb-4 group-hover:scale-110 transition-transform block" width="1em" height="1em"><use href="#i-shopping_cart"/></svg>
                         <h3 class="text-xl font-bold mb-2">E-commerce</h3>
                         <p class="text-sm text-gray-400">Tiendas online que venden solas. Integración con pagos, envíos
                             y catálogo autogestionable.</p>
@@ -489,7 +506,7 @@
                     <!-- Servicio 2 -->
                     <div
                         class="bg-white/5 border border-white/10 p-8 rounded-2xl hover:bg-white/10 transition-colors group">
-                        <svg class="icon text-4xl text-brand-orange mb-4 group-hover:scale-110 transition-transform block" width="1em" height="1em"><use href="#i-web"/></svg>
+                        <svg class="icon text-4xl text-brand-verde mb-4 group-hover:scale-110 transition-transform block" width="1em" height="1em"><use href="#i-web"/></svg>
                         <h3 class="text-xl font-bold mb-2">Sitios Web</h3>
                         <p class="text-sm text-gray-400">Landing pages de alto impacto y sitios corporativos optimizados
                             para Google (SEO).</p>
@@ -497,7 +514,7 @@
                     <!-- Servicio 3 -->
                     <div
                         class="bg-white/5 border border-white/10 p-8 rounded-2xl hover:bg-white/10 transition-colors group">
-                        <svg class="icon text-4xl text-brand-orange mb-4 group-hover:scale-110 transition-transform block" width="1em" height="1em"><use href="#i-smart_toy"/></svg>
+                        <svg class="icon text-4xl text-brand-verde mb-4 group-hover:scale-110 transition-transform block" width="1em" height="1em"><use href="#i-smart_toy"/></svg>
                         <h3 class="text-xl font-bold mb-2">Automatización (SaaS)</h3>
                         <p class="text-sm text-gray-400">Sistemas a medida para gestión de turnos, stock o clientes.
                             Ahorrá horas de trabajo manual.</p>
@@ -505,7 +522,7 @@
                     <!-- Servicio 4 -->
                     <div
                         class="bg-white/5 border border-white/10 p-8 rounded-2xl hover:bg-white/10 transition-colors group">
-                        <svg class="icon text-4xl text-brand-orange mb-4 group-hover:scale-110 transition-transform block" width="1em" height="1em"><use href="#i-build"/></svg>
+                        <svg class="icon text-4xl text-brand-verde mb-4 group-hover:scale-110 transition-transform block" width="1em" height="1em"><use href="#i-build"/></svg>
                         <h3 class="text-xl font-bold mb-2">Mantenimiento</h3>
                         <p class="text-sm text-gray-400">Tu negocio no para, tu web tampoco. Soporte técnico,
                             actualizaciones y seguridad continua.</p>
@@ -513,7 +530,7 @@
                     <!-- Servicio 5 -->
                     <div
                         class="bg-white/5 border border-white/10 p-8 rounded-2xl hover:bg-white/10 transition-colors group">
-                        <svg class="icon text-4xl text-brand-orange mb-4 group-hover:scale-110 transition-transform block" width="1em" height="1em"><use href="#i-campaign"/></svg>
+                        <svg class="icon text-4xl text-brand-verde mb-4 group-hover:scale-110 transition-transform block" width="1em" height="1em"><use href="#i-campaign"/></svg>
                         <h3 class="text-xl font-bold mb-2">Digitalización</h3>
                         <p class="text-sm text-gray-400">Transformamos tus procesos en papel a digital. Llevá tu negocio
                             en el bolsillo.</p>
@@ -521,7 +538,7 @@
                     <!-- Servicio 6 -->
                     <div
                         class="bg-white/5 border border-white/10 p-8 rounded-2xl hover:bg-white/10 transition-colors group">
-                        <svg class="icon text-4xl text-brand-orange mb-4 group-hover:scale-110 transition-transform block" width="1em" height="1em"><use href="#i-school"/></svg>
+                        <svg class="icon text-4xl text-brand-verde mb-4 group-hover:scale-110 transition-transform block" width="1em" height="1em"><use href="#i-school"/></svg>
                         <h3 class="text-xl font-bold mb-2">Consultoría</h3>
                         <p class="text-sm text-gray-400">Te asesoramos sobre qué tecnología te conviene. No gastes de
                             más en lo que no usás.</p>
@@ -539,7 +556,7 @@
                             class="text-brand-green font-bold tracking-widest uppercase text-sm mb-2 block">Metodología
                             Ágil</span>
                         <h2 class="text-4xl font-display font-bold text-brand-dark mb-6">Trabajamos con SCRUM</h2>
-                        <p class="text-lg text-brand-wood/90 mb-8">
+                        <p class="text-lg text-brand-verde-profundo/90 mb-8">
                             Ordenamos el caos. Usamos metodologías internacionales adaptadas a la realidad local.
                             Entregas semanales, comunicación clara y cero sorpresas.
                         </p>
@@ -547,7 +564,7 @@
                         <div class="space-y-6">
                             <div class="flex gap-4">
                                 <div
-                                    class="w-10 h-10 rounded-full bg-brand-orange text-white flex items-center justify-center font-bold flex-shrink-0">
+                                    class="w-10 h-10 rounded-full bg-brand-verde text-white flex items-center justify-center font-bold flex-shrink-0">
                                     1</div>
                                 <div>
                                     <h4 class="font-bold text-brand-dark">Sprint Semanal</h4>
@@ -557,7 +574,7 @@
                             </div>
                             <div class="flex gap-4">
                                 <div
-                                    class="w-10 h-10 rounded-full bg-brand-orange text-white flex items-center justify-center font-bold flex-shrink-0">
+                                    class="w-10 h-10 rounded-full bg-brand-verde text-white flex items-center justify-center font-bold flex-shrink-0">
                                     2</div>
                                 <div>
                                     <h4 class="font-bold text-brand-dark">Comunicación Asincrónica</h4>
@@ -567,7 +584,7 @@
                             </div>
                             <div class="flex gap-4">
                                 <div
-                                    class="w-10 h-10 rounded-full bg-brand-orange text-white flex items-center justify-center font-bold flex-shrink-0">
+                                    class="w-10 h-10 rounded-full bg-brand-verde text-white flex items-center justify-center font-bold flex-shrink-0">
                                     3</div>
                                 <div>
                                     <h4 class="font-bold text-brand-dark">Transparencia Total</h4>
@@ -578,7 +595,7 @@
                         </div>
                     </div>
                     <div class="lg:w-1/2">
-                        <div class="bg-white p-6 rounded-2xl shadow-xl border border-brand-wood/5 rotate-2">
+                        <div class="bg-white p-6 rounded-2xl shadow-xl border border-brand-verde-profundo/5 rotate-2">
                             <!-- Visual representation of Kanban/Scrum Board -->
                             <div class="flex justify-between items-center mb-4 border-b pb-2">
                                 <span class="font-bold text-sm">Proyecto: Tu E-commerce</span>
@@ -614,19 +631,19 @@
         </section>
 
         <!-- 5. EQUIPO (EL FOGÓN) -->
-        <section id="equipo" class="py-24 bg-brand-wood/5 relative snap-start">
+        <section id="equipo" class="py-24 bg-brand-verde-profundo/5 relative snap-start">
             <div class="max-w-7xl mx-auto px-6 text-center">
-                <span class="text-brand-orange font-bold tracking-widest uppercase text-sm mb-2 block">Quiénes
+                <span class="text-brand-verde font-bold tracking-widest uppercase text-sm mb-2 block">Quiénes
                     Somos</span>
                 <h2 class="text-4xl font-display font-bold text-brand-dark mb-12">El Fogón Digital</h2>
 
                 <!-- Founder Card -->
                 <div
-                    class="max-w-3xl mx-auto bg-white p-8 rounded-3xl shadow-xl border border-brand-wood/5 flex flex-col md:flex-row items-center gap-8 mb-16">
+                    class="max-w-3xl mx-auto bg-white p-8 rounded-3xl shadow-xl border border-brand-verde-profundo/5 flex flex-col md:flex-row items-center gap-8 mb-16">
                     <div class="relative shrink-0">
                         <div class="w-32 h-32 rounded-full ring-4 ring-brand-cream shadow-lg overflow-hidden">
                             <img src="public/mateo-gariboglio_low-poly.webp"
-                                onerror="this.src='https://ui-avatars.com/api/?name=Mateo+Gariboglio&amp;background=ff6b35&amp;color=fff&amp;size=150'"
+                                onerror="this.src='https://ui-avatars.com/api/?name=Mateo+Gariboglio&amp;background=00704A&amp;color=fff&amp;size=150'"
                                 alt="Mateo Gariboglio" loading="lazy" class="w-full h-full object-cover object-top">
                         </div>
                         <span
@@ -637,7 +654,7 @@
                     </div>
                     <div class="text-left">
                         <h3 class="text-2xl font-bold text-brand-dark">Mateo Gariboglio</h3>
-                        <p class="text-brand-orange font-medium mb-4">Fundador &amp; Scrum Master</p>
+                        <p class="text-brand-verde font-medium mb-4">Fundador &amp; Scrum Master</p>
                         <p class="text-gray-600 mb-6 text-sm leading-relaxed">
                             "Me obsesiona que las cosas funcionen bien. Mi rol es coordinar que todo el engranaje
                             técnico gire perfecto para que vos solo te preocupes por vender. Vengo del Backend
@@ -654,9 +671,9 @@
 
                 <!-- Modelo de Colaboradores -->
                 <div class="grid md:grid-cols-2 gap-8 text-left max-w-4xl mx-auto">
-                    <div class="p-6 bg-brand-wood text-white rounded-2xl">
+                    <div class="p-6 bg-brand-verde-profundo text-white rounded-2xl">
                         <h4 class="font-bold text-lg mb-2 flex items-center gap-2">
-                            <svg class="icon text-brand-orange" width="1em" height="1em"><use href="#i-group_add"/></svg>
+                            <svg class="icon text-brand-verde" width="1em" height="1em"><use href="#i-group_add"/></svg>
                             Red de Talentos
                         </h4>
                         <p class="text-sm opacity-80">
@@ -664,7 +681,7 @@
                             la complejidad de tu proyecto. Ingeniería directa, honesta y enfocada en resultados.
                         </p>
                     </div>
-                    <div class="p-6 bg-white border border-brand-wood/10 rounded-2xl">
+                    <div class="p-6 bg-white border border-brand-verde-profundo/10 rounded-2xl">
                         <h4 class="font-bold text-lg mb-2 flex items-center gap-2 text-brand-dark">
                             <svg class="icon text-brand-green" width="1em" height="1em"><use href="#i-school"/></svg>
                             Formación Continua
@@ -718,10 +735,10 @@
         </section>
 
         <!-- 7. CASOS REALES (Schalbetter Transportes) -->
-        <section id="casos" class="py-24 bg-brand-wood relative overflow-hidden snap-start" aria-labelledby="casos-titulo">
+        <section id="casos" class="py-24 bg-brand-verde-profundo relative overflow-hidden snap-start" aria-labelledby="casos-titulo">
             <div class="max-w-7xl mx-auto px-6">
                 <div class="text-center mb-16">
-                    <span class="text-brand-orange font-bold tracking-widest uppercase text-sm mb-2 block">// Casos
+                    <span class="text-brand-verde font-bold tracking-widest uppercase text-sm mb-2 block">// Casos
                         reales</span>
                     <h2 id="casos-titulo" class="text-4xl font-display font-bold text-white">Trabajo que podés ir a
                         ver</h2>
@@ -750,7 +767,7 @@
                     </div>
 
                     <div class="bg-white-5 border border-white-10 p-6 rounded-2xl mb-10">
-                        <h4 class="font-bold text-brand-orange text-sm uppercase tracking-wider mb-3">El punto de
+                        <h4 class="font-bold text-brand-verde text-sm uppercase tracking-wider mb-3">El punto de
                             partida</h4>
                         <p class="text-white text-base leading-relaxed">Más de 20 años de ruta y ningún lugar
                             propio en internet. La empresa vivía en Instagram y Facebook, con la información repartida y
@@ -779,13 +796,13 @@
 
                     <div class="flex flex-col sm:flex-row gap-4 justify-center">
                         <a href="https://schalbettertransportes.com.ar/" target="_blank" rel="noopener noreferrer"
-                            class="px-8 py-4 bg-brand-orange text-white font-bold rounded-xl hover:bg-orange-600 transition-colors flex items-center justify-center gap-2 shadow-lg">
+                            class="px-8 py-4 bg-brand-verde text-white font-bold rounded-xl hover:bg-brand-verde transition-colors flex items-center justify-center gap-2 shadow-lg">
                             <span>Ver el sitio en vivo</span>
                             <svg class="icon" width="1em" height="1em"><use href="#i-open_in_new"/></svg>
                         </a>
                         <a href="https://github.com/matecito-tech/SchalbetterTransportes" target="_blank"
                             rel="noopener noreferrer"
-                            class="px-8 py-4 bg-white-5 border border-white-10 text-white font-bold rounded-xl hover:bg-white-10 transition-colors flex items-center justify-center gap-2 shadow-brand-orange-30">
+                            class="px-8 py-4 bg-white-5 border border-white-10 text-white font-bold rounded-xl hover:bg-white-10 transition-colors flex items-center justify-center gap-2 shadow-brand-verde-30">
                             <span>Ver el código en GitHub</span>
                             <svg class="icon" width="1em" height="1em"><use href="#i-open_in_new"/></svg>
                         </a>
@@ -800,17 +817,17 @@
             <div class="max-w-3xl mx-auto px-6">
                 <div class="text-center mb-10">
                     <span
-                        class="inline-block p-3 rounded-full bg-brand-orange/10 text-brand-orange mb-6 animate-bounce">
+                        class="inline-block p-3 rounded-full bg-brand-verde/10 text-brand-verde mb-6 animate-bounce">
                         <svg class="icon text-3xl" width="1em" height="1em"><use href="#i-mail"/></svg>
                     </span>
                     <h2 class="text-4xl font-display font-bold text-brand-dark mb-4">Hablemos</h2>
-                    <p class="text-lg text-brand-wood/90">
+                    <p class="text-lg text-brand-verde-profundo/90">
                         ¿Tenés una idea dándote vueltas? Completá el formulario y nos llega directo. ¡Sin compromiso!
                     </p>
                 </div>
 
                 <form id="contactForm" action="https://formsubmit.co/matecito.tech@gmail.com" method="POST"
-                    class="bg-white p-8 md:p-10 rounded-3xl shadow-xl border border-brand-wood/5 relative overflow-hidden group">
+                    class="bg-white p-8 md:p-10 rounded-3xl shadow-xl border border-brand-verde-profundo/5 relative overflow-hidden group">
                     <!-- Configuración Formsubmit -->
                     <input type="hidden" name="_subject" value="Nuevo mensaje desde Web Matecito">
                     <input type="hidden" name="_template" value="table">
@@ -821,31 +838,31 @@
 
                     <!-- Sello de Garantía -->
                     <div
-                        class="absolute -top-8 -right-8 w-32 h-32 bg-brand-orange/5 rounded-full flex items-center justify-center rotate-12 transition-transform group-hover:rotate-45">
+                        class="absolute -top-8 -right-8 w-32 h-32 bg-brand-verde/5 rounded-full flex items-center justify-center rotate-12 transition-transform group-hover:rotate-45">
                     </div>
 
                     <div class="space-y-6 relative z-10">
                         <div class="grid md:grid-cols-2 gap-6">
                             <div>
-                                <label class="block text-sm font-bold text-brand-wood mb-2">¿Cómo te llamás,
+                                <label class="block text-sm font-bold text-brand-verde-profundo mb-2">¿Cómo te llamás,
                                     che?</label>
                                 <input type="text" id="nombre"
-                                    class="w-full rounded-xl border-gray-200 bg-gray-50 focus:border-brand-orange focus:ring-brand-orange transition-colors py-3"
+                                    class="w-full rounded-xl border-gray-200 bg-gray-50 focus:border-brand-verde focus:ring-brand-verde transition-colors py-3"
                                     placeholder="Tu nombre..." required>
                             </div>
                             <div>
-                                <label class="block text-sm font-bold text-brand-wood mb-2">¿Dónde te ubicamos?</label>
+                                <label class="block text-sm font-bold text-brand-verde-profundo mb-2">¿Dónde te ubicamos?</label>
                                 <input type="text" id="contacto_dato"
-                                    class="w-full rounded-xl border-gray-200 bg-gray-50 focus:border-brand-orange focus:ring-brand-orange transition-colors py-3"
+                                    class="w-full rounded-xl border-gray-200 bg-gray-50 focus:border-brand-verde focus:ring-brand-verde transition-colors py-3"
                                     placeholder="WhatsApp o Email..." required>
                             </div>
                         </div>
 
                         <div>
-                            <label class="block text-sm font-bold text-brand-wood mb-2">¿Qué servicio te
+                            <label class="block text-sm font-bold text-brand-verde-profundo mb-2">¿Qué servicio te
                                 interesa?</label>
                             <select id="asunto"
-                                class="w-full rounded-xl border-gray-200 bg-gray-50 focus:border-brand-orange focus:ring-brand-orange transition-colors py-3">
+                                class="w-full rounded-xl border-gray-200 bg-gray-50 focus:border-brand-verde focus:ring-brand-verde transition-colors py-3">
                                 <option value="" disabled selected>Seleccioná un servicio...</option>
                                 <option value="landing">Sitio Web / Landing (USD 250)</option>
                                 <option value="ecommerce">E-commerce Completo (USD 550)</option>
@@ -857,26 +874,26 @@
 
                         <div id="precio-estimado-container" class="hidden animate-fade-in">
                             <div
-                                class="p-4 rounded-xl bg-brand-orange/5 border border-brand-orange/20 flex items-center justify-between">
+                                class="p-4 rounded-xl bg-brand-verde/5 border border-brand-verde/20 flex items-center justify-between">
                                 <div>
-                                    <p class="text-xs font-bold text-brand-orange uppercase tracking-wider mb-1">
+                                    <p class="text-xs font-bold text-brand-verde uppercase tracking-wider mb-1">
                                         Inversión Estimada</p>
                                     <h3 id="precio-estimado" class="text-2xl font-bold text-brand-dark"><span class="hidden">Cargando...</span></h3>
-                                    <p id="precio-mensaje" class="text-[10px] text-brand-wood/60 mt-1"></p>
+                                    <p id="precio-mensaje" class="text-[10px] text-brand-verde-profundo/60 mt-1"></p>
                                 </div>
-                                <svg class="icon text-brand-orange text-3xl" width="1em" height="1em"><use href="#i-payments"/></svg>
+                                <svg class="icon text-brand-verde text-3xl" width="1em" height="1em"><use href="#i-payments"/></svg>
                             </div>
                         </div>
 
                         <div>
-                            <label class="block text-sm font-bold text-brand-wood mb-2">Contanos tu idea</label>
+                            <label class="block text-sm font-bold text-brand-verde-profundo mb-2">Contanos tu idea</label>
                             <textarea id="mensaje" rows="4"
-                                class="w-full rounded-xl border-gray-200 bg-gray-50 focus:border-brand-orange focus:ring-brand-orange transition-colors resize-none py-3"
+                                class="w-full rounded-xl border-gray-200 bg-gray-50 focus:border-brand-verde focus:ring-brand-verde transition-colors resize-none py-3"
                                 placeholder="Quiero vender mis productos por internet..." required></textarea>
                         </div>
 
                         <button type="submit"
-                            class="w-full py-4 bg-brand-orange text-white font-bold rounded-xl hover:bg-orange-600 transition-all transform active:scale-[0.98] shadow-lg shadow-brand-orange/30 flex items-center justify-center gap-2">
+                            class="w-full py-4 bg-brand-verde text-white font-bold rounded-xl hover:bg-brand-verde transition-all transform active:scale-[0.98] shadow-lg shadow-brand-verde/30 flex items-center justify-center gap-2">
                             <span>Enviar Mensaje</span>
                             <svg class="icon" width="1em" height="1em"><use href="#i-send"/></svg>
                         </button>
@@ -885,7 +902,7 @@
 
                 <div class="mt-12 flex justify-center gap-8 text-sm font-bold tracking-wide text-gray-400">
                     <a href="https://www.instagram.com/matecito.tech/" target="_blank" rel="noopener noreferrer"
-                        class="hover:text-brand-orange transition-colors hover:-translate-y-1 flex items-center gap-2">
+                        class="hover:text-brand-verde transition-colors hover:-translate-y-1 flex items-center gap-2">
                         Instagram <svg class="icon text-sm" width="1em" height="1em"><use href="#i-open_in_new"/></svg>
                     </a>
                     <a href="https://www.linkedin.com/company/matecito-tech/about/?viewAsMember=true" target="_blank" rel="noopener noreferrer"
@@ -922,11 +939,11 @@
             <div>
                 <h4 class="font-bold text-white mb-4 uppercase tracking-wider text-xs">Navegación</h4>
                 <ul class="space-y-3">
-                    <li><a href="#" class="hover:text-brand-orange transition-colors">Inicio</a></li>
-                    <li><a href="#filosofia" class="hover:text-brand-orange transition-colors">Nosotros</a></li>
-                    <li><a href="#servicios" class="hover:text-brand-orange transition-colors">Servicios</a></li>
-                    <li><a href="#equipo" class="hover:text-brand-orange transition-colors">Equipo</a></li>
-                    <li><a href="#casos" class="hover:text-brand-orange transition-colors">Casos</a></li>
+                    <li><a href="#" class="hover:text-brand-verde transition-colors">Inicio</a></li>
+                    <li><a href="#filosofia" class="hover:text-brand-verde transition-colors">Nosotros</a></li>
+                    <li><a href="#servicios" class="hover:text-brand-verde transition-colors">Servicios</a></li>
+                    <li><a href="#equipo" class="hover:text-brand-verde transition-colors">Equipo</a></li>
+                    <li><a href="#casos" class="hover:text-brand-verde transition-colors">Casos</a></li>
                 </ul>
             </div>
 
@@ -934,24 +951,24 @@
                 <h4 class="font-bold text-white mb-4 uppercase tracking-wider text-xs">Conectemos</h4>
                 <p class="mb-2">Humboldt, Santa Fe, AR</p>
                 <a href="mailto:matecito.tech@gmail.com"
-                    class="hover:text-brand-orange transition-colors block mb-2 font-medium text-white">matecito.tech@gmail.com</a>
+                    class="hover:text-brand-verde transition-colors block mb-2 font-medium text-white">matecito.tech@gmail.com</a>
                 <div class="flex flex-col gap-2 mt-2">
                     <a href="https://www.linkedin.com/company/matecito-tech" target="_blank" rel="noopener noreferrer"
-                        class="hover:text-brand-orange transition-colors flex items-center gap-2 text-white"><svg class="icon text-sm" width="1em" height="1em"><use href="#i-work"/></svg> LinkedIn</a>
+                        class="hover:text-brand-verde transition-colors flex items-center gap-2 text-white"><svg class="icon text-sm" width="1em" height="1em"><use href="#i-work"/></svg> LinkedIn</a>
                     <a href="https://github.com/matecito-tech" target="_blank" rel="noopener noreferrer"
-                        class="hover:text-brand-orange transition-colors flex items-center gap-2 text-white"><svg class="icon text-sm" width="1em" height="1em"><use href="#i-code"/></svg> GitHub</a>
+                        class="hover:text-brand-verde transition-colors flex items-center gap-2 text-white"><svg class="icon text-sm" width="1em" height="1em"><use href="#i-code"/></svg> GitHub</a>
                     <a href="https://www.instagram.com/matecito.tech/" target="_blank" rel="noopener noreferrer"
-                        class="hover:text-brand-orange transition-colors flex items-center gap-2 text-white"><svg class="icon text-sm" width="1em" height="1em"><use href="#i-photo_camera"/></svg> Instagram</a>
+                        class="hover:text-brand-verde transition-colors flex items-center gap-2 text-white"><svg class="icon text-sm" width="1em" height="1em"><use href="#i-photo_camera"/></svg> Instagram</a>
                 </div>
                 <div>
                     <h4 class="font-bold text-white mb-4 uppercase tracking-wider text-xs">Legal</h4>
                     <ul class="space-y-3">
                         <li><a href="politica-de-privacidad.html"
-                                class="hover:text-brand-orange transition-colors">Privacidad</a></li>
+                                class="hover:text-brand-verde transition-colors">Privacidad</a></li>
                         <li><a href="terminos-y-condiciones.html"
-                                class="hover:text-brand-orange transition-colors">Términos</a></li>
+                                class="hover:text-brand-verde transition-colors">Términos</a></li>
                         <li><a href="arrepentimiento.html"
-                                class="text-brand-orange hover:brightness-110 transition-all font-medium">Arrepentimiento</a>
+                                class="text-brand-verde hover:brightness-110 transition-all font-medium">Arrepentimiento</a>
                         </li>
                     </ul>
                 </div>
@@ -963,7 +980,7 @@
                 <span>&copy; 2026 Matecito. Hecho con ❤️ y 🧉 en Argentina.</span>
                 <span class="hidden md:inline opacity-20">|</span>
                 <span class="opacity-60">Ilustración Gaucho por <a href="https://www.freepik.com" target="_blank" rel="noopener noreferrer"
-                        class="hover:text-brand-orange transition-colors underline decoration-white/10"
+                        class="hover:text-brand-verde transition-colors underline decoration-white/10"
                         title="Dibujado a mano ilustración gaucho bebiendo">Freepik</a></span>
             </div>
 

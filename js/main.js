@@ -137,7 +137,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     createEmbers();
 
-    // 7. COTIZADOR DE PRECIOS EN TIEMPO REAL
+    // 7. COTIZADOR DE PRECIOS (dólar bajo demanda: solo al interactuar)
     const selectServicio = document.getElementById('asunto');
     const displayPrecio = document.getElementById('precio-estimado');
     const containerPrecio = document.getElementById('precio-estimado-container');
@@ -145,6 +145,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let cotizacionDolar = 1450; // Fallback
     let apiFallida = false;
+    let dolarCargado = false;
 
     const serviciosPrecios = {
         landing: 250,
@@ -154,18 +155,22 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const fetchDolarBlue = async () => {
+        if (dolarCargado) return;
         try {
             const res = await fetch('https://dolarapi.com/v1/dolares/blue');
             const data = await res.json();
             cotizacionDolar = data.compra;
+            dolarCargado = true;
         } catch (e) {
             console.warn('Usando cotización fallback:', e);
             apiFallida = true;
+            dolarCargado = true;
         }
     };
 
     if (selectServicio) {
-        fetchDolarBlue();
+        selectServicio.addEventListener('focus', fetchDolarBlue, { once: true });
+        selectServicio.addEventListener('click', fetchDolarBlue, { once: true });
 
         selectServicio.addEventListener('change', () => {
             const svc = selectServicio.value;

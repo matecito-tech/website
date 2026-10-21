@@ -328,11 +328,19 @@ const setBtnState = (btn, state, text) => {
 
     const applyTheme = (theme) => {
         const isDark = theme === 'dark' || (theme === 'auto' && prefersDark());
+        // Disable transitions during theme switch to prevent INP spike
+        document.documentElement.classList.add('no-transitions');
         document.documentElement.classList.toggle('dark', isDark);
         document.documentElement.dataset.theme = theme;
         toggleBtns.forEach(btn => {
             btn.setAttribute('aria-pressed', String(isDark));
             btn.setAttribute('title', isDark ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro');
+        });
+        // Re-enable transitions after next frame
+        requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+                document.documentElement.classList.remove('no-transitions');
+            });
         });
     };
 

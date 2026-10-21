@@ -166,6 +166,12 @@
   }
 }
 
+/* Deshabilitar transiciones durante cambio de tema para reducir INP */
+.no-transitions, .no-transitions * {
+  transition: none !important;
+  animation: none !important;
+}
+
 @layer utilities {
   /* Sprite de iconos SVG - hereda el color del texto */
   .icon {

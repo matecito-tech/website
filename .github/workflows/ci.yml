@@ -20,6 +20,8 @@ jobs:
       - name: Check Node version
         run: node -v
       - run: bun install --frozen-lockfile
+      - name: Build
+        run: bun run build
       - name: Validate HTML
         run: bun run validate:html
       - name: Check contrast
@@ -28,8 +30,6 @@ jobs:
         run: bun run lint:js
       - name: Type check
         run: bun run check
-      - name: Build
-        run: bun run build
 
   links:
     runs-on: ubuntu-latest

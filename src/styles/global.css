@@ -119,7 +119,7 @@
     --color-background: oklch(0.15 0.02 45);
     --color-foreground: oklch(0.99 0.005 85);
     /* Verde más claro para modo oscuro (≥4.5:1 sobre fondo oscuro) */
-    --color-brand-verde: oklch(0.60 0.12 161);
+    --color-brand-verde: oklch(0.55 0.12 161);     /* oscurecido para contraste AA en botones (4.5:1+) */
     --color-primary: oklch(0.60 0.12 161);
     --color-ring: oklch(0.60 0.12 161);
     --color-primary: oklch(0.4815 0.1069 161.2);

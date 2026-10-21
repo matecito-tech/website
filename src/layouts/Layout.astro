@@ -1,0 +1,272 @@
+---
+import '../styles/global.css';
+import IconSprite from '../components/IconSprite.astro';
+import { Image } from 'astro:assets';
+import logoImg from '../assets/Matecito-logo.svg';
+
+interface Props {
+  title: string;
+  description: string;
+  noindex?: boolean;
+}
+const { title, description, noindex = false } = Astro.props;
+const canonicalURL = new URL(Astro.url.pathname, 'https://matecito.qzz.io').toString();
+const ogImageURL = 'https://matecito.qzz.io/og-image.png';
+---
+
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth snap-y snap-proximity scroll-pt-20 overflow-x-clip">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#00704A">
+
+    <!-- Primary Meta Tags -->
+    <title>{title}</title>
+    <meta name="title" content={title}>
+    <meta name="description" content={description}>
+    <meta name="keywords" content="desarrollo software humboldt, diseño web santa fe, ecommerce rafaela, programador argentina, matecito tech, automatizacion negocios, sistemas a medida, mateo gariboglio">
+    <meta name="author" content="Mateo Gariboglio">
+    <meta name="robots" content={noindex ? 'noindex, nofollow' : 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1'}>
+    <link rel="canonical" href={canonicalURL}>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content={canonicalURL}>
+    <meta property="og:title" content={title}>
+    <meta property="og:description" content={description}>
+    <meta property="og:image" content={ogImageURL}>
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Matecito Tech - Desarrollo de Software Artesanal">
+    <meta property="og:locale" content="es_AR">
+    <meta property="og:site_name" content="Matecito Tech">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content={canonicalURL}>
+    <meta name="twitter:title" content={title}>
+    <meta name="twitter:description" content={description}>
+    <meta name="twitter:image" content={ogImageURL}>
+    <meta name="twitter:image:alt" content="Matecito Tech - Desarrollo de Software Artesanal">
+    <meta name="twitter:creator" content="@Mateo_404">
+
+    <!-- Preload Critical Resources -->
+    <link rel="preload" href="/Matecito-logo.svg" as="image">
+
+
+    <!-- Schema.org Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "LocalBusiness",
+      "name": "Matecito Tech",
+      "image": "https://matecito.qzz.io/Matecito-logo.svg",
+      "telephone": "+543425370985",
+      "email": "matecito.tech@gmail.com",
+      "url": "https://matecito.qzz.io",
+      "logo": "https://matecito.qzz.io/Matecito-logo.svg",
+      "priceRange": "$$",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Humboldt",
+        "addressRegion": "Santa Fe",
+        "postalCode": "3081",
+        "addressCountry": "AR"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": -31.4000,
+        "longitude": -61.0833
+      },
+      "sameAs": [
+        "https://www.linkedin.com/in/mateo-gariboglio",
+        "https://github.com/Mateo-404"
+      ],
+      "founder": {
+        "@type": "Person",
+        "name": "Mateo Gariboglio"
+      },
+      "openingHoursSpecification": {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+        "opens": "09:00",
+        "closes": "18:00"
+      },
+      "description": "Desarrollo de software a medida, diseño web profesional y e-commerce en Humboldt y Santa Fe."
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "ProfessionalService",
+      "name": "Matecito | Desarrollo de Software",
+      "url": "https://matecito.qzz.io",
+      "serviceType": "Desarrollo de Software a Medida",
+      "knowsAbout": ["Desarrollo Web", "E-commerce", "SEO", "Sistemas de Gestión", "Automatización", "Java", "Spring Boot", "React"],
+      "areaServed": ["Humboldt", "Rafaela", "Esperanza", "Santa Fe", "Argentina"]
+    }
+    </script>
+
+    <!-- Theme Color Script (inline to prevent FOUC) -->
+    <script is:inline>
+      (function() {
+        var t;
+        try { t = localStorage.getItem('theme'); } catch (e) { t = null; }
+        var dark = t === 'dark' || (!t && window.matchMedia('(prefers-color-scheme: dark)').matches);
+        document.documentElement.classList.toggle('dark', dark);
+        document.documentElement.dataset.theme = t || 'auto';
+      })();
+    </script>
+
+    <link rel="preload" as="font" href="/fonts/Manrope.woff2" type="font/woff2" crossorigin>
+    <link rel="preload" as="font" href="/fonts/SpaceGrotesk.woff2" type="font/woff2" crossorigin>
+    
+</head>
+<body class="bg-brand-crema dark:bg-brand-dark text-brand-dark dark:text-brand-crema antialiased selection:bg-brand-verde selection:text-white overflow-x-hidden font-sans">
+    <!-- Skip link para navegación por teclado -->
+    <a href="#main" class="skip-link">Saltar al contenido principal</a>
+
+    <!-- NAVBAR -->
+    <nav class="fixed w-full z-50 glass-card border-b border-brand-verde-profundo/5 top-0 transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+            <!-- Logo -->
+            <a href="/" class="flex items-center gap-2 group" aria-label="Matecito - Inicio">
+                <span class="w-10 h-10 rounded-full bg-white/90 dark:bg-brand-dark/90 flex items-center justify-center shadow-lg shadow-brand-verde/20 transition-transform duration-300 group-hover:scale-110">
+                    <Image src={logoImg} alt="" loading="eager" width={32} height={32} class="w-8 h-8 drop-shadow-lg dark:brightness-0 dark:invert" />
+                </span>
+                <span class="font-display font-bold text-xl tracking-tight text-brand-dark dark:text-brand-crema">Matecito</span>
+            </a>
+
+            <div class="hidden lg:flex items-center gap-8 font-medium text-sm text-brand-verde-profundo/80 dark:text-brand-crema/75">
+                <a href="/#filosofia" class="hover:text-brand-verde transition-colors">Nosotros</a>
+                <a href="/#servicios" class="hover:text-brand-verde transition-colors">Servicios</a>
+                <a href="/#metodologia" class="hover:text-brand-verde transition-colors">Cómo Trabajamos</a>
+                <a href="/#equipo" class="hover:text-brand-verde transition-colors">El Equipo</a>
+                <a href="/#casos" class="hover:text-brand-verde transition-colors">Casos</a>
+                <a href="/#contacto" class="bg-brand-verde text-white px-5 py-2.5 rounded-full hover:bg-brand-verde-700 dark:hover:bg-brand-verde-500 transition-all hover:scale-105 shadow-lg shadow-brand-verde/20 font-bold flex items-center gap-2">
+                    <svg class="icon text-sm" aria-hidden="true" focusable="false" width="1em" height="1em"><use href="#i-chat_bubble"/></svg>
+                    Hablemos
+                </a>
+            </div>
+            <div class="flex items-center gap-1">
+                <!-- Theme toggle: claro / oscuro -->
+                <div class="hidden sm:flex items-center gap-1 mr-2" role="group" aria-label="Tema de color">
+                    <button type="button" data-theme-toggle="toggle" aria-pressed="false" class="w-8 h-8 rounded-full flex items-center justify-center text-brand-verde-profundo/70 dark:text-brand-crema/70 hover:text-brand-verde hover:bg-brand-verde/10 transition-colors" title="Cambiar tema">
+                        <!-- Sol (visible en modo claro, para cambiar a oscuro) -->
+                        <svg class="w-5 h-5 dark:hidden" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+                        <!-- Luna (visible en modo oscuro, para cambiar a claro) -->
+                        <svg class="w-5 h-5 hidden dark:block" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                        <span class="sr-only">Cambiar tema</span>
+                    </button>
+                </div>
+                <!-- Mobile Menu Icon -->
+                <button type="button" class="lg:hidden text-brand-verde-profundo dark:text-brand-crema" aria-label="Menú" aria-expanded="false" aria-controls="mobile-menu">
+                    <svg class="icon text-3xl" aria-hidden="true" focusable="false" width="1em" height="1em"><use href="#i-menu"/></svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu (dentro del <nav>: `absolute top-full` necesita un ancestro posicionado) -->
+        <div id="mobile-menu" class="lg:hidden absolute top-full left-0 right-0 bg-brand-crema dark:bg-brand-dark border-b border-brand-verde-profundo/5 dark:border-white/10 p-6 hidden z-40 flex flex-col gap-4 overflow-clip">
+            <!-- Theme toggle móvil -->
+            <button type="button" data-theme-toggle="toggle" aria-pressed="false" class="flex items-center gap-2 py-2 text-brand-verde-profundo/80 dark:text-brand-crema/75 hover:text-brand-verde transition-colors" title="Cambiar tema">
+                <svg class="w-5 h-5 dark:hidden" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+                <svg class="w-5 h-5 hidden dark:block" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                <span>Cambiar tema</span>
+            </button>
+            <a href="/#filosofia" class="block py-2 text-brand-verde-profundo/80 dark:text-brand-crema/75 hover:text-brand-verde transition-colors">Nosotros</a>
+            <a href="/#servicios" class="block py-2 text-brand-verde-profundo/80 dark:text-brand-crema/75 hover:text-brand-verde transition-colors">Servicios</a>
+            <a href="/#metodologia" class="block py-2 text-brand-verde-profundo/80 dark:text-brand-crema/75 hover:text-brand-verde transition-colors">Cómo Trabajamos</a>
+            <a href="/#equipo" class="block py-2 text-brand-verde-profundo/80 dark:text-brand-crema/75 hover:text-brand-verde transition-colors">El Equipo</a>
+            <a href="/#casos" class="block py-2 text-brand-verde-profundo/80 dark:text-brand-crema/75 hover:text-brand-verde transition-colors">Casos</a>
+            <a href="/#contacto" class="block py-2 bg-brand-verde text-white px-4 rounded-xl font-bold text-center hover:bg-brand-verde-700 dark:hover:bg-brand-verde-500 transition-all shadow-lg shadow-brand-verde/20">Hablemos</a>
+        </div>
+    </nav>
+
+    <main id="main" class="pt-20">
+        <slot />
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-brand-dark dark:bg-white/5 text-white py-12 border-t border-white/5">
+        <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-4 gap-12 text-sm">
+            <div class="col-span-1 md:col-span-2">
+                <div class="flex items-center gap-3 mb-4 text-white">
+                    <span class="w-8 h-8 rounded-full bg-white/90 dark:bg-brand-dark/90 flex items-center justify-center shadow-lg shadow-brand-verde/20">
+                        <Image src={logoImg} alt="" loading="lazy" width={24} height={24} class="w-6 h-6 drop-shadow-lg dark:brightness-0 dark:invert" />
+                    </span>
+                    <span class="font-display font-bold text-xl">Matecito</span>
+                </div>
+                <p class="max-w-xs mb-6">Ingeniería de software con raíces santafesinas. Desarrollamos el futuro sin
+                    olvidar de dónde venimos.</p>
+                <div class="inline-flex items-center gap-2 px-3 py-1 bg-white/5 rounded-full text-xs text-success border border-success/20">
+                    <span class="w-2 h-2 bg-success rounded-full animate-pulse"></span> En Línea
+                </div>
+            </div>
+
+            <div>
+                <h6 class="font-semibold text-white mb-2 uppercase tracking-wider text-xs opacity-70">Navegación</h6>
+                <ul class="space-y-3">
+                    <li><a href="/" class="hover:text-brand-verde transition-colors">Inicio</a></li>
+                    <li><a href="/#filosofia" class="hover:text-brand-verde transition-colors">Nosotros</a></li>
+                    <li><a href="/#servicios" class="hover:text-brand-verde transition-colors">Servicios</a></li>
+                    <li><a href="/#equipo" class="hover:text-brand-verde transition-colors">Equipo</a></li>
+                    <li><a href="/#casos" class="hover:text-brand-verde transition-colors">Casos</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h6 class="font-semibold text-white mb-2 uppercase tracking-wider text-xs opacity-70">Conectemos</h6>
+                <p class="mb-2">Humboldt, Santa Fe, AR</p>
+                <a href="mailto:matecito.tech@gmail.com" class="hover:text-brand-verde transition-colors block mb-2 font-medium text-white">matecito.tech@gmail.com</a>
+                <div class="flex flex-col gap-2 mt-2">
+                    <a href="https://www.linkedin.com/company/matecito-tech" target="_blank" rel="noopener noreferrer" class="hover:text-brand-verde transition-colors flex items-center gap-2 text-white"><svg class="icon text-sm" aria-hidden="true" focusable="false" width="1em" height="1em"><use href="#i-work"/></svg> LinkedIn</a>
+                    <a href="https://github.com/matecito-tech" target="_blank" rel="noopener noreferrer" class="hover:text-brand-verde transition-colors flex items-center gap-2 text-white"><svg class="icon text-sm" aria-hidden="true" focusable="false" width="1em" height="1em"><use href="#i-code"/></svg> GitHub</a>
+                    <a href="https://www.instagram.com/matecito.tech/" target="_blank" rel="noopener noreferrer" class="hover:text-brand-verde transition-colors flex items-center gap-2 text-white"><svg class="icon text-sm" aria-hidden="true" focusable="false" width="1em" height="1em"><use href="#i-photo_camera"/></svg> Instagram</a>
+                </div>
+                <div class="mt-6">
+                    <h6 class="font-semibold text-white mb-2 uppercase tracking-wider text-xs opacity-70">Legal</h6>
+                    <ul class="space-y-3">
+                        <li><a href="/politica-de-privacidad" class="hover:text-brand-verde transition-colors">Privacidad</a></li>
+                        <li><a href="/terminos" class="hover:text-brand-verde transition-colors">Términos</a></li>
+                        <li><a href="/arrepentimiento" class="text-brand-verde hover:brightness-110 transition-all font-medium">Arrepentimiento</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="max-w-7xl mx-auto px-6 mt-12 pt-8 border-t border-white/5 text-xs flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="flex flex-col md:flex-row items-center gap-2 md:gap-4 text-center md:text-left">
+                <span>&copy; 2026 Matecito. Hecho con ❤️ y 🧉 en Argentina.</span>
+                <span class="hidden md:inline opacity-20">|</span>
+                <span class="opacity-60">Ilustración Gaucho por <a href="https://www.freepik.com" target="_blank" rel="noopener noreferrer" class="hover:text-brand-verde transition-colors underline decoration-white/10" title="Dibujado a mano ilustración gaucho bebiendo">Freepik</a></span>
+            <span class="opacity-60 block mt-1">Vaca y tractor: Twemoji © Twitter, Inc. y contributors, CC-BY 4.0 (<a href="https://github.com/jdecked/twemoji" target="_blank" rel="noopener noreferrer" class="hover:text-brand-verde transition-colors underline decoration-white/10">https://github.com/jdecked/twemoji</a>), recoloreados</span>
+            </div>
+
+            <div class="flex items-center gap-6">
+                <a href="https://www.afip.gob.ar/" id="afip-data-fiscal" target="_blank" rel="noopener noreferrer" class="opacity-50 hover:opacity-100 transition-opacity" title="Data Fiscal AFIP" aria-label="Data Fiscal AFIP">
+                    <div class="w-8 h-10 bg-white/10 rounded flex items-center justify-center border border-white/5">
+                        <svg class="icon text-lg" aria-hidden="true" focusable="false" width="1em" height="1em"><use href="#i-qr_code_2"/></svg>
+                    </div>
+                </a>
+                <span class="opacity-70 hover:opacity-100 transition-opacity cursor-pointer">v3.2.0-FOGON</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Toast Container (región viva: los toasts se insertan como hijos) -->
+    <div id="toast-container" role="status" aria-live="polite"></div>
+
+    <!-- Sprite de iconos SVG -->
+    <IconSprite />
+
+    <!-- Scripts -->
+    <script>
+        import '../scripts/main.js';
+    </script>
+</body>
+</html>

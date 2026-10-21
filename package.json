@@ -1,0 +1,33 @@
+{
+  "name": "matecito-website",
+  "version": "3.2.0",
+  "private": true,
+  "type": "module",
+  "description": "Matecito - Desarrollo de Software Artesanal",
+  "scripts": {
+    "validate:html": "html-validate \"dist/**/*.html\" \"public/**/*.html\"",
+    "lint:js": "eslint src/scripts/*.js",
+    "test": "bun run validate:html && bun run lint:js && bun run check",
+    "dev": "node scripts/dev.mjs",
+    "dev:bg": "astro dev --background",
+    "dev:stop": "astro dev stop",
+    "dev:status": "astro dev status",
+    "dev:logs": "astro dev logs --follow",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "astro check"
+  },
+  "devDependencies": {
+    "@astrojs/sitemap": "^3.7.4",
+    "@tailwindcss/vite": "^4.3.3",
+    "apca-w3": "^0.1.9",
+    "astro": "^7.4.1",
+    "culori": "^4.0.2",
+    "eslint": "^10.13.0",
+    "globals": "^17.13.0",
+    "html-validate": "^11.17.0",
+    "tailwindcss": "^4.3.3",
+    "@astrojs/check": "^0.9.0",
+    "typescript": "^5.0.0"
+  }
+}

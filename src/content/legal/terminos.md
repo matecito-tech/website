@@ -10,7 +10,7 @@ Estos términos regulan el uso de este sitio y la contratación de los servicios
 
 ## Quiénes somos
 
-**Matecito Tech** es un estudio de desarrollo de software de Mateo Gariboglio, con domicilio en Humboldt, provincia de Santa Fe, Argentina. Email: [matecito.tech@gmail.com](mailto:matecito.tech@gmail.com). WhatsApp: +54 342 537-0985.
+**Matecito Tech** es un estudio de desarrollo de software de Mateo Gariboglio, con domicilio en Humboldt, provincia de Santa Fe, Argentina. Email: [matecito.tech@gmail.com](mailto:matecito.tech@gmail.com). WhatsApp: +54 9 3496 59-2498.
 
 ## Servicios
 

@@ -56,7 +56,7 @@ test('el asistente responde y arma el mensaje de WhatsApp', async ({ page }) => 
   await page.getByLabel('Escribí tu pregunta').fill('Tengo una ferretería y quiero vender online');
   await page.keyboard.press('Enter');
   await expect(page.locator('.msg--bot').last()).toContainText('tienda online', { ignoreCase: true });
-  await expect(page.locator('.msg__actions a[href*="wa.me/543425370985"]').last()).toBeVisible();
+  await expect(page.locator('.msg__actions a[href*="wa.me/5493496592498"]').last()).toBeVisible();
 });
 
 test('la ronda de mate suma logros', async ({ page }) => {

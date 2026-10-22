@@ -5,7 +5,7 @@
 //    estudio. En ambos casos el objetivo es el mismo: resolver la duda y llevar
 //    la conversación a un presupuesto por WhatsApp o por el formulario.
 
-const WHATSAPP = '543425370985';
+const WHATSAPP = '5493496592498';
 
 const SERVICIOS = {
     landing: { nombre: 'Página web', precio: 'desde USD 250 (pago único)' },

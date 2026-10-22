@@ -192,11 +192,27 @@ export async function start(panel) {
 
     const scrollDown = () => log.scrollTo({ top: log.scrollHeight, behavior: 'smooth' });
 
+    const avatar = panel.getAttribute('data-avatar');
     const addMsg = (who, text = '') => {
         const el = document.createElement('div');
         el.className = `msg msg--${who}`;
         el.textContent = text;
-        log.appendChild(el);
+        if (who === 'bot' && avatar) {
+            // Mensajes del gaucho: con su cara al lado, como en cualquier chat
+            const row = document.createElement('div');
+            row.className = 'msg-row';
+            const face = document.createElement('span');
+            face.className = 'bot-avatar';
+            face.setAttribute('aria-hidden', 'true');
+            const img = document.createElement('img');
+            img.src = avatar;
+            img.alt = '';
+            face.appendChild(img);
+            row.append(face, el);
+            log.appendChild(row);
+        } else {
+            log.appendChild(el);
+        }
         scrollDown();
         return el;
     };
@@ -324,6 +340,6 @@ export async function start(panel) {
         handle(v);
     });
 
-    addMsg('bot', '¡Hola! Soy el asistente de Matecito Tech. Contame qué necesitás para tu negocio y te digo cómo te podemos ayudar y cuánto cuesta.');
+    addMsg('bot', '¡Buenas! Soy el Gaucho de Matecito 🧉 Contame qué necesitás para tu negocio y te digo cómo te podemos ayudar y cuánto cuesta.');
     setChips(['Precios', 'Necesito vender online', 'Ordenar turnos o stock', 'Quiero aparecer en Google']);
 }

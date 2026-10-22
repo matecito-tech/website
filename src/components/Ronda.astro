@@ -4,6 +4,7 @@
 // asistente). Completar la ronda desbloquea un diagnóstico sin cargo.
 // El progreso se guarda solo en este navegador (localStorage).
 import { whatsappLink } from '../data/site';
+import gauchoBot from '../assets/gaucho-bot.svg';
 
 export const LOGROS = [
   { id: 'historia', label: 'Conociste nuestra historia', hint: 'Leé "Una historia que seguro conocés".' },
@@ -27,7 +28,7 @@ const premio = whatsappLink('¡Hola Matecito Tech! Completé la ronda de mate en
     <span class="ronda-pill__txt"><span class="ronda-pill__label">Ronda de mate</span> <strong data-ronda-count>0/5</strong><span class="sr-only"> mates cebados</span></span>
   </button>
   <button type="button" class="dock__btn" data-chat-open aria-controls="chat" aria-expanded="false">
-    <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-chat_bubble"/></svg>Asistente
+    <span class="bot-avatar dock__face" aria-hidden="true"><img src={gauchoBot.src} alt="" width="28" height="28"><span class="bot-avatar__online"></span></span>Asistente
   </button>
   <a href="/#contacto" class="dock__cta">Pedí presupuesto</a>
   <a href="/arrepentimiento/" class="dock__legal">Botón de arrepentimiento</a>
@@ -94,7 +95,8 @@ const premio = whatsappLink('¡Hola Matecito Tech! Completé la ronda de mate en
     .ronda-pill { box-shadow: none; padding-right: .7rem; }
     .ronda-pill__label { display: none; }
     .dock__btn, .dock__cta { display: inline-flex; align-items: center; justify-content: center; gap: .4rem; min-height: 2.75rem; border-radius: .85rem; font-weight: 700; font-size: .9rem; }
-    .dock__btn { padding: 0 .8rem; border: 1px solid var(--hair); background: var(--surface); }
+    .dock__btn { padding: 0 .8rem 0 .35rem; border: 1px solid var(--hair); background: var(--surface); }
+    .dock__face { width: 2rem; height: 2rem; }
     .dock__cta { flex: 1; background: var(--color-brand-verde); color: #fff; }
     .chat-fab { display: none !important; }
     .dock__legal { display: none; }

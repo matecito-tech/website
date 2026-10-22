@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 72 72" width="144" height="144" aria-hidden="true">
+<!-- Ilustración original para Matecito Tech, en el estilo plano de Twemoji -->
+<defs><linearGradient id="beam" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFCC4D" stop-opacity=".5"/><stop offset="1" stop-color="#FFCC4D" stop-opacity="0"/></linearGradient></defs><style>.bob{animation:bob 4.6s ease-in-out infinite}.rot{transform-box:fill-box;transform-origin:center;animation:rot .16s linear infinite}.blink{animation:blk 2.2s steps(1) infinite}@keyframes bob{50%{transform:translateY(-1.8px)}}@keyframes rot{50%{transform:scaleX(.78)}}@keyframes blk{0%,70%{opacity:1}71%,100%{opacity:.2}}@media (prefers-reduced-motion: reduce) { * { animation: none !important; } }</style><polygon points="33.2,35.2 38.8,35.2 56,72 16,72" fill="url(#beam)"/>
+<g class="bob">
+  <g stroke="#372440" stroke-linecap="round" fill="none" opacity=".55">
+    <path d="M31 19.5L22 10M41 19.5L50 10" stroke-width="1.8"/>
+  </g>
+  <ellipse class="rot" cx="22" cy="8.6" rx="8" ry="1.6" fill="#372440" opacity=".3"/>
+  <ellipse class="rot" cx="50" cy="8.6" rx="8" ry="1.6" fill="#372440" opacity=".3"/>
+  <path d="M29 23L11 19.2M43 23L61 19.2" stroke="#372440" stroke-width="2.6" stroke-linecap="round" fill="none"/>
+  <circle cx="11" cy="19.2" r="2.3" fill="#372440"/><circle cx="61" cy="19.2" r="2.3" fill="#372440"/>
+  <ellipse class="rot" cx="11" cy="16.4" rx="10" ry="2.2" fill="#372440" opacity=".38"/>
+  <ellipse class="rot" cx="61" cy="16.4" rx="10" ry="2.2" fill="#372440" opacity=".38"/>
+  <circle class="blink" cx="17.2" cy="21.4" r="1.1" fill="#FF7A6E"/><circle class="blink" cx="54.8" cy="21.4" r="1.1" fill="#7DE0A8"/>
+  <path d="M30 29.5v-6.2A6.5 6.5 0 0 1 36.5 17h-1A6.5 6.5 0 0 1 42 23.3v6.2z" fill="none"/>
+  <rect x="25" y="17" width="22" height="13" rx="6.5" fill="#FFCC4D"/>
+  <path d="M25 24h22v.5A5.5 5.5 0 0 1 41.5 30h-11A5.5 5.5 0 0 1 25 24.5z" fill="#FFAC33"/>
+  <rect x="29.4" y="20" width="13.2" height="6.2" rx="3.1" fill="#372440"/>
+  <circle cx="34.2" cy="23.1" r="1.35" fill="#8CE8B4"/><circle cx="38.8" cy="23.1" r="1.35" fill="#8CE8B4"/>
+  <rect x="34.8" y="29.4" width="2.4" height="2" fill="#372440"/>
+  <circle cx="36" cy="33" r="3.1" fill="#372440"/><circle cx="36" cy="33.4" r="1.55" fill="#3FA672"/><circle cx="35.3" cy="32.7" r=".5" fill="#fff"/>
+  <path d="M29.5 29.5L27.4 37M42.5 29.5L44.6 37M24.8 37.6h5.4M41.8 37.6h5.4" stroke="#372440" stroke-width="1.7" stroke-linecap="round" fill="none"/>
+</g>
+</svg>

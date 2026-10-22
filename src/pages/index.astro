@@ -7,10 +7,18 @@ import schalbetterImg from '../assets/schalbetter-logo.webp';
 import gauchoImg from '../assets/hero/gaucho.svg';
 import solImg from '../assets/hero/sol.svg';
 import lunaImg from '../assets/hero/luna.svg';
-import campoImg from '../assets/hero/campo.svg';
-import campoNocheImg from '../assets/hero/campo-noche.svg';
+import campoImg from '../assets/hero/tech/campo-tech.svg';
+import campoNocheImg from '../assets/hero/tech/campo-tech-noche.svg';
 import primerPlanoImg from '../assets/hero/primer-plano.svg';
 import primerPlanoNocheImg from '../assets/hero/primer-plano-noche.svg';
+import redNodosDia from '../assets/hero/tech/red-nodos-dia.svg';
+import redNodosNoche from '../assets/hero/tech/red-nodos-noche.svg';
+import sateliteDia from '../assets/hero/tech/satelite-dia.svg';
+import sateliteNoche from '../assets/hero/tech/satelite-noche.svg';
+import dronDia from '../assets/hero/tech/dron-dia.svg';
+import dronNoche from '../assets/hero/tech/dron-noche.svg';
+import torreDia from '../assets/hero/tech/torre-senal-dia.svg';
+import torreNoche from '../assets/hero/tech/torre-senal-noche.svg';
 ---
 <Layout title="Matecito | Desarrollo de Software Artesanal | Humboldt, Santa Fe" description="Impulsá tu negocio con desarrollo de software artesanal en Humboldt y Santa Fe. Sitios web de alto impacto, tiendas online y sistemas a medida que venden solos.">
     <header class="hero" id="hero">
@@ -20,6 +28,14 @@ import primerPlanoNocheImg from '../assets/hero/primer-plano-noche.svg';
       </div>
       <div class="crux" id="crux" aria-hidden="true" data-dx="4" data-dy="3"></div>
 
+      <!-- TECH · red de nodos (z0) y satélite (animado) -->
+      <Image class="hero__tech hero__tech--net hero__tech--net--dia" src={redNodosDia} alt="" width={900} height={340} decoding="async" data-dx="5" data-dy="3" />
+      <Image class="hero__tech hero__tech--net hero__tech--net--noche" src={redNodosNoche} alt="" width={900} height={340} decoding="async" loading="lazy" data-dx="5" data-dy="3" />
+      <Image class="hero__tech hero__tech--sat hero__tech--sat--dia" src={sateliteDia} alt="" width={144} height={144} decoding="async" data-dx="10" data-dy="5" />
+      <Image class="hero__tech hero__tech--sat hero__tech--sat--noche" src={sateliteNoche} alt="" width={144} height={144} decoding="async" loading="lazy" data-dx="10" data-dy="5" />
+      <Image class="hero__tech hero__tech--tower hero__tech--tower--dia" src={torreDia} alt="" width={80} height={140} decoding="async" data-dx="7" data-dy="4" />
+      <Image class="hero__tech hero__tech--tower hero__tech--tower--noche" src={torreNoche} alt="" width={80} height={140} decoding="async" loading="lazy" data-dx="7" data-dy="4" />
+
       <!-- z1 · campo (día y noche, se cruzan con opacity) -->
       <Image class="hero__field hero__field--dia" src={campoImg} alt="" width={1920} height={240} loading="eager" decoding="async" data-dx="14" data-dy="2" />
       <Image class="hero__field hero__field--noche" src={campoNocheImg} alt="" width={1920} height={240} decoding="async" loading="lazy" data-dx="14" data-dy="2" />
@@ -28,7 +44,7 @@ import primerPlanoNocheImg from '../assets/hero/primer-plano-noche.svg';
         <div class="hero__copy">
           <span class="badge">Software a medida</span>
           <h1>Hacemos eficiente <em>tu flujo de trabajo.</em></h1>
-          <p class="lead">Reducimos costos, agilizamos procesos y automatizamos lo aburrido. Enfocate en lo que hacés bien, nosotros nos encargamos de que la tecnología te acompañe, no que te frene: la tecnología acompaña, no estorba.</p>
+          <p class="lead">Reducimos costos, agilizamos procesos y automatizamos lo aburrido. Enfocate en lo que hacés bien, nosotros nos encargamos de que la tecnología te acompañe, no que te frene.</p>
           <div class="cta">
             <a class="btn btn--primary" href="#contacto">Empezar Ahora
               <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
@@ -49,6 +65,10 @@ import primerPlanoNocheImg from '../assets/hero/primer-plano-noche.svg';
           </div>
         </div>
       </div>
+
+      <!-- TECH · dron (z2) sobre el campo, a la derecha del gaucho -->
+      <Image class="hero__tech hero__tech--dron hero__tech--dron--dia" src={dronDia} alt="" width={144} height={144} decoding="async" data-dx="22" data-dy="3" />
+      <Image class="hero__tech hero__tech--dron hero__tech--dron--noche" src={dronNoche} alt="" width={144} height={144} decoding="async" loading="lazy" data-dx="22" data-dy="3" />
 
       <!-- z3 · primer plano + luciérnagas -->
       <Image class="hero__front hero__front--dia" src={primerPlanoImg} alt="" width={1920} height={240} decoding="async" data-dx="30" data-dy="3" />
@@ -596,6 +616,32 @@ import primerPlanoNocheImg from '../assets/hero/primer-plano-noche.svg';
     .hero__sun, .hero__moon, .hero__field, .hero__front { transition: none; }
   }
 
+  /* ---------- Tech (detalles sutiles) ---------- */
+  .hero__tech {
+    position: absolute;
+    max-width: none;
+    height: auto;
+    pointer-events: none;
+    user-select: none;
+    transition: opacity .7s ease;
+  }
+  .hero__tech--net { z-index: 0; left: 47%; top: 2%; width: 53%; }
+  .hero__tech--net--noche, .hero__tech--sat--noche, .hero__tech--tower--noche, .hero__tech--dron--noche { opacity: 0; }
+  :root.dark .hero__tech--net--noche, :root.dark .hero__tech--sat--noche, :root.dark .hero__tech--tower--noche, :root.dark .hero__tech--dron--noche { opacity: 1; }
+  :root.dark .hero__tech--net--dia, :root.dark .hero__tech--sat--dia, :root.dark .hero__tech--tower--dia, :root.dark .hero__tech--dron--dia { opacity: 0; }
+
+  .hero__tech--sat { z-index: 0; left: 63%; top: 8%; width: clamp(54px, 5.6vw, 108px); animation: sat-flota 16s ease-in-out infinite alternate; }
+  .hero__tech--tower { z-index: 1; left: 56%; top: 16%; width: clamp(56px, 6vw, 92px); opacity: .9; }
+  .hero__tech--dron { z-index: 2; left: 84.5%; top: 47%; width: clamp(60px, 7.2vw, 136px); animation: dron-flota 12s ease-in-out infinite alternate; }
+
+  @keyframes sat-flota { from { transform: rotate(-12deg) translate(0, 0); } to { transform: rotate(-6deg) translate(-1.4cqw, .8cqw); } }
+  @keyframes dron-flota { from { transform: translate(0, 0) rotate(-2deg); } to { transform: translate(-1.2cqw, -1cqw) rotate(2deg); } }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero__tech--sat, .hero__tech--dron { animation: none; }
+    .hero__tech--sat { transform: rotate(-10deg); }
+  }
+
   /* ---------- Mobile ---------- */
   @media (max-width: 859px) {
     .hero { min-height: 0; }
@@ -605,6 +651,7 @@ import primerPlanoNocheImg from '../assets/hero/primer-plano-noche.svg';
     .btn { flex: 1 1 auto; justify-content: center; }
     :root.dark .hero__dust i.big { display: none; }   /* en mobile el texto ocupa todo el ancho */
     .crux { top: 3%; right: 6%; transform: scale(.7); transform-origin: top right; }
+    .hero__tech--net, .hero__tech--sat, .hero__tech--tower, .hero__tech--dron { display: none; }
   }
 
   /* Solo del demo */

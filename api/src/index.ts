@@ -57,7 +57,7 @@ const codigoArrepentimiento = () => {
 };
 
 export default {
-  async fetch(req: Request): Promise<Response> {
+  async fetch(req: Request, _env: unknown, ctx: { waitUntil(p: Promise<unknown>): void }): Promise<Response> {
     const url = new URL(req.url);
     const quiereJson = (req.headers.get("accept") ?? "").includes("application/json");
 
@@ -85,10 +85,13 @@ export default {
         const mensaje = limpio(campos.mensaje, 5000);
         if (!nombre || !contacto || !mensaje) return json({ ok: false, error: "Faltan datos" }, 422);
 
-        await enviar(
-          `Nueva consulta de ${nombre} (${servicio}) - Matecito Tech`,
-          `Nombre: ${nombre}\nContacto: ${contacto}\nServicio: ${servicio}\n\nMensaje:\n${mensaje}\n\n--\nEnviado desde ${SITE}/#contacto`,
-          esEmail(contacto) ? contacto : undefined,
+        // El mail sale en segundo plano: la persona no espera los ~8 s de Email Routing
+        ctx.waitUntil(
+          enviar(
+            `Nueva consulta de ${nombre} (${servicio}) - Matecito Tech`,
+            `Nombre: ${nombre}\nContacto: ${contacto}\nServicio: ${servicio}\n\nMensaje:\n${mensaje}\n\n--\nEnviado desde ${SITE}/#contacto`,
+            esEmail(contacto) ? contacto : undefined,
+          ).catch((err) => console.error("Error al enviar la consulta", err)),
         );
         return quiereJson ? json({ ok: true }) : Response.redirect(`${SITE}/gracias/`, 303);
       }

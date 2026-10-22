@@ -1,7 +1,6 @@
 // Formularios de matecito.qzz.io: reciben los envíos del sitio y los mandan
 // por mail con Email Routing. Rutas: POST /api/contacto, POST /api/arrepentimiento.
 import { env } from "cloudflare:workers";
-import { EmailMessage } from "cloudflare:email";
 
 const SITE = "https://matecito.qzz.io";
 const FROM = "formularios@matecito.qzz.io";
@@ -46,8 +45,15 @@ const armarMail = (asunto: string, cuerpo: string, replyTo?: string) => {
   return `${cabeceras.join("\r\n")}\r\n\r\n${b64Lineas(cuerpo)}`;
 };
 
+// Gmail rechaza los mails de Email Routing sin DKIM (requiere Email Sending, pago).
+// Mientras tanto, el envío real lo hace FormSubmit (ya activado), siempre en segundo plano.
 const enviar = async (asunto: string, cuerpo: string, replyTo?: string) => {
-  await env.MAIL.send(new EmailMessage(FROM, TO, armarMail(asunto, cuerpo, replyTo)));
+  const res = await fetch(`https://formsubmit.co/ajax/${TO}`, {
+    method: "POST",
+    headers: { "content-type": "application/json", accept: "application/json", origin: SITE, referer: `${SITE}/` },
+    body: JSON.stringify({ _subject: asunto, _template: "box", mensaje: cuerpo, ...(replyTo ? { _replyto: replyTo, email: replyTo } : {}) }),
+  });
+  if (!res.ok) throw new Error(`FormSubmit HTTP ${res.status}`);
 };
 
 const codigoArrepentimiento = () => {
@@ -105,11 +111,11 @@ export default {
         if (!nombre || !esEmail(email) || !servicio || !fecha) return json({ ok: false, error: "Faltan datos" }, 422);
 
         const codigo = codigoArrepentimiento();
-        await enviar(
+        ctx.waitUntil(enviar(
           `[${codigo}] ${tipo} - ${nombre} - Matecito Tech`,
           `Código de identificación: ${codigo}\nTrámite: ${tipo}\n\nNombre: ${nombre}\nEmail: ${email}\nTeléfono: ${limpio(campos.telefono, 40) || "-"}\nServicio contratado: ${servicio}\nFecha de contratación: ${fecha}\n\nComentarios:\n${limpio(campos.comentarios, 3000) || "-"}\n\n--\nRes. SCI 424/2020: confirmar por email a la persona dentro de las 24 horas, citando el código.`,
           email,
-        );
+        ).catch((err) => console.error("Error al enviar el arrepentimiento", err)));
         return quiereJson
           ? json({ ok: true, codigo })
           : Response.redirect(`${SITE}/gracias/?tramite=${encodeURIComponent(tipo)}&codigo=${encodeURIComponent(codigo)}`, 303);

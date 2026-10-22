@@ -51,12 +51,13 @@ jobs:
         run: bun run validate:html
       - name: Presupuesto de peso
         run: |
-          # Se mide lo que viaja por la red (gzip): el CSS va inline en el HTML
-          html=$(gzip -9c dist/index.html | wc -c)
-          js=$(find dist/_astro -name '*.js' -exec cat {} + | gzip -9c | wc -c)
-          echo "index.html (gzip): $html B | JS total (gzip): $js B" >> "$GITHUB_STEP_SUMMARY"
-          test "$html" -lt 60000 || { echo "::error::index.html supera 60 KB comprimido"; exit 1; }
-          test "$js" -lt 25000 || { echo "::error::El JS supera 25 KB comprimido"; exit 1; }
+          # Se mide lo que viaja por la red: Brotli (lo que entrega Cloudflare). El CSS va inline.
+          br() { node -e 'const z=require("zlib"),f=require("fs");const b=Buffer.concat(process.argv.slice(1).map(p=>f.readFileSync(p)));console.log(z.brotliCompressSync(b,{params:{[z.constants.BROTLI_PARAM_QUALITY]:11}}).length)' "$@"; }
+          html=$(br dist/index.html)
+          js=$(br $(find dist/_astro -name '*.js'))
+          echo "index.html (brotli): $html B | JS total (brotli): $js B" >> "$GITHUB_STEP_SUMMARY"
+          test "$html" -lt 50000 || { echo "::error::index.html supera 50 KB comprimido"; exit 1; }
+          test "$js" -lt 20000 || { echo "::error::El JS supera 20 KB comprimido"; exit 1; }
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: dist

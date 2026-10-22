@@ -16,7 +16,8 @@ window.addEventListener('scroll', () => {
         ticking = true;
     }
 }, { passive: true });
-updateNav();
+// En el próximo cuadro: leer scrollY recién aplicado el tema forzaría un recálculo de diseño
+requestAnimationFrame(updateNav);
 
 // 2. SECCIÓN ACTIVA en el menú (aria-current), con IntersectionObserver
 const navLinks = [...document.querySelectorAll('[data-nav-link]')];

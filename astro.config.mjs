@@ -13,7 +13,8 @@ export default defineConfig({
   output: 'static',
   compressHTML: true,
   build: {
-    inlineStylesheets: 'auto',
+    // CSS inline (≈18 KB): sin hojas de estilo que bloqueen el primer pintado
+    inlineStylesheets: 'always',
   },
 
   vite: {
@@ -68,15 +69,19 @@ export default defineConfig({
       algorithm: 'SHA-256',
       directives: [
         "default-src 'self'",
+        // Cloudflare Web Analytics (sin cookies) lo inyecta el proxy de Cloudflare
         "img-src 'self' data: https://www.afip.gob.ar",
         "font-src 'self'",
-        "connect-src 'self' https://formsubmit.co https://dolarapi.com",
+        "connect-src 'self' https://formsubmit.co https://dolarapi.com https://cloudflareinsights.com",
         "form-action 'self' https://formsubmit.co",
         "base-uri 'self'",
         "object-src 'none'",
         "manifest-src 'self'",
         'upgrade-insecure-requests',
       ],
+      scriptDirective: {
+        resources: ["'self'", 'https://static.cloudflareinsights.com'],
+      },
       styleDirective: {
         resources: ["'self'", { resource: "'unsafe-inline'", kind: 'attribute' }],
       },

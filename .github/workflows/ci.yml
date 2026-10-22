@@ -51,11 +51,12 @@ jobs:
         run: bun run validate:html
       - name: Presupuesto de peso
         run: |
-          html=$(stat -c%s dist/index.html)
-          js=$(find dist/_astro -name '*.js' -printf '%s\n' | awk '{s+=$1} END {print s+0}')
-          echo "index.html: $html B | JS total: $js B" >> "$GITHUB_STEP_SUMMARY"
-          test "$html" -lt 150000 || { echo "::error::index.html supera 150 KB"; exit 1; }
-          test "$js" -lt 60000 || { echo "::error::El JS supera 60 KB"; exit 1; }
+          # Se mide lo que viaja por la red (gzip): el CSS va inline en el HTML
+          html=$(gzip -9c dist/index.html | wc -c)
+          js=$(find dist/_astro -name '*.js' -exec cat {} + | gzip -9c | wc -c)
+          echo "index.html (gzip): $html B | JS total (gzip): $js B" >> "$GITHUB_STEP_SUMMARY"
+          test "$html" -lt 60000 || { echo "::error::index.html supera 60 KB comprimido"; exit 1; }
+          test "$js" -lt 25000 || { echo "::error::El JS supera 25 KB comprimido"; exit 1; }
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: dist

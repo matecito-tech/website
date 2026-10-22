@@ -405,11 +405,7 @@ const schema = [
         </ol>
       </div>
 
-      <form id="contactForm" action="https://formsubmit.co/matecito.tech@gmail.com" method="POST" class="contact-form reveal" novalidate>
-        <input type="hidden" name="_subject" value="Nuevo mensaje desde la web de Matecito Tech">
-        <input type="hidden" name="_template" value="table">
-        <input type="hidden" name="_captcha" value="true">
-        <input type="hidden" name="_next" value="https://matecito.qzz.io/gracias/">
+      <form id="contactForm" action="/api/contacto" method="POST" class="contact-form reveal" novalidate>
         <input type="text" name="_honey" class="hidden" tabindex="-1" autocomplete="off" aria-hidden="true">
         <p id="form-status" role="status" aria-live="polite" class="sr-only"></p>
 

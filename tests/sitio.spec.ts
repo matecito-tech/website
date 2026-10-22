@@ -96,3 +96,24 @@ test('las secciones aparecen al entrar en pantalla', async ({ page }) => {
   await titulo.scrollIntoViewIfNeeded();
   await expect(titulo).toHaveClass(/is-in/);
 });
+
+test('el formulario de contacto envía al Worker y confirma', async ({ page }) => {
+  let enviado: Record<string, string> | null = null;
+  await page.route('**/api/contacto', async (route) => {
+    enviado = JSON.parse(route.request().postData() ?? '{}');
+    await route.fulfill({ status: 200, contentType: 'application/json', body: '{"ok":true}' });
+  });
+  await page.goto('/#contacto');
+  await page.fill('#nombre', 'Laura Gómez');
+  await page.fill('#contacto_dato', 'laura@example.com');
+  await page.fill('#mensaje', 'Quiero una tienda online para mi ferretería.');
+  await page.getByRole('button', { name: 'Enviar consulta' }).click();
+  await expect(page.locator('#form-status')).toContainText('Recibimos tu consulta');
+  expect(enviado).toMatchObject({ nombre: 'Laura Gómez', contacto: 'laura@example.com' });
+});
+
+test('el arrepentimiento muestra el código de identificación (Res. 424/2020)', async ({ page }) => {
+  await page.goto('/gracias/?tramite=Arrepentimiento&codigo=ARR-20261022-ABC123');
+  await expect(page.locator('[data-codigo]')).toHaveText('ARR-20261022-ABC123');
+  await expect(page.locator('h1')).toContainText('arrepentimiento');
+});

@@ -4,11 +4,37 @@ import { whatsappLink } from '../data/site';
 ---
 <Layout title="¡Gracias por escribirnos! | Matecito Tech" description="Recibimos tu mensaje. Te respondemos a la brevedad con los próximos pasos." noindex>
   <section class="legal wrap text-center">
-    <h1 class="h2">¡Gracias! Recibimos tu mensaje</h1>
-    <p class="lede mx-auto mt-4">Te escribimos a la brevedad con los próximos pasos. Si es urgente, mandanos un WhatsApp.</p>
+    <h1 class="h2" data-gracias-titulo>¡Gracias! Recibimos tu mensaje</h1>
+    <p class="lede mx-auto mt-4" data-gracias-texto>Te escribimos a la brevedad con los próximos pasos. Si es urgente, mandanos un WhatsApp.</p>
+
+    <!-- Res. SCI 424/2020: código de identificación del trámite de arrepentimiento o baja -->
+    <div class="codigo" data-codigo-box hidden>
+      <p class="text-sm font-semibold">Código de identificación de tu trámite</p>
+      <p class="codigo__valor" data-codigo></p>
+      <p class="text-sm text-[var(--ink-2)]">Guardalo: te lo confirmamos por email dentro de las 24 horas.</p>
+    </div>
+
     <div class="flex flex-wrap justify-center gap-3 mt-8">
       <a href="/" class="btn-cta btn-lg">Volver al inicio</a>
       <a href={whatsappLink('Hola Matecito Tech, recién les envié un formulario desde la web.')} target="_blank" rel="noopener" class="btn-alt btn-lg">Escribir por WhatsApp</a>
     </div>
   </section>
 </Layout>
+
+<script>
+  const params = new URLSearchParams(location.search);
+  const codigo = params.get('codigo');
+  if (codigo && /^ARR-\d{8}-[A-Z0-9]{6}$/.test(codigo)) {
+    const tramite = params.get('tramite') || 'Arrepentimiento';
+    document.querySelector('[data-codigo]')!.textContent = codigo;
+    document.querySelector<HTMLElement>('[data-codigo-box]')!.hidden = false;
+    document.querySelector('[data-gracias-titulo]')!.textContent = `Recibimos tu pedido de ${tramite.toLowerCase()}`;
+    document.querySelector('[data-gracias-texto]')!.textContent = 'Lo vamos a gestionar sin costo, según la Ley 24.240.';
+  }
+</script>
+
+<style>
+  .codigo { margin: 2rem auto 0; max-width: 26rem; padding: 1.25rem; border-radius: 1rem; border: 2px dashed var(--color-brand-verde); }
+  .codigo__valor { font-family: var(--font-mono); font-size: clamp(1.25rem, 4vw, 1.6rem); font-weight: 700; letter-spacing: .04em; margin: .4rem 0; color: var(--color-brand-verde); }
+  :global(.dark) .codigo__valor { color: var(--color-brand-verde-400); }
+</style>

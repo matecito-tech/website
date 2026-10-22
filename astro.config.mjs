@@ -72,8 +72,8 @@ export default defineConfig({
         // Cloudflare Web Analytics (sin cookies) lo inyecta el proxy de Cloudflare
         "img-src 'self' data: https://www.afip.gob.ar",
         "font-src 'self'",
-        "connect-src 'self' https://formsubmit.co https://dolarapi.com https://cloudflareinsights.com",
-        "form-action 'self' https://formsubmit.co",
+        "connect-src 'self' https://dolarapi.com https://cloudflareinsights.com",
+        "form-action 'self'",
         "base-uri 'self'",
         "object-src 'none'",
         "manifest-src 'self'",

@@ -271,7 +271,7 @@ document.querySelectorAll('[data-servicio]').forEach(btn => {
     });
 });
 
-// 7. FORMULARIO (FormSubmit vía AJAX; sin JS hace POST normal)
+// 7. FORMULARIO (Worker propio en /api/contacto; sin JS hace POST normal y redirige a /gracias/)
 const form = document.getElementById('contactForm');
 const formStatus = document.getElementById('form-status');
 const setFormStatus = msg => { if (formStatus) formStatus.textContent = msg; };
@@ -325,20 +325,15 @@ if (form) {
         setFormStatus('');
 
         try {
-            const res = await fetch('https://formsubmit.co/ajax/matecito.tech@gmail.com', {
+            // Worker propio en Cloudflare (api/): responde en milisegundos y manda el mail
+            const res = await fetch('/api/contacto', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-                body: JSON.stringify({
-                    ...data,
-                    _subject: `Nueva consulta de ${data.nombre} (${data.servicio}) - Matecito Tech`,
-                    _template: 'table',
-                    _captcha: 'true',
-                }),
-                signal: AbortSignal.timeout(15000),
+                body: JSON.stringify({ ...data, _honey: form.querySelector('[name="_honey"]')?.value ?? '' }),
+                signal: AbortSignal.timeout(20000),
             });
-            if (!res.ok) throw new Error(`FormSubmit HTTP ${res.status}`);
             const d = await res.json().catch(() => ({}));
-            if (d?.success === false || d?.success === 'false') throw new Error('FormSubmit Error');
+            if (!res.ok || !d?.ok) throw new Error(d?.error || `HTTP ${res.status}`);
 
             const ok = '¡Gracias! Recibimos tu consulta y te vamos a escribir pronto.';
             showToast(ok, 'success');

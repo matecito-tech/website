@@ -34,7 +34,7 @@ Corregimos sin costo los defectos del trabajo entregado que nos informes dentro 
 
 ## Derecho de arrepentimiento
 
-Si contrataste a distancia (por internet, WhatsApp o email), podés **revocar la aceptación dentro de los 10 días corridos** desde la contratación, sin costo ni responsabilidad alguna (art. 34 de la Ley 24.240 y art. 1110 del CCyC). Usá el [botón de arrepentimiento](/arrepentimiento/): dentro de las 24 horas te enviamos por email el código de identificación de tu pedido (Res. SCI 424/2020) y te devolvemos lo abonado por el mismo medio de pago.
+Si contrataste a distancia (por internet, WhatsApp o email), podés **revocar la aceptación dentro de los 10 días corridos** desde la contratación, sin costo ni responsabilidad alguna (art. 34 de la Ley 24.240 y art. 1110 del CCyC). Usá el [botón de arrepentimiento](/arrepentimiento/): te mostramos en el acto el código de identificación de tu pedido y te lo confirmamos por email dentro de las 24 horas (Res. SCI 424/2020) y te devolvemos lo abonado por el mismo medio de pago.
 
 ## Baja de servicios mensuales
 

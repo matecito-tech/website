@@ -40,7 +40,8 @@ jobs:
         with:
           args: >-
             --verbose --no-progress
-            --exclude-status 429,999
+            --exclude "linkedin.com,instagram.com,matecito.tech@gmail.com"
+            --accept "999,429,200"
             --include-fragments
             src/pages/*.astro
             public/*.txt

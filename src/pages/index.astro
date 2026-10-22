@@ -1,9 +1,12 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import CodeBlock from '../components/CodeBlock.astro';
+import Logo from '../components/Logo.astro';
 import { Image } from 'astro:assets';
-import mateoImg from '../assets/hero/mateo-gariboglio_low-poly.webp';
-import schalbetterImg from '../assets/schalbetter-logo.webp';
+import { PLANS, SITE_URL, whatsappLink } from '../data/site';
+import mateoImg from '../assets/mateo-gariboglio-busto.webp';
+import casoEscritorio from '../assets/caso-schalbetter-escritorio.webp';
+import casoCelular from '../assets/caso-schalbetter-celular.webp';
 import gauchoImg from '../assets/hero/gaucho.svg';
 import solImg from '../assets/hero/sol.svg';
 import lunaImg from '../assets/hero/luna.svg';
@@ -17,481 +20,468 @@ import sateliteDia from '../assets/hero/tech/satelite-dia.svg';
 import sateliteNoche from '../assets/hero/tech/satelite-noche.svg';
 import dronDia from '../assets/hero/tech/dron-dia.svg';
 import dronNoche from '../assets/hero/tech/dron-noche.svg';
-import torreDia from '../assets/hero/tech/torre-senal-dia.svg';
-import torreNoche from '../assets/hero/tech/torre-senal-noche.svg';
+
+const SITE = SITE_URL;
+
+const servicios = [
+  { icon: 'web', title: 'Páginas web', desde: 'USD 250', text: 'Tu negocio en Google con un sitio rápido, que se ve bien en el celular y lleva las consultas directo a tu WhatsApp.' },
+  { icon: 'shopping_cart', title: 'Tiendas online', desde: 'USD 550', text: 'Vendé las 24 horas con catálogo autogestionable, cobros con Mercado Pago y envíos integrados. En Tiendanube, WooCommerce o a medida, según tu presupuesto.' },
+  { icon: 'smart_toy', title: 'Sistemas a medida', desde: 'USD 350', text: 'Turnos, stock, clientes o facturación en un sistema hecho para tu forma de trabajar. Menos planillas, menos errores.' },
+  { icon: 'campaign', title: 'Digitalización', desde: null, text: 'Pasamos tus procesos en papel a herramientas digitales para que tengas el negocio en el bolsillo.' },
+  { icon: 'build', title: 'Mantenimiento', desde: 'USD 50/mes', text: 'Actualizaciones, copias de seguridad y soporte técnico para que tu sitio nunca se quede atrás.' },
+  { icon: 'school', title: 'Consultoría', desde: null, text: 'Te ayudamos a elegir qué tecnología te conviene antes de invertir, para que no pagues por lo que no vas a usar.' },
+];
+
+const pasos = [
+  { title: 'Nos contás tu idea', text: 'Por el formulario o WhatsApp. Te hacemos las preguntas justas para entender tu negocio.' },
+  { title: 'Recibís una propuesta', text: 'Alcance, plazo y precio por escrito. Sin letra chica y sin cargo.' },
+  { title: 'Ves avances cada semana', text: 'Trabajamos en sprints semanales y tenés acceso al tablero con el estado de cada tarea.' },
+  { title: 'Lanzamos y te acompañamos', text: 'Publicamos, te enseñamos a usarlo y quedamos a mano para lo que necesites.' },
+];
+
+const planes = PLANS.map((p) => ({ ...p, price: String(p.usd) }));
+
+const faqs = [
+  { q: '¿Qué es Matecito Tech?', a: 'Matecito Tech es un estudio de desarrollo de software de Humboldt, Santa Fe, fundado por Mateo Gariboglio. Hacemos páginas web, tiendas online y sistemas a medida para pymes y emprendedores de la región y del resto del país.' },
+  { q: '¿Cuánto cuesta una página web?', a: 'Una página web arranca en USD 250, una tienda online en USD 550 y un sistema a medida en USD 350. El precio final depende de lo que necesites; el presupuesto es sin cargo y te lo pasamos por escrito antes de empezar.' },
+  { q: '¿Cuánto tarda en estar lista?', a: 'Depende del alcance. En la propuesta te damos un plazo concreto y, como trabajamos en sprints semanales, cada semana ves avances reales en vez de esperar hasta el final.' },
+  { q: '¿La tienda online es en Tiendanube o a medida?', a: 'Depende de tu presupuesto y de cuánto quieras crecer. Armamos tiendas en Tiendanube o WooCommerce, que son rápidas de lanzar, o una tienda a medida cuando necesitás algo propio. Te recomendamos la opción que más te conviene, no la más cara.' },
+  { q: '¿Trabajan solo en Humboldt?', a: 'No. Estamos en Humboldt y trabajamos con negocios de Rafaela, Esperanza, Santa Fe y toda la región, y también con clientes de otras provincias y del exterior. Todo el proceso se puede hacer a distancia.' },
+  { q: '¿Qué pasa después de publicar el sitio?', a: 'Te enseñamos a usarlo y te acompañamos en la puesta en marcha. Si querés despreocuparte, el plan de mantenimiento (USD 50 por mes) cubre actualizaciones, seguridad, copias de seguridad y cambios menores.' },
+  { q: '¿Puedo ver cómo avanza mi proyecto?', a: 'Sí. Tenés acceso al tablero del proyecto con el estado de cada tarea y recibís entregas semanales. Nada queda escondido.' },
+];
+
+const schema = [
+  {
+    '@type': 'OfferCatalog',
+    '@id': `${SITE}/#servicios`,
+    name: 'Servicios de Matecito Tech',
+    itemListElement: planes.map((p) => ({
+      '@type': 'Offer',
+      priceCurrency: 'USD',
+      price: p.price,
+      ...(p.id === 'mantenimiento'
+        ? { priceSpecification: { '@type': 'UnitPriceSpecification', price: p.price, priceCurrency: 'USD', unitText: 'MONTH' } }
+        : {}),
+      itemOffered: { '@type': 'Service', name: p.name, description: p.fit, provider: { '@id': `${SITE}/#organizacion` }, areaServed: 'AR' },
+    })),
+  },
+  {
+    '@type': 'FAQPage',
+    '@id': `${SITE}/#preguntas`,
+    mainEntity: faqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
+  },
+];
 ---
-<Layout title="Matecito | Desarrollo de Software Artesanal | Humboldt, Santa Fe" description="Impulsá tu negocio con desarrollo de software artesanal en Humboldt y Santa Fe. Sitios web de alto impacto, tiendas online y sistemas a medida que venden solos.">
-    <header class="hero" id="hero">
-      <!-- z0 · puntitos / estrellas -->
-      <div class="hero__dust" id="dust" aria-hidden="true" data-dx="4" data-dy="3">
-        <div class="shoot"></div>
-      </div>
-      <div class="crux" id="crux" aria-hidden="true" data-dx="4" data-dy="3"></div>
+<Layout
+  title="Matecito Tech | Páginas web y software a medida en Humboldt, Santa Fe"
+  description="Matecito Tech: páginas web, tiendas online y sistemas a medida para pymes de Humboldt, Rafaela, Esperanza y Santa Fe. Precios desde USD 250 y presupuesto sin cargo."
+  schema={schema}
+>
+  <!-- ================= HERO ================= -->
+  <section class="hero" id="inicio" aria-labelledby="hero-titulo">
+    <div class="hero__dust" id="dust" aria-hidden="true" data-dx="8" data-dy="5"><div class="shoot"></div></div>
+    <div class="crux" id="crux" aria-hidden="true" data-dx="8" data-dy="5"></div>
 
-      <!-- TECH · red de nodos (z0) y satélite (animado) -->
-      <Image class="hero__tech hero__tech--net hero__tech--net--dia" src={redNodosDia} alt="" width={900} height={340} decoding="async" data-dx="5" data-dy="3" />
-      <Image class="hero__tech hero__tech--net hero__tech--net--noche" src={redNodosNoche} alt="" width={900} height={340} decoding="async" loading="lazy" data-dx="5" data-dy="3" />
-      <Image class="hero__tech hero__tech--sat hero__tech--sat--dia" src={sateliteDia} alt="" width={144} height={144} decoding="async" data-dx="10" data-dy="5" />
-      <Image class="hero__tech hero__tech--sat hero__tech--sat--noche" src={sateliteNoche} alt="" width={144} height={144} decoding="async" loading="lazy" data-dx="10" data-dy="5" />
-      <Image class="hero__tech hero__tech--tower hero__tech--tower--dia" src={torreDia} alt="" width={80} height={140} decoding="async" data-dx="7" data-dy="4" />
-      <Image class="hero__tech hero__tech--tower hero__tech--tower--noche" src={torreNoche} alt="" width={80} height={140} decoding="async" loading="lazy" data-dx="7" data-dy="4" />
+    <!-- Nubes y pájaros (de día), detrás de todo -->
+    <div class="hero__clouds" aria-hidden="true" data-dx="6" data-dy="3">
+      <span class="cloud cloud--1"></span><span class="cloud cloud--2"></span><span class="cloud cloud--3"></span>
+    </div>
+    <svg class="hero__birds" aria-hidden="true" viewBox="0 0 120 40" data-dx="12" data-dy="6"><g fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path class="bird" d="M4 20q6-7 12 0q6-7 12 0"/><path class="bird b2" d="M40 8q5-6 10 0q5-6 10 0"/><path class="bird b3" d="M70 26q4-5 8 0q4-5 8 0"/></g></svg>
 
-      <!-- z1 · campo (día y noche, se cruzan con opacity) -->
-      <Image class="hero__field hero__field--dia" src={campoImg} alt="" width={1920} height={240} loading="eager" decoding="async" data-dx="14" data-dy="2" />
-      <Image class="hero__field hero__field--noche" src={campoNocheImg} alt="" width={1920} height={240} decoding="async" loading="lazy" data-dx="14" data-dy="2" />
+    <!-- Red de nodos: fondo lejano, queda DETRÁS del sol -->
+    <Image class="hero__net hero__net--dia" src={redNodosDia} alt="" width={900} height={340} decoding="async" data-dx="10" data-dy="6" />
+    <Image class="hero__net hero__net--noche" src={redNodosNoche} alt="" width={900} height={340} decoding="async" loading="lazy" data-dx="10" data-dy="6" />
 
-      <div class="hero__inner">
-        <div class="hero__copy">
-          <span class="badge">Software a medida</span>
-          <h1>Hacemos eficiente <em>tu flujo de trabajo.</em></h1>
-          <p class="lead">Reducimos costos, agilizamos procesos y automatizamos lo aburrido. Enfocate en lo que hacés bien, nosotros nos encargamos de que la tecnología te acompañe, no que te frene.</p>
-          <div class="cta">
-            <a class="btn btn--primary" href="#contacto">Empezar Ahora
-              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-            <a class="btn btn--ghost" href="#servicios">
-              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>Ver Servicios</a>
-          </div>
+    <Image class="hero__field hero__field--dia" src={campoImg} alt="" width={1920} height={240} loading="eager" decoding="async" data-dx="24" data-dy="5" />
+    <Image class="hero__field hero__field--noche" src={campoNocheImg} alt="" width={1920} height={240} decoding="async" loading="lazy" data-dx="24" data-dy="5" />
+
+    <div class="hero__inner">
+      <div class="hero__copy">
+        <p class="hero__kicker"><Logo class="h-5 w-auto" /> Matecito Tech, desde Humboldt, Santa Fe</p>
+        <h1 id="hero-titulo">Software a medida que le ahorra horas a tu negocio.</h1>
+        <p class="hero__lead">Hacemos páginas web, tiendas online y sistemas de gestión para pymes y emprendedores. Automatizamos lo repetitivo para que vos te dediques a lo que hacés bien.</p>
+        <div class="hero__cta">
+          <a class="btn-cta btn-lg" href="#contacto">Pedí tu presupuesto sin cargo</a>
+          <a class="btn-alt btn-lg" href="#casos">Ver un proyecto real</a>
         </div>
+        <ul class="hero__proof">
+          <li><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-check"/></svg>Precios publicados, desde USD 250</li>
+          <li><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-check"/></svg>Avances visibles cada semana</li>
+          <li><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-check"/></svg>El dominio y el sitio son tuyos</li>
+        </ul>
+        <p class="hero__legal"><a href="/arrepentimiento/">Botón de arrepentimiento</a></p>
+      </div>
 
-        <div class="hero__art">
-          <div class="hero__figure">
-            <!-- z0 · cielo: wrapper con parallax; adentro sol y luna -->
-            <div class="hero__sky" data-dx="8" data-dy="5">
-              <Image class="hero__sun" src={solImg} alt="" width={414} height={416} loading="eager" fetchpriority="high" decoding="async" />
+      <div class="hero__art">
+        <div class="hero__figure">
+          <!-- z0 · cielo -->
+          <div class="hero__far" aria-hidden="true">
+            <div class="hero__sky" data-dx="14" data-dy="9">
+              <Image class="hero__sun" src={solImg} alt="" width={414} height={416} loading="eager" decoding="async" />
               <Image class="hero__moon" src={lunaImg} alt="" width={414} height={416} decoding="async" loading="lazy" />
             </div>
-            <!-- z2 · gaucho: LCP -->
-            <Image class="hero__gaucho" src={gauchoImg} alt="Gaucho tomando mate" width={288} height={455} loading="eager" fetchpriority="high" data-dx="20" data-dy="2" />
           </div>
+          <!-- z1 · detalles tech: entre el cielo y el gaucho, NUNCA encima de él -->
+          <div class="hero__orbit" aria-hidden="true" data-dx="18" data-dy="10">
+            <Image class="hero__sat hero__sat--dia" src={sateliteDia} alt="" width={144} height={144} decoding="async" />
+            <Image class="hero__sat hero__sat--noche" src={sateliteNoche} alt="" width={144} height={144} decoding="async" loading="lazy" />
+          </div>
+          <div class="hero__drone" aria-hidden="true" data-dx="30" data-dy="12">
+            <Image class="hero__dron hero__dron--dia" src={dronDia} alt="" width={144} height={144} decoding="async" />
+            <Image class="hero__dron hero__dron--noche" src={dronNoche} alt="" width={144} height={144} decoding="async" loading="lazy" />
+          </div>
+          <!-- z2 · gaucho (LCP) -->
+          <div class="hero__body">
+            <Image class="hero__gaucho" id="gaucho" src={gauchoImg} alt="" width={288} height={455} loading="eager" fetchpriority="high" data-dx="36" data-dy="8" />
+            <button type="button" class="cebar" data-cebar aria-label="Cebarle un mate al gaucho (suma a la ronda de mate)"></button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <Image class="hero__front hero__front--dia" src={primerPlanoImg} alt="" width={1920} height={240} decoding="async" data-dx="56" data-dy="10" />
+    <Image class="hero__front hero__front--noche" src={primerPlanoNocheImg} alt="" width={1920} height={240} decoding="async" loading="lazy" data-dx="56" data-dy="10" />
+    <div class="hero__flies" id="flies" aria-hidden="true" data-dx="44" data-dy="9"></div>
+
+    <a class="hero__scroll" href="#historia">Seguí bajando<svg class="icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+  </section>
+
+  <!-- ================= HISTORIA (StoryBrand: el cliente es el héroe, Matecito el guía) ================= -->
+  <section id="historia" class="section section--screen story bg-[var(--surface)]" aria-labelledby="historia-titulo">
+    <div class="wrap grid gap-12 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-20">
+      <div class="lg:sticky lg:top-32 self-start reveal">
+        <p class="kicker">Una historia que seguro conocés</p>
+        <h2 id="historia-titulo" class="h2 mb-6">Son las once de la noche y seguís respondiendo mensajes</h2>
+        <p class="lede">Tu negocio funciona. El problema es todo lo que pasa alrededor.</p>
+      </div>
+      <ol class="chapters">
+        <li class="chapter reveal">
+          <p class="chapter__tag">El problema</p>
+          <p class="chapter__text">Los pedidos llegan por WhatsApp, Instagram y el teléfono. El stock vive en una planilla que solo entendés vos. Cada consulta la respondés a mano, y la que se te pasa termina comprándole a la competencia.</p>
+        </li>
+        <li class="chapter reveal">
+          <p class="chapter__tag">El guía</p>
+          <p class="chapter__text">Matecito nació en Humboldt con una idea simple, compartida alrededor de un mate: que los comercios y emprendedores de la región puedan competir de igual a igual con las grandes empresas. Somos ingenieros de software, pero te hablamos en criollo.</p>
+        </li>
+        <li class="chapter reveal">
+          <p class="chapter__tag">El plan</p>
+          <p class="chapter__text">Nos contás cómo trabajás, te pasamos alcance, plazo y precio por escrito, y cada semana ves avances reales. Sin tecnicismos y sin sorpresas en la factura.</p>
+        </li>
+        <li class="chapter chapter--end reveal">
+          <p class="chapter__tag">El final</p>
+          <p class="chapter__text">Tus clientes encuentran lo que buscan, consultan o compran solos, y los pedidos llegan ordenados. Vos volvés a cerrar el local a la hora de cerrar.</p>
+          <a href="#contacto" class="btn-cta mt-6">Quiero ese final</a>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ================= SERVICIOS ================= -->
+  <section id="servicios" class="section section--screen" aria-labelledby="servicios-titulo">
+    <div class="wrap grid gap-12 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-20">
+      <div class="lg:sticky lg:top-32 self-start reveal">
+        <p class="kicker">Servicios</p>
+        <h2 id="servicios-titulo" class="h2 mb-6">Lo que podemos hacer por tu negocio</h2>
+        <p class="lede mb-8">Desde tu primera página web hasta el sistema que ordena el día a día. Siempre con un precio claro de entrada y alguien que te responde.</p>
+        <a href="#precios" class="btn-alt">Ver precios</a>
+      </div>
+      <ul class="services reveal-stagger">
+        {servicios.map((s) => (
+          <li class="service">
+            <svg class="icon service__icon" aria-hidden="true" focusable="false"><use href={`#i-${s.icon}`}/></svg>
+            <div>
+              <h3 class="service__title">{s.title}</h3>
+              <p class="service__text">{s.text}</p>
+            </div>
+            {s.desde && <p class="service__price"><span class="sr-only">Precio </span>desde {s.desde}</p>}
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- ================= CASO REAL ================= -->
+  <section id="casos" class="section section--screen case" aria-labelledby="casos-titulo">
+    <div class="wrap">
+      <div class="case__head">
+        <div class="reveal">
+          <p class="kicker">Caso real</p>
+          <h2 id="casos-titulo" class="h2">De depender de las redes a tener un sitio propio</h2>
+        </div>
+        <div class="reveal">
+          <p class="case__lede">Schalbetter Transportes es una empresa familiar de San Martín de las Escobas que arrancó con un solo camión y hoy cruza fronteras.</p>
+          <dl class="case__facts">
+            <div><dt>Desde</dt><dd data-count="2004" data-count-from="1990">2004</dd></div>
+            <div><dt>Países</dt><dd data-count="4">4</dd></div>
+            <div><dt>Para cotizar</dt><dd>1 toque</dd></div>
+          </dl>
         </div>
       </div>
 
-      <!-- TECH · dron (z2) sobre el campo, a la derecha del gaucho -->
-      <Image class="hero__tech hero__tech--dron hero__tech--dron--dia" src={dronDia} alt="" width={144} height={144} decoding="async" data-dx="22" data-dy="3" />
-      <Image class="hero__tech hero__tech--dron hero__tech--dron--noche" src={dronNoche} alt="" width={144} height={144} decoding="async" loading="lazy" data-dx="22" data-dy="3" />
+      <figure class="case__stage reveal">
+        <div class="device-browser">
+          <div class="device-browser__bar" aria-hidden="true">
+            <span></span><span></span><span></span>
+            <p><svg class="icon" viewBox="0 0 24 24"><path d="M7 11V8a5 5 0 0 1 10 0v3M6 11h12v9H6z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>schalbettertransportes.com.ar</p>
+          </div>
+          <Image src={casoEscritorio} alt="Página de inicio del sitio de Schalbetter Transportes en una computadora: camiones en la ruta y el botón Solicitá tu cotización" widths={[800, 1200, 1800, 2560]} sizes="(min-width: 1216px) 1000px, 86vw" loading="lazy" decoding="async" />
+        </div>
+        <div class="device-phone">
+          <Image src={casoCelular} alt="El mismo sitio en un celular, con el botón de WhatsApp siempre a mano" widths={[390, 780, 1170]} sizes="(min-width: 1024px) 232px, 30vw" loading="lazy" decoding="async" />
+        </div>
+        <figcaption class="sr-only">Capturas del sitio en vivo de Schalbetter Transportes, en computadora y en celular.</figcaption>
+      </figure>
 
-      <!-- z3 · primer plano + luciérnagas -->
-      <Image class="hero__front hero__front--dia" src={primerPlanoImg} alt="" width={1920} height={240} decoding="async" data-dx="30" data-dy="3" />
-      <Image class="hero__front hero__front--noche" src={primerPlanoNocheImg} alt="" width={1920} height={240} decoding="async" loading="lazy" data-dx="30" data-dy="3" />
-      <div class="hero__flies" id="flies" aria-hidden="true" data-dx="24" data-dy="3"></div>
-    </header>
-    <section id="filosofia" class="py-24 bg-white dark:bg-white/5 relative overflow-hidden snap-start">
-      <div class="absolute inset-0 overflow-clip">
-        <div class="absolute top-0 right-0 w-64 h-64 bg-brand-verde/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
-      </div>
-      <div class="max-w-7xl mx-auto px-6 relative z-10 overflow-clip">
-        <div class="text-center mb-16">
-          <span class="text-brand-verde-profundo font-bold tracking-widest uppercase text-sm mb-2 block">Identidad & Propósito</span>
-          <h2 class="text-4xl font-display font-bold text-brand-dark dark:text-brand-crema">Nuestra Brújula</h2>
-        </div>
-        <div class="grid md:grid-cols-2 gap-12 mb-20">
-          <div class="p-8 rounded-3xl bg-brand-crema dark:bg-white/10 border border-brand-verde-profundo/5 dark:border-white/10 relative group hover:shadow-lg transition-all">
-            <div class="w-12 h-12 bg-white dark:bg-white/15 rounded-xl shadow-sm flex items-center justify-center text-brand-verde mb-6">
-              <svg class="icon text-3xl" aria-hidden="true" focusable="false" width="1em" height="1em"><use href="#i-rocket_launch"/></svg>
-            </div>
-            <h3 class="text-2xl font-bold mb-4 font-display">Nuestra Misión</h3>
-            <p class="text-brand-verde-profundo/80 dark:text-brand-crema/75 leading-relaxed">Queremos que los negocios de nuestra región puedan competir de igual a igual. Hacemos que la tecnología sea una herramienta de crecimiento, no un dolor de cabeza, ayudándote a <strong>vender más y trabajar mejor</strong>.</p>
-          </div>
-          <div class="p-8 rounded-3xl bg-brand-crema dark:bg-white/10 border border-brand-verde-profundo/5 dark:border-white/10 relative group hover:shadow-lg transition-all">
-            <div class="w-12 h-12 bg-white dark:bg-white/15 rounded-xl shadow-sm flex items-center justify-center text-brand-verde-profundo dark:text-brand-crema mb-6">
-              <svg class="icon text-3xl" aria-hidden="true" focusable="false" width="1em" height="1em"><use href="#i-visibility"/></svg>
-            </div>
-            <h3 class="text-2xl font-bold mb-4 font-display">Nuestra Visión</h3>
-            <p class="text-brand-verde-profundo/80 dark:text-brand-crema/75 leading-relaxed">Ser el socio tecnológico de confianza para emprendedores y PyMEs. En 5 años, imaginamos un ecosistema local digitalizado, eficiente y conectado al mundo, impulsado por soluciones creadas acá, por gente de acá.</p>
-          </div>
-        </div>
-        <div class="flex flex-col lg:flex-row gap-12 items-center mb-10">
-          <div class="flex-1">
-            <h3 class="text-2xl font-bold font-display mb-8 text-center lg:text-left">Pilares del Fogón</h3>
-            <div class="grid grid-cols-2 gap-4">
-              <div class="p-4 bg-brand-crema dark:bg-white/10 border border-brand-verde-profundo/5 dark:border-white/10 rounded-2xl text-center hover:bg-white dark:hover:bg-white/15 transition-colors group/icon">
-                <div class="mb-2 text-brand-verde-profundo dark:text-brand-crema/80 group-hover/icon:text-brand-verde transition-colors">
-                  <svg class="icon text-3xl" aria-hidden="true" focusable="false" width="1em" height="1em"><use href="#i-handshake"/></svg>
-                </div>
-                <h4 class="font-bold text-sm">Cercanía</h4>
-              </div>
-              <div class="p-4 bg-brand-crema dark:bg-white/10 border border-brand-verde-profundo/5 dark:border-white/10 rounded-2xl text-center hover:bg-white dark:hover:bg-white/15 transition-colors group/icon">
-                <div class="mb-2 text-brand-verde-profundo dark:text-brand-crema/80 group-hover/icon:text-brand-verde transition-colors">
-                  <svg class="icon text-3xl" aria-hidden="true" focusable="false" width="1em" height="1em"><use href="#i-fact_check"/></svg>
-                </div>
-                <h4 class="font-bold text-sm">Transparencia</h4>
-              </div>
-              <div class="p-4 bg-brand-crema dark:bg-white/10 border border-brand-verde-profundo/5 dark:border-white/10 rounded-2xl text-center hover:bg-white dark:hover:bg-white/15 transition-colors group/icon">
-                <div class="mb-2 text-brand-verde-profundo dark:text-brand-crema/80 group-hover/icon:text-brand-verde transition-colors">
-                  <svg class="icon text-3xl" aria-hidden="true" focusable="false" width="1em" height="1em"><use href="#i-workspace_premium"/></svg>
-                </div>
-                <h4 class="font-bold text-sm">Calidad</h4>
-              </div>
-              <div class="p-4 bg-brand-crema dark:bg-white/10 border border-brand-verde-profundo/5 dark:border-white/10 rounded-2xl text-center hover:bg-white dark:hover:bg-white/15 transition-colors group/icon">
-                <div class="mb-2 text-brand-verde-profundo dark:text-brand-crema/80 group-hover/icon:text-brand-verde transition-colors">
-                  <svg class="icon text-3xl" aria-hidden="true" focusable="false" width="1em" height="1em"><use href="#i-bolt"/></svg>
-                </div>
-                <h4 class="font-bold text-sm">Simplicidad</h4>
-              </div>
-            </div>
-          </div>
-          <div class="flex-1 w-full">
-            <div style="background:#1e1e1e" class="rounded-xl shadow-2xl overflow-hidden border border-brand-verde-profundo/10 font-mono text-xs md:text-sm transform rotate-1 hover:rotate-0 transition-transform duration-500 group">
-              <div style="background:#252526" class="flex items-center gap-2 px-4 py-3 border-b border-white/5">
-                <div class="flex gap-1.5">
-                  <div class="w-3 h-3 rounded-full bg-[#ff5f56]"></div>
-                  <div class="w-3 h-3 rounded-full bg-[#ffbd2e]"></div>
-                  <div class="w-3 h-3 rounded-full bg-[#27c93f]"></div>
-                </div>
-                <span class="ml-4 text-brand-crema/60 italic group-hover:text-brand-verde transition-colors">nuestra_promesa.py</span>
-              </div>
-              <CodeBlock />
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-    <section id="servicios" class="py-24 bg-brand-verde-profundo text-white relative snap-start">
-      <div class="max-w-7xl mx-auto px-6">
-        <div class="text-center mb-16">
-          <span class="text-brand-crema font-bold tracking-widest uppercase text-sm mb-2 block">//
-                        Soluciones</span>
-          <h2 class="text-4xl font-display font-bold text-white">¿Qué necesitás hoy?</h2>
-        </div>
-        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <div class="bg-white/5 border border-white/10 p-8 rounded-2xl hover:bg-white/10 transition-colors group">
-            <svg class="icon text-4xl text-brand-verde-300 mb-4 group-hover:scale-110 transition-transform block" aria-hidden="true" focusable="false" width="1em" height="1em"><use href="#i-shopping_cart"/></svg>
-            <h3 class="text-xl font-bold mb-2">E-commerce</h3>
-            <p class="text-sm text-brand-crema/70">Tiendas online que venden solas. Integración con pagos, envíos
-                            y catálogo autogestionable.</p>
-          </div>
-          <div class="bg-white/5 border border-white/10 p-8 rounded-2xl hover:bg-white/10 transition-colors group">
-            <svg class="icon text-4xl text-brand-verde-300 mb-4 group-hover:scale-110 transition-transform block" aria-hidden="true" focusable="false" width="1em" height="1em"><use href="#i-web"/></svg>
-            <h3 class="text-xl font-bold mb-2">Sitios Web</h3>
-            <p class="text-sm text-brand-crema/70">Landing pages de alto impacto y sitios corporativos optimizados
-                            para Google (SEO).</p>
-          </div>
-          <div class="bg-white/5 border border-white/10 p-8 rounded-2xl hover:bg-white/10 transition-colors group">
-            <svg class="icon text-4xl text-brand-verde-300 mb-4 group-hover:scale-110 transition-transform block" aria-hidden="true" focusable="false" width="1em" height="1em"><use href="#i-smart_toy"/></svg>
-            <h3 class="text-xl font-bold mb-2">Automatización (SaaS)</h3>
-            <p class="text-sm text-brand-crema/70">Sistemas a medida para gestión de turnos, stock o clientes.
-                            Ahorrá horas de trabajo manual.</p>
-          </div>
-          <div class="bg-white/5 border border-white/10 p-8 rounded-2xl hover:bg-white/10 transition-colors group">
-            <svg class="icon text-4xl text-brand-verde-300 mb-4 group-hover:scale-110 transition-transform block" aria-hidden="true" focusable="false" width="1em" height="1em"><use href="#i-build"/></svg>
-            <h3 class="text-xl font-bold mb-2">Mantenimiento</h3>
-            <p class="text-sm text-brand-crema/70">Tu negocio no para, tu web tampoco. Soporte tecnico, actualizaciones y seguridad continua.</p>
-          </div>
-          <div class="bg-white/5 border border-white/10 p-8 rounded-2xl hover:bg-white/10 transition-colors group">
-            <svg class="icon text-4xl text-brand-verde-300 mb-4 group-hover:scale-110 transition-transform block" aria-hidden="true" focusable="false" width="1em" height="1em"><use href="#i-campaign"/></svg>
-            <h3 class="text-xl font-bold mb-2">Digitalización</h3>
-            <p class="text-sm text-brand-crema/70">Transformamos tus procesos en papel a digital. Llevá tu negocio
-                            en el bolsillo.</p>
-          </div>
-          <div class="bg-white/5 border border-white/10 p-8 rounded-2xl hover:bg-white/10 transition-colors group">
-            <svg class="icon text-4xl text-brand-verde-300 mb-4 group-hover:scale-110 transition-transform block" aria-hidden="true" focusable="false" width="1em" height="1em"><use href="#i-school"/></svg>
-            <h3 class="text-xl font-bold mb-2">Consultoría</h3>
-            <p class="text-sm text-brand-crema/70">Te asesoramos sobre qué tecnología te conviene. No gastes de
-                            más en lo que no usás.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-    <section id="metodologia" class="py-24 bg-brand-crema dark:bg-brand-dark relative snap-start">
-      <div class="max-w-7xl mx-auto px-6">
-        <div class="flex flex-col lg:flex-row gap-16 items-center">
-          <div class="lg:w-1/2">
-            <span class="text-brand-verde-profundo dark:text-brand-crema font-bold tracking-widest uppercase text-sm mb-2 block">Metodología
-                            Ágil</span>
-            <h2 class="text-4xl font-display font-bold text-brand-dark dark:text-brand-crema mb-6">Trabajamos con SCRUM</h2>
-            <p class="text-lg text-brand-verde-profundo/90 dark:text-brand-crema/85 mb-8">Ordenamos el caos. Usamos metodologías internacionales adaptadas a la realidad local. Entregas semanales, comunicación clara y cero sorpresas.</p>
-            <div class="space-y-6">
-              <div class="flex gap-4">
-                <div class="w-10 h-10 rounded-full bg-brand-verde text-white flex items-center justify-center font-bold flex-shrink-0">1</div>
-                <div>
-                  <h3 class="font-bold text-brand-dark dark:text-brand-crema">Sprint Semanal</h3>
-                  <p class="text-sm text-brand-verde-profundo/70 dark:text-brand-crema/70">Planificamos objetivos cortos. Cada semana ves
-                                        avances reales, no promesas.</p>
-                </div>
-              </div>
-              <div class="flex gap-4">
-                <div class="w-10 h-10 rounded-full bg-brand-verde text-white flex items-center justify-center font-bold flex-shrink-0">2</div>
-                <div>
-                  <h3 class="font-bold text-brand-dark dark:text-brand-crema">Comunicación Asincrónica</h3>
-                  <p class="text-sm text-brand-verde-profundo/70 dark:text-brand-crema/70">Usamos Discord y Notion. Menos reuniones eternas,
-                                        más tiempo trabajando en tu proyecto.</p>
-                </div>
-              </div>
-              <div class="flex gap-4">
-                <div class="w-10 h-10 rounded-full bg-brand-verde text-white flex items-center justify-center font-bold flex-shrink-0">3</div>
-                <div>
-                  <h3 class="font-bold text-brand-dark dark:text-brand-crema">Transparencia Total</h3>
-                  <p class="text-sm text-brand-verde-profundo/70 dark:text-brand-crema/70">Tenés acceso a ver el estado de cada tarea. Nada se
-                                        esconde bajo la alfombra.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="lg:w-1/2">
-            <div class="bg-white dark:bg-white/5 p-6 rounded-2xl shadow-xl border border-brand-verde-profundo/5 dark:border-white/10 rotate-2">
-              <div class="flex justify-between items-center mb-4 border-b pb-2">
-                <span class="font-bold text-sm">Proyecto: Tu E-commerce</span>
-                <span class="text-xs bg-green-100 text-green-700 dark:bg-brand-verde/20 dark:text-brand-verde-200 px-2 py-1 rounded">Sprint 2</span>
-              </div>
-              <div class="grid grid-cols-3 gap-2 text-xs">
-                <div class="bg-gray-50 dark:bg-white/5 p-2 rounded">
-                  <div class="font-bold mb-2 text-brand-verde-profundo dark:text-brand-crema/70">POR HACER</div>
-                  <div class="bg-white dark:bg-white/10 p-2 rounded shadow-sm border mb-2">Configurar envíos</div>
-                </div>
-                <div class="bg-gray-50 dark:bg-white/5 p-2 rounded">
-                  <div class="font-bold mb-2 text-brand-verde">EN PROGRESO</div>
-                  <div class="bg-white dark:bg-white/10 p-2 rounded shadow-sm border border-l-4 border-l-blue-500 mb-2">Integrar MercadoPago</div>
-                  <div class="bg-white dark:bg-white/10 p-2 rounded shadow-sm border border-l-4 border-l-blue-500">Diseño Mobile</div>
-                </div>
-                <div class="bg-gray-50 dark:bg-white/5 p-2 rounded">
-                  <div class="font-bold mb-2 text-brand-verde">HECHO</div>
-                  <div class="bg-white dark:bg-white/10 p-2 rounded shadow-sm border border-l-4 border-l-green-500 mb-2 opacity-75 line-through">Inicio</div>
-                  <div class="bg-white dark:bg-white/10 p-2 rounded shadow-sm border border-l-4 border-l-green-500 opacity-75 line-through">Hosting</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-    <section id="equipo" class="py-24 bg-brand-verde-profundo/5 dark:bg-white/5 relative snap-start">
-      <div class="max-w-7xl mx-auto px-6 text-center">
-        <span class="text-brand-verde-profundo dark:text-brand-crema font-bold tracking-widest uppercase text-sm mb-2 block">Quiénes
-                    Somos</span>
-        <h2 class="text-4xl font-display font-bold text-brand-dark dark:text-brand-crema mb-12">El Fogón Digital</h2>
-        <div class="max-w-3xl mx-auto bg-white dark:bg-white/10 p-8 rounded-3xl shadow-xl border border-brand-verde-profundo/5 dark:border-white/10 flex flex-col md:flex-row items-center gap-8 mb-16">
-          <div class="relative shrink-0">
-            <div class="w-32 h-32 rounded-full ring-4 ring-brand-crema dark:ring-white/20 shadow-lg overflow-hidden">
-              <Image src={mateoImg} alt="Mateo Gariboglio" width={128} height={128} loading="lazy" class="w-full h-full object-cover object-top" />
-            </div>
-            <span class="absolute bottom-1 right-1 w-8 h-8 bg-white dark:bg-white rounded-full flex items-center justify-center shadow-md text-brand-dark dark:text-brand-dark" title="Backend Developer">
-              <svg class="icon text-sm" aria-hidden="true" focusable="false" width="1em" height="1em"><use href="#i-terminal"/></svg>
-            </span>
-          </div>
-          <div class="text-left">
-            <h3 class="text-2xl font-bold text-brand-dark dark:text-brand-crema">Mateo Gariboglio</h3>
-            <p class="text-blue-600 dark:text-blue-400 font-medium mb-4">Fundador & Scrum Master</p>
-            <p class="text-brand-verde-profundo/70 dark:text-brand-crema/70 mb-6 text-sm leading-relaxed">"Me obsesiona que las cosas funcionen bien. Mi rol es coordinar que todo el engranaje tecnico gire perfecto para que vos solo te preocupes por vender. Vengo del Backend (Java/Spring), asi que la robustez es mi prioridad."</p>
-            <div class="flex gap-4">
-              <a href="https://www.linkedin.com/in/mateo-gariboglio/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn de Mateo Gariboglio" class="text-brand-verde-profundo/60 dark:text-brand-crema/50 dark:text-brand-crema/60 hover:text-[#0077b5] transition-colors"><svg class="icon" aria-hidden="true" focusable="false" width="1em" height="1em"><use href="#i-work"/></svg></a>
-              <a href="https://github.com/Mateo-404" target="_blank" rel="noopener noreferrer" aria-label="GitHub de Mateo Gariboglio" class="text-brand-verde-profundo/60 dark:text-brand-crema/50 dark:text-brand-crema/60 hover:text-black dark:hover:text-white transition-colors"><svg class="icon" aria-hidden="true" focusable="false" width="1em" height="1em"><use href="#i-code"/></svg></a>
-            </div>
-          </div>
-        </div>
-        <div class="grid md:grid-cols-2 gap-8 text-left max-w-4xl mx-auto">
-          <div class="p-6 bg-brand-verde-profundo text-white rounded-2xl">
-            <h4 class="font-bold text-lg mb-2 flex items-center gap-2">
-              <svg class="icon text-brand-verde" aria-hidden="true" focusable="false" width="1em" height="1em"><use href="#i-group_add"/></svg>
-              Red de Talentos
-            </h4>
-            <p class="text-sm opacity-80">No perdemos tiempo en procesos lentos. Formamos equipos de especialistas seleccionados según la complejidad de tu proyecto. Ingeniería directa, honesta y enfocada en resultados.</p>
-          </div>
-          <div class="p-6 bg-white dark:bg-white/10 border border-brand-verde-profundo/10 dark:border-white/10 rounded-2xl">
-            <h4 class="font-bold text-lg mb-2 flex items-center gap-2 text-brand-dark dark:text-brand-crema">
-              <svg class="icon text-brand-verde-profundo dark:text-brand-crema/80" aria-hidden="true" focusable="false" width="1em" height="1em"><use href="#i-school"/></svg>
-              Formación Continua
-            </h4>
-            <p class="text-sm text-brand-verde-profundo/70 dark:text-brand-crema/70">Combinamos rigor académico con agilidad técnica. Investigamos y dominamos cada avance del sector para que tu negocio siempre cuente con la tecnología más eficiente y rentable.</p>
-      </div>
-        </div>
-      </div>
-    </section>
-    <section class="py-16 bg-white dark:bg-white/5 border-y border-gray-100 dark:border-white/10 snap-start">
-      <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-8">
-        <div class="text-center md:text-left">
-          <h3 class="font-bold text-brand-dark dark:text-brand-crema mb-1">Nuestras Herramientas</h3>
-          <p class="text-sm text-brand-verde-profundo/80 dark:text-brand-crema/70">Lo que usamos bajo el capó.</p>
-        </div>
-        <div class="flex flex-wrap justify-center gap-6 opacity-60 grayscale hover:grayscale-0 transition-all duration-500">
-          <span class="font-mono font-bold text-xl hover:text-blue-500 cursor-help" title="Java">Java</span>
-          <span class="font-mono font-bold text-xl hover:text-green-500 cursor-help" title="Spring Boot">Spring</span>
-          <span class="font-mono font-bold text-xl hover:text-yellow-500 cursor-help" title="JavaScript">JS/Node</span>
-          <span class="font-mono font-bold text-xl hover:text-blue-400 cursor-help" title="PostgreSQL">Postgres</span>
-          <span class="font-mono font-bold text-xl hover:text-orange-500 cursor-help" title="HTML5">HTML5</span>
-          <span class="font-mono font-bold text-xl hover:text-cyan-500 cursor-help" title="Docker">Docker</span>
-        </div>
-      </div>
-      <div class="max-w-7xl mx-auto px-6 mt-12 pt-8 border-t border-gray-100 dark:border-white/10 grid items-center justify-center text-center">
-        <p class="text-xs font-bold text-brand-verde-profundo dark:text-brand-crema/50 uppercase tracking-widest mb-4">Transparencia Radical</p>
-        <div class="flex flex-wrap justify-center gap-4 text-sm font-medium text-brand-verde dark:text-brand-crema/80">
-          <a href="https://github.com/matecito-tech" class="hover:underline flex items-center gap-1"><svg class="icon text-xs" width="1em" height="1em"><use href="#i-description"/></svg> Documentación</a>
-          <span class="text-brand-verde-profundo/30 dark:text-brand-crema/30" aria-hidden="true">|</span>
-          <a href="https://github.com/orgs/matecito-tech/repositories" class="hover:underline flex items-center gap-1"><svg class="icon text-xs" width="1em" height="1em"><use href="#i-folder_open"/></svg> Repositorios Públicos</a>
-          <span class="text-brand-verde-profundo/30 dark:text-brand-crema/30" aria-hidden="true">|</span>
-          <a href="https://www.notion.so/matecito-tech" target="_blank" rel="noopener noreferrer" class="hover:underline flex items-center gap-1"><svg class="icon text-xs" aria-hidden="true" focusable="false" width="1em" height="1em"><use href="#i-attach_money"/></svg> Precios (Notion)</a>
-        </div>
-      </div>
-    </section>
-    <section id="casos" class="py-24 bg-brand-verde-profundo relative overflow-clip snap-start" aria-labelledby="casos-titulo">
-      <div class="max-w-7xl mx-auto px-6">
-        <div class="text-center mb-16">
-          <span class="text-brand-crema font-bold tracking-widest uppercase text-sm mb-2 block">// Casos
-                        reales</span>
-          <h2 id="casos-titulo" class="text-4xl font-display font-bold text-white">Trabajo que podés ir a ver</h2>
-          <p class="text-white text-lg font-light leading-relaxed max-w-2xl mx-auto mt-6">Un proyecto real, publicado y con dominio propio. Entrá y recorrelo vos mismo.</p>
-        </div>
-        <article class="max-w-4xl mx-auto wood-card p-8 md:p-12 rounded-3xl border border-white/10 shadow-lg hover:shadow-2xl transition-all group relative z-10">
-          <div class="flex flex-col md:flex-row gap-8 items-start mb-10">
-            <div class="shrink-0">
-              <Image src={schalbetterImg} alt="Logo de Schalbetter Transportes" loading="lazy" width={240} height={240} class="rounded-xl ring-4 ring-brand-crema shadow-lg object-cover object-center" />
-            </div>
-            <div class="flex-1">
-              <h3 class="text-2xl font-bold text-white mb-2">Schalbetter Transportes</h3>
-              <p class="text-white text-sm font-medium uppercase tracking-wider mb-2">Transporte
-                                de cargas generales · Argentina, Chile, Uruguay y Bolivia</p>
-              <p class="text-white text-base leading-relaxed">Empresa familiar de San Martín de Las Escobas, Santa Fe, que arrancó en 2004 con un solo camión y hoy cruza fronteras.</p>
-              <h4 class="font-display font-bold text-white text-xl mb-3 mt-8">De las redes sociales a
-                                un sitio propio</h4>
-            </div>
-          </div>
-          <div class="bg-white/5 border border-white/10 p-6 rounded-2xl mb-10">
-            <h4 class="font-bold text-brand-verde text-sm uppercase tracking-wider mb-3">El punto de
-                            partida</h4>
-            <p class="text-white text-base leading-relaxed">No tenían sitio web. Su presencia estaba repartida entre Instagram y Facebook, con la información dispersa y los pedidos de cotización llegando de forma desordenada.</p>
-          </div>
-          <h3 class="font-display font-bold text-white text-2xl mb-6">Qué hicimos</h3>
-          <ul class="list-disc list-inside space-y-4 text-white text-base leading-relaxed mb-14">
-            <li><span class="font-bold">Todo en un solo lugar.</span> Un sitio de una página: Inicio, Conocenos, Servicios, Contacto y Trabajá con nosotros, y una línea de tiempo con la historia de la empresa.</li>
-            <li><span class="font-bold">Cotizar con un botón.</span> Botones de WhatsApp con el mensaje ya
-                            escrito, para consultar o pedir presupuesto sin empezar de cero.</li>
-            <li><span class="font-bold">Contacto a mano.</span> Mapa de Google, datos de contacto y enlaces a
-                            sus redes, con una vista previa cuidada cuando se comparte el link.</li>
-            <li><span class="font-bold">Una puerta para sumar choferes.</span> Una sección de reclutamiento
-                            con un formulario de Google para postularse.</li>
-            <li><span class="font-bold">Lo técnico, resuelto.</span> Dominio propio y hosting, SEO base
-                            (título y descripción) e imágenes optimizadas en WebP.</li>
+      <div class="case__compare reveal-stagger">
+        <div class="case__card case__card--before">
+          <h3 class="case__h">Antes</h3>
+          <ul class="case__list">
+            <li>Sin sitio web: todo pasaba por Instagram y Facebook.</li>
+            <li>La información de la empresa, repartida y difícil de encontrar.</li>
+            <li>Pedidos de cotización llegando desordenados.</li>
           </ul>
-          <h3 class="font-display font-bold text-white text-2xl mb-6">Cómo quedó</h3>
-          <p class="text-white text-base leading-relaxed mb-14">Hoy la empresa tiene un sitio propio que cuenta qué transporta, hasta dónde llega y cómo pedir una cotización por WhatsApp. Los pedidos siguen llegando también por sus redes.</p>
-          <p class="text-xs text-white/70 mb-6">Los textos y las fotos fueron aportados por la empresa.</p>
-          <div class="flex flex-col sm:flex-row gap-4 justify-center">
-            <a href="https://schalbettertransportes.com.ar/" target="_blank" rel="noopener noreferrer" class="px-8 py-4 bg-brand-verde text-white font-bold rounded-xl hover:bg-brand-verde-700 transition-colors flex items-center justify-center gap-2 shadow-lg">
-              <span>Ver el sitio en vivo</span>
-              <svg class="icon" aria-hidden="true" focusable="false" width="1em" height="1em"><use href="#i-open_in_new"/></svg>
-            </a>
-            <a href="https://github.com/matecito-tech/SchalbetterTransportes" target="_blank" rel="noopener noreferrer" class="px-8 py-4 bg-white/5 border border-white/10 text-white font-bold rounded-xl hover:bg-white/10 transition-colors flex items-center justify-center gap-2 shadow-brand-verde/30">
-              <span>Ver el código en GitHub</span>
-              <svg class="icon" aria-hidden="true" focusable="false" width="1em" height="1em"><use href="#i-open_in_new"/></svg>
-            </a>
-          </div>
-        </article>
-      </div>
-    </section>
-    <section id="contacto" class="py-24 bg-brand-crema dark:bg-brand-dark relative snap-start">
-      <div class="max-w-3xl mx-auto px-6">
-        <div class="text-center mb-10">
-          <span class="inline-block p-3 rounded-full bg-brand-verde/10 text-brand-verde mb-6 animate-bounce">
-            <svg class="icon text-3xl" aria-hidden="true" focusable="false" width="1em" height="1em"><use href="#i-mail"/></svg>
-          </span>
-          <h2 class="text-4xl font-display font-bold text-brand-dark dark:text-brand-crema mb-4">Hablemos</h2>
-          <p class="text-lg text-brand-verde-profundo/90 dark:text-brand-crema/85">¿Tenés una idea dándote vueltas? Completá el formulario y nos llega directo. ¡Sin compromiso!</p>
         </div>
-        <form id="contactForm" action="https://formsubmit.co/matecito.tech@gmail.com" method="POST" class="bg-white dark:bg-white/5 p-8 md:p-10 rounded-3xl shadow-xl border border-brand-verde-profundo/5 dark:border-white/10 relative overflow-clip group">
-          <input type="hidden" name="_subject" value="Nuevo mensaje desde Web Matecito">
-          <input type="hidden" name="_template" value="table">
-          <input type="hidden" name="_captcha" value="true">
-          <input type="hidden" name="_next" value="https://matecito.qzz.io/gracias/">
-          <input type="text" name="_honey" style="display:none">
-          <!-- Confirmación accesible del envío (role=status para lectores de pantalla) -->
-          <p id="form-status" role="status" aria-live="polite" class="sr-only"></p>
-          <div class="absolute -top-8 -right-8 w-32 h-32 bg-brand-verde/5 rounded-full flex items-center justify-center rotate-12 transition-transform group-hover:rotate-45"></div>
-          <div class="space-y-6 relative z-10">
-            <div class="grid md:grid-cols-2 gap-6">
-              <div>
-                <label for="nombre" class="block text-sm font-bold text-brand-verde-profundo dark:text-brand-crema/85 mb-2">¿Cómo te llamás,
-                                    che?</label>
-                <input type="text" id="nombre" name="nombre" class="w-full rounded-xl border-gray-200 dark:border-white/15 bg-gray-50 dark:bg-white/5 dark:text-brand-crema focus:border-brand-verde focus:ring-brand-verde transition-colors py-3" placeholder="Tu nombre..." required>
-              </div>
-              <div>
-                <label for="contacto_dato" class="block text-sm font-bold text-brand-verde-profundo dark:text-brand-crema/85 mb-2">¿Dónde te ubicamos?</label>
-                <input type="text" id="contacto_dato" name="contacto_dato" class="w-full rounded-xl border-gray-200 dark:border-white/15 bg-gray-50 dark:bg-white/5 dark:text-brand-crema focus:border-brand-verde focus:ring-brand-verde transition-colors py-3" placeholder="WhatsApp o Email..." required>
-              </div>
-            </div>
-            <div>
-              <label for="asunto" class="block text-sm font-bold text-brand-verde-profundo dark:text-brand-crema/85 mb-2">¿Qué servicio te
-                                interesa?</label>
-              <select id="asunto" class="w-full rounded-xl border-gray-200 dark:border-white/15 bg-gray-50 dark:bg-white/5 dark:text-brand-crema focus:border-brand-verde focus:ring-brand-verde transition-colors py-3">
-                <option value="" disabled selected>Selecciona un servicio...</option>
-                <option value="landing">Sitio Web / Landing (USD 250)</option>
-                <option value="ecommerce">E-commerce Completo (USD 550)</option>
-                <option value="automatizacion">Automatización SaaS (USD 350)</option>
-                <option value="mantenimiento">Mantenimiento Mensual (USD 50)</option>
-                <option value="otro">Otro / Consulta general</option>
-              </select>
-            </div>
-            <div id="precio-estimado-container" class="hidden animate-fade-in">
-              <div class="p-4 rounded-xl bg-brand-verde/5 border border-brand-verde/20 flex items-center justify-between">
-                <div>
-                  <p class="text-xs font-bold text-brand-verde uppercase tracking-wider mb-1">Inversión Estimada</p>
-                  <h3 id="precio-estimado" class="text-2xl font-bold text-brand-dark dark:text-brand-crema"><span class="hidden">Cargando...</span></h3>
-                  <p id="precio-mensaje" class="text-[10px] text-brand-verde-profundo/60 dark:text-brand-crema/60 mt-1"></p>
-                </div>
-                <svg class="icon text-brand-verde text-3xl" aria-hidden="true" focusable="false" width="1em" height="1em"><use href="#i-payments"/></svg>
-              </div>
-            </div>
-            <div>
-              <label for="mensaje" class="block text-sm font-bold text-brand-verde-profundo dark:text-brand-crema/85 mb-2">Contanos tu idea</label>
-              <textarea id="mensaje" name="mensaje" rows="4" class="w-full rounded-xl border-gray-200 dark:border-white/15 bg-gray-50 dark:bg-white/5 dark:text-brand-crema focus:border-brand-verde focus:ring-brand-verde transition-colors resize-none py-3" placeholder="Quiero vender mis productos por internet..." required></textarea>
-            </div>
-            <button type="submit" class="w-full py-4 bg-brand-verde text-white font-bold rounded-xl hover:bg-brand-verde-700 dark:hover:bg-brand-verde-500 transition-all transform active:scale-[0.98] shadow-lg shadow-brand-verde/30 flex items-center justify-center gap-2">
-              <span>Enviar Mensaje</span>
-              <svg class="icon" aria-hidden="true" focusable="false" width="1em" height="1em"><use href="#i-send"/></svg>
-            </button>
-          </div>
-        </form>
-        <div class="mt-12 flex justify-center gap-8 text-sm font-bold tracking-wide text-brand-verde-profundo dark:text-brand-crema/70">
-          <a href="https://www.instagram.com/matecito.tech/" target="_blank" rel="noopener noreferrer" class="hover:text-brand-verde transition-colors hover:-translate-y-1 flex items-center gap-2">Instagram <svg class="icon text-sm" aria-hidden="true" focusable="false" width="1em" height="1em"><use href="#i-open_in_new"/></svg></a>
-          <a href="https://www.linkedin.com/company/matecito-tech/about/?viewAsMember=true" target="_blank" rel="noopener noreferrer" class="hover:text-[#0077b5] transition-colors hover:-translate-y-1 flex items-center gap-2">LinkedIn <svg class="icon text-sm" aria-hidden="true" focusable="false" width="1em" height="1em"><use href="#i-open_in_new"/></svg></a>
-          <a href="https://github.com/matecito-tech" target="_blank" rel="noopener noreferrer" class="hover:text-black dark:hover:text-white transition-colors hover:-translate-y-1 flex items-center gap-2">GitHub <svg class="icon text-sm" aria-hidden="true" focusable="false" width="1em" height="1em"><use href="#i-open_in_new"/></svg></a>
+        <div class="case__arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="case__card case__card--after">
+          <h3 class="case__h">Después</h3>
+          <ul class="case__list">
+            <li>Sitio propio con su historia, servicios y dominio.</li>
+            <li>Cotización por WhatsApp con el mensaje ya escrito.</li>
+            <li>Sección para que se postulen choferes.</li>
+            <li>SEO base e imágenes optimizadas.</li>
+          </ul>
         </div>
       </div>
-    </section>
+
+      <div class="case__cta reveal">
+        <a href="https://schalbettertransportes.com.ar/" target="_blank" rel="noopener" class="btn-cta btn-lg">Ver el sitio en vivo <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-open_in_new"/></svg></a>
+        <a href="https://github.com/matecito-tech/SchalbetterTransportes" target="_blank" rel="noopener" class="btn-alt btn-lg">Ver el código</a>
+        <p class="case__note">Textos y fotos aportados por la empresa.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= PROCESO ================= -->
+  <section id="proceso" class="section section--screen" aria-labelledby="proceso-titulo">
+    <div class="wrap">
+      <div class="max-w-3xl mb-14 reveal">
+        <p class="kicker">Cómo trabajamos</p>
+        <h2 id="proceso-titulo" class="h2 mb-6">De la idea al lanzamiento, sin sorpresas</h2>
+        <p class="lede">Usamos Scrum adaptado a negocios de acá: objetivos cortos, comunicación por escrito y todo a la vista. Menos reuniones eternas, más avance.</p>
+      </div>
+      <div class="grid gap-12 lg:grid-cols-[minmax(0,7fr)_minmax(0,5fr)] items-center">
+        <ol class="steps reveal-stagger">
+          {pasos.map((p, i) => (
+            <li class="step">
+              <span class="step__n" aria-hidden="true">{i + 1}</span>
+              <div>
+                <h3 class="step__title">{p.title}</h3>
+                <p class="step__text">{p.text}</p>
+              </div>
+            </li>
+          ))}
+        </ol>
+
+        <div class="board reveal" aria-label="Ejemplo de tablero de un proyecto" role="img" data-board>
+          <div class="board__head">
+            <span class="font-bold">Proyecto: tu tienda online</span>
+            <span class="board__tag">Semana 2</span>
+          </div>
+          <div class="board__cols">
+            <div data-board-col="todo"><p class="board__col">Por hacer</p><p class="board__card">Configurar envíos</p></div>
+            <div data-board-col="doing"><p class="board__col">En curso</p><p class="board__card board__card--doing">Integrar Mercado Pago</p><p class="board__card board__card--doing">Diseño para celular</p></div>
+            <div data-board-col="done"><p class="board__col">Listo</p><p class="board__card board__card--done">Dominio</p><p class="board__card board__card--done">Hosting</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= PRECIOS ================= -->
+  <section id="precios" class="section section--screen bg-[var(--surface)]" aria-labelledby="precios-titulo">
+    <div class="wrap">
+      <div class="max-w-3xl mb-14 reveal">
+        <p class="kicker">Precios</p>
+        <h2 id="precios-titulo" class="h2 mb-6">Precios claros desde el primer día</h2>
+        <p class="lede">Sabés cuánto arranca cada servicio antes de hablar con nadie. El presupuesto final depende de lo que necesites y siempre es sin cargo.</p>
+      </div>
+      <ul class="plans reveal-stagger">
+        {planes.map((p) => (
+          <li class="plan">
+            <h3 class="plan__name">{p.name}</h3>
+            <p class="plan__price"><span class="plan__cur">USD</span> <span data-count={p.price}>{p.price}</span></p>
+            <p class="plan__unit">{p.unit}</p>
+            <p class="plan__ars" data-ars-usd={p.usd} data-ars-mes={p.id === 'mantenimiento' ? '1' : undefined}></p>
+            <p class="plan__fit">{p.fit}</p>
+            <ul class="plan__items">
+              {p.items.map((it) => <li><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-check"/></svg>{it}</li>)}
+            </ul>
+            <a href="#contacto" class="btn-alt w-full justify-center mt-auto" data-servicio={p.id}>Consultar por {p.name.toLowerCase()}</a>
+          </li>
+        ))}
+      </ul>
+      <p class="sm:hidden text-sm text-[var(--ink-2)] -mt-2 mb-4" aria-hidden="true">Deslizá para ver los cuatro planes →</p>
+      <p class="text-sm text-[var(--ink-2)] mt-8 max-w-3xl">Valores de referencia en dólares estadounidenses, con su equivalente aproximado en pesos al dólar oficial del día. El precio final en pesos, con impuestos incluidos, figura en el presupuesto escrito.</p>
+    </div>
+  </section>
+
+  <!-- ================= NOSOTROS ================= -->
+  <section id="nosotros" class="section section--screen" aria-labelledby="nosotros-titulo">
+    <div class="wrap grid gap-14 lg:grid-cols-2 lg:gap-20 items-center">
+      <div class="reveal">
+        <p class="kicker">Nosotros</p>
+        <h2 id="nosotros-titulo" class="h2 mb-6">Ingeniería de software con raíces santafesinas</h2>
+        <p class="lede mb-8">Queremos que los negocios de la región compitan de igual a igual. Por eso hacemos que la tecnología sea una herramienta para vender más y trabajar mejor, no un dolor de cabeza.</p>
+
+        <figure class="founder">
+          <div class="founder__art">
+            <Image src={mateoImg} alt="Ilustración de Mateo Gariboglio, fundador de Matecito Tech" width={225} height={315} densities={[1, 2]} loading="lazy" decoding="async" class="founder__img" />
+          </div>
+          <blockquote class="founder__quote">“Me obsesiona que las cosas funcionen bien. Mi rol es que todo el engranaje técnico gire perfecto para que vos solo te preocupes por vender.”</blockquote>
+          <figcaption class="founder__cap">
+            <strong class="block text-base">Mateo Gariboglio</strong>
+            <span class="text-[var(--ink-2)]">Fundador y Scrum Master. Viene del backend (Java y Spring).</span>
+            <span class="flex gap-4 mt-2">
+              <a class="underline underline-offset-4 hover:text-brand-verde" href="https://www.linkedin.com/in/mateo-gariboglio/" target="_blank" rel="noopener">LinkedIn</a>
+              <a class="underline underline-offset-4 hover:text-brand-verde" href="https://github.com/Mateo-404" target="_blank" rel="noopener">GitHub</a>
+            </span>
+          </figcaption>
+        </figure>
+
+        <dl class="values">
+          <div><dt>Cercanía</dt><dd>Hablás con quien hace tu proyecto.</dd></div>
+          <div><dt>Transparencia</dt><dd>Precios publicados y tablero abierto.</dd></div>
+          <div><dt>Calidad</dt><dd>Código prolijo, probado y documentado.</dd></div>
+          <div><dt>Simplicidad</dt><dd>Lo que necesitás, sin vueltas.</dd></div>
+        </dl>
+      </div>
+
+      <div class="reveal">
+        <div class="code-window">
+          <div class="code-window__bar"><span></span><span></span><span></span><p>nuestra_promesa.py</p></div>
+          <CodeBlock />
+        </div>
+        <p class="text-sm text-[var(--ink-2)] mt-6">Trabajamos con Java, Spring Boot, JavaScript, PostgreSQL y Docker, y sumamos especialistas según lo que pida cada proyecto. Nuestro código está en <a class="underline underline-offset-4 hover:text-brand-verde" href="https://github.com/matecito-tech" target="_blank" rel="noopener">GitHub</a>.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= PREGUNTAS ================= -->
+  <section id="preguntas" class="section bg-[var(--surface)]" aria-labelledby="preguntas-titulo">
+    <div class="wrap grid gap-12 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-20">
+      <div class="reveal">
+        <p class="kicker">Preguntas frecuentes</p>
+        <h2 id="preguntas-titulo" class="h2 mb-6">Lo que nos preguntan antes de empezar</h2>
+        <p class="lede">¿Te quedó otra duda? <a class="text-brand-verde dark:text-brand-verde-400 underline underline-offset-4" href={whatsappLink()} target="_blank" rel="noopener">Escribinos por WhatsApp</a>.</p>
+      </div>
+      <div class="faq reveal">
+        {faqs.map((f, i) => (
+          <details class="faq__item" name="faq" open={i === 0}>
+            <summary class="faq__q">{f.q}<svg class="icon faq__icon" aria-hidden="true" focusable="false"><use href="#i-plus"/></svg></summary>
+            <p class="faq__a">{f.a}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= CONTACTO ================= -->
+  <section id="contacto" class="section section--screen" aria-labelledby="contacto-titulo">
+    <div class="wrap grid gap-12 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-20">
+      <div class="reveal">
+        <p class="kicker">Contacto</p>
+        <h2 id="contacto-titulo" class="h2 mb-6">Contanos qué necesitás</h2>
+        <p class="lede mb-8">Completá el formulario y te respondemos con los próximos pasos. Si preferís, escribinos directo.</p>
+        <div class="flex flex-col sm:flex-row lg:flex-col gap-3 mb-10">
+          <a class="btn-alt btn-lg" href={whatsappLink('Hola Matecito Tech, quiero consultar por un proyecto')} target="_blank" rel="noopener"><svg class="icon text-xl text-[#25D366]" aria-hidden="true" focusable="false"><use href="#i-whatsapp"/></svg>Escribir por WhatsApp</a>
+          <a class="btn-alt btn-lg" href="mailto:matecito.tech@gmail.com"><svg class="icon text-xl" aria-hidden="true" focusable="false"><use href="#i-mail"/></svg>matecito.tech@gmail.com</a>
+        </div>
+        <h3 class="font-display font-bold text-lg mb-4">Qué pasa después</h3>
+        <ol class="next">
+          <li>Leemos tu mensaje y te escribimos para entender bien la idea.</li>
+          <li>Te mandamos una propuesta con alcance, plazo y precio.</li>
+          <li>Si te cierra, arrancamos. Si no, no pasa nada.</li>
+        </ol>
+      </div>
+
+      <form id="contactForm" action="https://formsubmit.co/matecito.tech@gmail.com" method="POST" class="contact-form reveal" novalidate>
+        <input type="hidden" name="_subject" value="Nuevo mensaje desde la web de Matecito Tech">
+        <input type="hidden" name="_template" value="table">
+        <input type="hidden" name="_captcha" value="true">
+        <input type="hidden" name="_next" value="https://matecito.qzz.io/gracias/">
+        <input type="text" name="_honey" class="hidden" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <p id="form-status" role="status" aria-live="polite" class="sr-only"></p>
+
+        <div class="grid sm:grid-cols-2 gap-5">
+          <div class="field">
+            <label for="nombre">Tu nombre</label>
+            <input type="text" id="nombre" name="nombre" autocomplete="name" placeholder="Ej.: Laura Gómez" required>
+          </div>
+          <div class="field">
+            <label for="contacto_dato">WhatsApp o email</label>
+            <input type="text" id="contacto_dato" name="contacto" autocomplete="email" inputmode="email" placeholder="Para responderte" required>
+          </div>
+        </div>
+        <div class="field">
+          <label for="asunto">¿Qué te interesa?</label>
+          <select id="asunto" name="servicio">
+            <option value="">Elegí una opción (opcional)</option>
+            <option value="landing">Página web (desde USD 250)</option>
+            <option value="ecommerce">Tienda online (desde USD 550)</option>
+            <option value="automatizacion">Sistema a medida (desde USD 350)</option>
+            <option value="mantenimiento">Mantenimiento (USD 50 por mes)</option>
+            <option value="otro">Otra cosa / no estoy seguro</option>
+          </select>
+        </div>
+        <div id="precio-estimado-container" class="estimate" hidden>
+          <p class="text-sm font-semibold text-brand-verde dark:text-brand-verde-400">Inversión estimada en pesos</p>
+          <p id="precio-estimado" class="font-display text-2xl font-bold"></p>
+          <p id="precio-mensaje" class="text-xs text-[var(--ink-2)]"></p>
+        </div>
+        <div class="field">
+          <label for="mensaje">Contanos tu idea</label>
+          <textarea id="mensaje" name="mensaje" rows="5" placeholder="Ej.: Tengo una ferretería y quiero vender por internet." required></textarea>
+        </div>
+        <button type="submit" class="btn-cta btn-lg w-full justify-center">
+          <span>Enviar consulta</span>
+          <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-send"/></svg>
+        </button>
+        <p class="text-xs text-[var(--ink-2)] text-center">Sin compromiso. Usamos tus datos solo para responderte (<a class="underline" href="/politica-de-privacidad/">privacidad</a>).</p>
+      </form>
+    </div>
+  </section>
 
 <style is:global>
-  
   :root {
     --bg: var(--color-brand-crema);
     --ink: var(--color-brand-dark);
-    --ink-soft: var(--color-brand-verde-profundo);
-    --green: var(--color-brand-verde);
-    --line: var(--color-border);
-    --badge-bg: color-mix(in srgb, var(--color-brand-verde) 10%, transparent); --badge-line: color-mix(in srgb, var(--color-brand-verde) 20%, transparent); --badge-ink: var(--color-brand-verde);
-    --btn-bg: var(--color-brand-dark); --btn-ink: #fff;
-    --ghost-bg: #fff;
     --halo: rgba(249,188,61,.16);
-    --maxw: 75rem;
+    --maxw: 76rem;
     --gutter: clamp(1.25rem, 4vw, 2rem);
     --gap: clamp(1rem, 3vw, 3rem);
     --field-h: clamp(120px, 12.5vw, 340px);
     --lift: calc(var(--field-h) * .13);
-    --bleed: calc(var(--field-h) * .03);   /* sobrante inferior del campo: cubre el movimiento vertical del parallax */
-    --pad: 40px;                           /* sobrante lateral del campo: cubre el movimiento horizontal */
+    --bleed: calc(var(--field-h) * .03);
+    --pad: 40px;
   }
   :root.dark {
     --bg: var(--color-brand-dark);
     --ink: var(--color-brand-crema);
-    --ink-soft: var(--color-brand-crema);
-    --green: var(--color-brand-verde);
-    --line: color-mix(in srgb, var(--color-brand-crema) 16%, transparent);
-    --badge-bg: color-mix(in srgb, var(--color-brand-verde) 12%, transparent); --badge-line: color-mix(in srgb, var(--color-brand-verde) 35%, transparent); --badge-ink: var(--color-brand-verde);
-    --btn-bg: var(--color-brand-crema); --btn-ink: var(--color-brand-dark);
-    --ghost-bg: transparent;
     --halo: rgba(170,196,255,.14);
   }
 
-
-
-  /* ---------- Hero ---------- */
+  /* ================= Hero ================= */
   .hero {
     position: relative; isolation: isolate; overflow: hidden;
     container-type: inline-size;
     display: flex;
-    min-height: min(100svh, 57.5rem);
+    min-height: min(100svh, 60rem);
+    padding-top: var(--nav-h);
     background: var(--bg);
-    transition: background-color .6s ease;
+    scroll-snap-align: start;
   }
 
-  /* Campo y primer plano: más anchos que la ventana (overscan) para que el parallax no muestre bordes */
   .hero__field, .hero__front {
     position: absolute;
     left: calc(var(--pad) * -1); right: calc(var(--pad) * -1);
@@ -504,9 +494,9 @@ import torreNoche from '../assets/hero/tech/torre-senal-noche.svg';
   }
   .hero__field { z-index: 1; }
   .hero__front { z-index: 3; }
-  .hero__field--noche, .hero__front--noche { opacity: 0; }
-  :root.dark .hero__field--noche, :root.dark .hero__front--noche { opacity: 1; }
-  :root.dark .hero__field--dia,   :root.dark .hero__front--dia   { opacity: 0; }
+  .hero__field--noche, .hero__front--noche, .hero__net--noche, .hero__sat--noche, .hero__dron--noche { opacity: 0; }
+  :root.dark :is(.hero__field--noche, .hero__front--noche, .hero__net--noche, .hero__sat--noche, .hero__dron--noche) { opacity: 1; }
+  :root.dark :is(.hero__field--dia, .hero__front--dia, .hero__net--dia, .hero__sat--dia, .hero__dron--dia) { opacity: 0; }
 
   .hero__inner {
     position: relative; flex: 0 1 auto;
@@ -516,89 +506,129 @@ import torreNoche from '../assets/hero/tech/torre-senal-noche.svg';
   }
 
   .hero__copy { position: relative; z-index: 4; align-self: center; max-width: 36rem;
-                padding-block: clamp(4.5rem, 11vh, 7rem) calc(var(--field-h) * .5 + 2rem); }
+                padding-block: clamp(2.5rem, 8vh, 5rem) calc(var(--field-h) * .5 + 2.5rem); }
 
-  .badge { display: inline-flex; align-items: center; gap: .5rem; padding: .4rem .85rem; border-radius: 999px;
-           background: var(--badge-bg); border: 1px solid var(--badge-line); color: var(--badge-ink);
-           font-size: .75rem; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; transition: all .6s ease; }
-  .badge::before { content: ""; width: .4rem; height: .4rem; border-radius: 50%; background: currentColor; }
+  .hero__kicker { display: inline-flex; align-items: center; gap: .55rem; font-weight: 600; font-size: .9375rem;
+                  color: var(--color-brand-verde); }
+  :root.dark .hero__kicker { color: var(--color-brand-verde-400); }
+  .hero h1 { margin: 1.1rem 0 1.4rem; font-family: var(--font-display); font-size: clamp(2.6rem, 5.4vw, 4.6rem);
+             line-height: 1; letter-spacing: -.035em; font-weight: 700; color: var(--ink); }
+  .hero__lead { margin: 0 0 2.25rem; max-width: 33rem; font-size: clamp(1.0625rem, 1.3vw, 1.1875rem); line-height: 1.7; color: var(--ink-2); }
+  .hero__cta { display: flex; flex-wrap: wrap; gap: .75rem; }
+  :root:not(.dark) .hero .btn-alt { background: rgb(255 255 255 / .7); }
+  .hero__proof { display: flex; flex-wrap: wrap; gap: .5rem 1.25rem; margin-top: 1.75rem; font-size: .875rem; color: var(--ink-2); }
+  .hero__proof li { display: inline-flex; align-items: center; gap: .35rem; }
+  .hero__proof .icon { color: var(--color-brand-verde); font-size: 1.1rem; }
+  :root.dark .hero__proof .icon { color: var(--color-brand-verde-400); }
 
-  h1 { margin: 1.25rem 0 1.5rem; font-size: clamp(2.5rem, 5.2vw, 4.4rem); line-height: 1.04; letter-spacing: -.02em; font-weight: 800; text-wrap: balance; }
-  h1 em { display: block; font-style: normal; color: var(--green); transition: color .6s ease; }
-  .lead { margin: 0 0 2.25rem; max-width: 34rem; font-size: clamp(1rem, 1.25vw, 1.125rem); line-height: 1.8; color: var(--ink-soft); }
-
-  .cta { display: flex; flex-wrap: wrap; gap: 1rem; }
-  .btn { display: inline-flex; align-items: center; gap: .6rem; min-height: 3.25rem; padding: 0 1.9rem; border-radius: .8rem;
-         font: inherit; font-weight: 700; text-decoration: none; cursor: pointer; border: 1px solid transparent;
-         transition: transform .15s ease, background-color .6s ease, color .6s ease, border-color .6s ease; }
-  .btn svg { width: 1rem; height: 1rem; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
-  .btn--primary { background: var(--btn-bg); color: var(--btn-ink); box-shadow: 0 10px 24px -10px rgba(0,0,0,.55); }
-  .btn--ghost { background: var(--ghost-bg); color: var(--ink-soft); border-color: var(--line); }
-  .btn:hover { transform: translateY(-1px); }
-  .btn:focus-visible { outline: 3px solid #3BA374; outline-offset: 3px; }
+  .hero__legal { margin-top: 1.25rem; font-size: .8125rem; }
+  @media (min-width: 1024px) { .hero__legal { display: none; } }
+  .hero__legal a { color: var(--ink-2); text-decoration: underline; text-underline-offset: 3px; }
 
   /* ---------- Arte ---------- */
   .hero__art { position: relative; align-self: end; }   /* SIN z-index ni transform */
-
   .hero__figure {
     --col: calc((min(100cqw - 2 * var(--gutter), var(--maxw)) - var(--gap)) * .45);
-    --h: min(clamp(21rem, 72svh, 42rem), calc(var(--col) * 1.23));
+    --h: min(clamp(21rem, 70svh, 42rem), calc(var(--col) * 1.23));
     position: relative; height: var(--h); aspect-ratio: 288 / 455;
-    margin-inline: auto; bottom: var(--lift); left: 8%;   /* offsets relativos, NUNCA transform */
+    margin-inline: auto; bottom: var(--lift); left: 8%;
   }
+  .hero__body { position: relative; z-index: 2; width: 100%; height: 100%; }
+  .hero__gaucho { display: block; width: 100%; height: 100%; transform-origin: 50% 85%; }
+  .hero__far { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
 
-  .hero__gaucho { position: relative; z-index: 2; display: block; width: 100%; height: 100%; }
-
-  /* Cielo = sol y luna apilados. El wrapper es el que recibe el parallax; las imágenes solo hacen el "sube/baja" */
   .hero__sky { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
-  .hero__sky::before {                                  /* halo: gradiente, sin blur ni filtros */
+  .hero__sky::before {
     content: ""; position: absolute; left: 40.5%; top: 52.3%; width: 230%; aspect-ratio: 1;
     transform: translate(-50%, -50%);
     background: radial-gradient(closest-side, var(--halo), transparent 72%);
-    transition: background .6s ease;
   }
-  /* max-width:none es CLAVE: sin esto el reset de Tailwind achica el sol al 100% de la figura y se desalinea */
+  /* max-width:none: sin esto el reset de Tailwind achica el sol y se desalinea */
   .hero__sun, .hero__moon {
     position: absolute; left: -31.25%; top: 5.93%; width: 143.75%; height: auto; max-width: none;
     transition: transform .9s cubic-bezier(.4, 0, .2, 1), opacity .6s ease;
   }
   .hero__moon { opacity: 0; transform: translateY(14%); }
-  :root.dark .hero__sun  { opacity: 0; transform: translateY(14%); }   /* el sol se pone */
-  :root.dark .hero__moon { opacity: 1; transform: none; }              /* la luna sale */
+  :root.dark .hero__sun  { opacity: 0; transform: translateY(14%); }
+  :root.dark .hero__moon { opacity: 1; transform: none; }
 
-  /* ---------- Puntitos verdes (día) -> estrellas (noche): MISMOS elementos ---------- */
+  /* Detalles tech, ubicados en % de la figura para que escalen con ella.
+     z-index 1: por delante del sol, por detrás del gaucho. */
+  .hero__orbit, .hero__drone { position: absolute; z-index: 1; pointer-events: none; }
+  .hero__orbit { left: -52%; top: -8%; width: 20%; aspect-ratio: 1; }
+  .hero__drone { left: 96%; top: 54%; width: 22%; aspect-ratio: 1; }
+  .hero__sat, .hero__dron { position: absolute; inset: 0; width: 100%; height: 100%; max-width: none; transition: opacity .7s ease; }
+  .hero__sat { animation: sat-flota 16s ease-in-out infinite alternate; }
+  .hero__dron { animation: dron-flota 9s ease-in-out infinite alternate; }
+  @keyframes sat-flota { from { transform: rotate(-12deg); } to { transform: rotate(-4deg) translate(-8%, 6%); } }
+  @keyframes dron-flota { from { transform: translate(0, 0) rotate(-2deg); } to { transform: translate(-6%, -10%) rotate(2deg); } }
+
+  /* ---------- Vida: patrulla del dron, órbita del satélite, nubes y pájaros ---------- */
+  .hero__drone { animation: patrulla 18s ease-in-out infinite; }
+  @keyframes patrulla {
+    0%, 100% { transform: translate(0, 0) rotate(0); }
+    20% { transform: translate(-45%, -40%) rotate(-7deg); }
+    40% { transform: translate(-150%, -15%) rotate(-4deg); }   /* pasa por detrás del gaucho */
+    55% { transform: translate(-150%, 10%) rotate(5deg); }
+    75% { transform: translate(-40%, 30%) rotate(6deg); }
+  }
+  .hero__orbit { animation: orbita 26s ease-in-out infinite alternate; }
+  @keyframes orbita { from { transform: translate(0, 0) rotate(0); } 50% { transform: translate(60%, -35%) rotate(10deg); } to { transform: translate(140%, -10%) rotate(18deg); } }
+
+  .hero__clouds { position: absolute; inset: var(--nav-h) 0 auto 0; height: 45%; z-index: 0; pointer-events: none; transition: opacity .8s ease; }
+  :root.dark .hero__clouds { opacity: .12; }
+  .cloud { position: absolute; display: block; width: 9rem; height: 2.4rem; border-radius: 999px; background: #fff; opacity: .9;
+           box-shadow: 0 6px 18px -10px rgb(30 57 50 / .25); animation: nube linear infinite; }
+  .cloud::before, .cloud::after { content: ""; position: absolute; border-radius: 50%; background: inherit; }
+  .cloud::before { width: 3.6rem; height: 3.6rem; left: 1.4rem; top: -1.7rem; }
+  .cloud::after { width: 2.6rem; height: 2.6rem; left: 4.4rem; top: -1.1rem; }
+  .cloud--1 { top: 12%; animation-duration: 95s; animation-delay: -20s; }
+  .cloud--2 { top: 38%; scale: .7; opacity: .75; animation-duration: 130s; animation-delay: -75s; }
+  .cloud--3 { top: 4%; scale: .5; opacity: .6; animation-duration: 160s; animation-delay: -10s; }
+  @keyframes nube { from { translate: -12rem 0; } to { translate: calc(100cqw + 12rem) 0; } }
+
+  .hero__birds { position: absolute; z-index: 0; width: 6rem; top: calc(var(--nav-h) + 10%); left: 0; color: #2b4a3f; pointer-events: none;
+                 animation: vuelo 34s linear infinite; animation-delay: 4s; opacity: 0; transition: color .6s ease; }
+  :root.dark .hero__birds { display: none; }
+  @keyframes vuelo { 0% { opacity: 0; translate: -8rem 4rem; } 5% { opacity: .8; } 45% { opacity: .8; } 50% { opacity: 0; translate: calc(100cqw + 8rem) -3rem; } 100% { opacity: 0; translate: calc(100cqw + 8rem) -3rem; } }
+  .bird { animation: aleteo .5s ease-in-out infinite alternate; transform-box: fill-box; transform-origin: center; }
+  .bird.b2 { animation-delay: -.2s; } .bird.b3 { animation-delay: -.35s; }
+  @keyframes aleteo { to { transform: scaleY(-.55); } }
+
+  /* Red de nodos: z0 y antes del cielo en el DOM => siempre detrás del sol */
+  .hero__net { position: absolute; z-index: 0; right: 0; top: calc(var(--nav-h) + 1%); width: min(48%, 52rem); height: auto; max-width: none;
+               pointer-events: none; opacity: .55; transition: opacity .7s ease; }
+  :root.dark .hero__net--noche { opacity: .7; }
+
+  /* ---------- Puntitos (día) / estrellas (noche) ---------- */
   .hero__dust { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
   .hero__dust i {
     position: absolute; left: var(--x); top: var(--y); width: var(--s); height: var(--s);
-    border-radius: 50%; background: #55B27F; opacity: .4;
+    border-radius: 50%; background: #55B27F; opacity: .35;
     transition: background-color .6s ease, opacity .6s ease;
     animation: dust-float var(--t) ease-in-out var(--d) infinite alternate;
   }
   @keyframes dust-float { to { transform: translate3d(0, -10px, 0); } }
-
   :root.dark .hero__dust i { background: #FFF6DD; opacity: .9; box-shadow: 0 0 6px 1px rgba(255,246,221,.5);
-                                           animation: twinkle var(--t) ease-in-out var(--d) infinite; }
+                             animation: twinkle var(--t) ease-in-out var(--d) infinite; }
   @keyframes twinkle { 0%, 100% { opacity: .22; transform: scale(.75); } 50% { opacity: 1; transform: scale(1.15); } }
-  /* las grandes se vuelven destello de 4 puntas */
   :root.dark .hero__dust i.big, :root.dark .crux i {
     width: calc(var(--s) * 3.4); height: calc(var(--s) * 3.4); border-radius: 0; box-shadow: none; background: #fff;
     clip-path: polygon(50% 0, 61% 39%, 100% 50%, 61% 61%, 50% 100%, 39% 61%, 0 50%, 39% 39%);
   }
 
   /* Cruz del Sur: guiño argentino, solo de noche */
-  .crux { position: absolute; z-index: 0; right: 4.5%; top: 11%; width: 60px; height: 110px; opacity: 0; transition: opacity 1s ease .3s; pointer-events: none; }
+  .crux { position: absolute; z-index: 0; right: 4.5%; top: calc(var(--nav-h) + 6%); width: 60px; height: 110px; opacity: 0; transition: opacity 1s ease .3s; pointer-events: none; }
   :root.dark .crux { opacity: 1; }
   .crux i { position: absolute; border-radius: 50%; background: #fff; width: var(--s); height: var(--s);
             left: var(--x); top: var(--y); animation: twinkle 5s ease-in-out var(--d) infinite; }
 
-  /* Estrella fugaz: una cada ~16 s, solo de noche */
-  .shoot { position: absolute; left: 24%; top: 9%; width: 110px; height: 2px; opacity: 0; border-radius: 2px;
+  .shoot { position: absolute; left: 24%; top: 14%; width: 110px; height: 2px; opacity: 0; border-radius: 2px;
            background: linear-gradient(90deg, transparent, #fff); }
   :root.dark .shoot { animation: shoot 16s linear 3s infinite; }
   @keyframes shoot { 0% { opacity: 0; transform: translate(0,0) rotate(24deg); } 1.5% { opacity: 1; }
                      5% { opacity: 0; transform: translate(300px,134px) rotate(24deg); } 100% { opacity: 0; } }
 
-  /* Luciérnagas: solo de noche, sobre el campo */
   .hero__flies { position: absolute; left: 0; right: 0; bottom: 0; height: calc(var(--field-h) * 1.15); z-index: 3; pointer-events: none; }
   .hero__flies i { position: absolute; left: var(--x); top: var(--y); width: 5px; height: 5px; border-radius: 50%;
                    background: #E6F985; box-shadow: 0 0 9px 3px rgba(230,249,133,.65); opacity: 0; }
@@ -606,109 +636,313 @@ import torreNoche from '../assets/hero/tech/torre-senal-noche.svg';
   @keyframes fly { 0% { opacity: 0; transform: translate(0,0); } 20%,70% { opacity: .95; }
                    50% { transform: translate(var(--dx), var(--dy)); } 100% { opacity: 0; transform: translate(calc(var(--dx) * 1.6), calc(var(--dy) * .4)); } }
 
-  /* Entrada del sol: fill-mode "backwards" (NO "both"), si no la animación pisa el estado oscuro y el sol nunca se va */
+  /* Invitación a bajar: botón real, con fondo propio (legible sobre el campo en ambos temas) */
+  .hero__scroll {
+    position: absolute; z-index: 5; left: 50%; bottom: calc(var(--field-h) * .12); translate: -50% 0;
+    display: inline-flex; align-items: center; gap: .4rem; min-height: 2.75rem; padding: 0 1rem 0 1.15rem; border-radius: 999px;
+    font-size: .875rem; font-weight: 700; color: var(--color-foreground);
+    background: color-mix(in oklch, var(--color-background) 88%, transparent);
+    backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+    border: 1px solid var(--hair); box-shadow: 0 10px 24px -14px rgb(0 0 0 / .5);
+    transition: background-color .2s ease, translate .3s var(--ease-out-soft);
+  }
+  .hero__scroll:hover { background: var(--color-background); translate: -50% -2px; }
+  .hero__scroll .icon { font-size: 1.1rem; color: var(--color-brand-verde); animation: scroll-hint 2.4s var(--ease-out-soft) infinite; }
+  :root.dark .hero__scroll .icon { color: var(--color-brand-verde-400); }
+  @keyframes scroll-hint { 0%, 60%, 100% { translate: 0 0; } 30% { translate: 0 3px; } }
+
+  /* Entrada: UN solo momento orquestado al cargar */
   @media (prefers-reduced-motion: no-preference) {
-    .hero__sky { animation: cielo-entra .9s cubic-bezier(.2,.7,.2,1) backwards; }
-    @keyframes cielo-entra { from { opacity: 0; } to { opacity: 1; } }
+    .hero__copy > * { animation: rise .9s var(--ease-out-soft) both; animation-delay: 80ms; }
+    .hero__copy > :nth-child(2) { animation-delay: 170ms; } .hero__copy > :nth-child(3) { animation-delay: 260ms; }
+    .hero__copy > :nth-child(4) { animation-delay: 350ms; } .hero__copy > :nth-child(n+5) { animation-delay: 440ms; }
+    .hero__sky { animation: fade-in 1.1s ease .1s backwards; }
+    .hero__gaucho { animation: gaucho-in 1.1s var(--ease-out-soft) .25s backwards; }
+    @keyframes rise { from { opacity: 0; translate: 0 1.25rem; } }
+    @keyframes fade-in { from { opacity: 0; } }
+    @keyframes gaucho-in { from { opacity: 0; transform: translateY(6%); } }
   }
+  /* Profundidad al scrollear (CSS nativo, sin JS por frame): cada capa baja
+     a distinta velocidad mientras el hero sale de pantalla. Lejos = más lento. */
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: scroll()) {
+      .hero__far, .hero__net, .hero__dust { animation: depth-far linear both; }
+      .hero__body   { animation: depth-mid linear both; }
+      .hero__field  { animation: depth-near linear both; }
+      .hero__copy   { animation: copy-out linear both; }
+      :is(.hero__far, .hero__net, .hero__dust, .hero__body, .hero__field, .hero__copy) {
+        animation-timeline: scroll(root); animation-range: 0 100vh;
+      }
+      @keyframes depth-far  { to { transform: translate3d(0, 30vh, 0); } }
+      @keyframes depth-mid  { to { transform: translate3d(0, 13vh, 0); } }
+      @keyframes depth-near { to { transform: translate3d(0, 6vh, 0); } }
+      @keyframes copy-out   { 60%, 100% { opacity: 0; transform: translate3d(0, -4vh, 0); } }
+    }
+  }
+  .hero__sky::before { animation: halo 7s ease-in-out infinite alternate; }
+  @keyframes halo { to { opacity: .55; scale: 1.06; } }
+
   @media (prefers-reduced-motion: reduce) {
-    .hero__dust i, .hero__flies i, .crux i, .shoot { animation: none !important; }
-    .hero__sun, .hero__moon, .hero__field, .hero__front { transition: none; }
+    .hero__sky::before, .hero__dust i, .hero__flies i, .crux i, .shoot, .hero__sat, .hero__dron, .hero__scroll .icon, .hero__drone, .hero__orbit, .cloud, .hero__birds, .bird { animation: none !important; }
+    .hero__birds { display: none; }
   }
 
-  /* ---------- Tech (detalles sutiles) ---------- */
-  .hero__tech {
-    position: absolute;
-    max-width: none;
-    height: auto;
-    pointer-events: none;
-    user-select: none;
-    transition: opacity .7s ease;
-  }
-  .hero__tech--net { z-index: 0; left: 47%; top: 2%; width: 53%; }
-  .hero__tech--net--noche, .hero__tech--sat--noche, .hero__tech--tower--noche, .hero__tech--dron--noche { opacity: 0; }
-  :root.dark .hero__tech--net--noche, :root.dark .hero__tech--sat--noche, :root.dark .hero__tech--tower--noche, :root.dark .hero__tech--dron--noche { opacity: 1; }
-  :root.dark .hero__tech--net--dia, :root.dark .hero__tech--sat--dia, :root.dark .hero__tech--tower--dia, :root.dark .hero__tech--dron--dia { opacity: 0; }
-
-  .hero__tech--sat { z-index: 0; left: 63%; top: 8%; width: clamp(54px, 5.6vw, 108px); animation: sat-flota 16s ease-in-out infinite alternate; }
-  .hero__tech--tower { z-index: 1; left: 56%; top: 16%; width: clamp(56px, 6vw, 92px); opacity: .9; }
-  .hero__tech--dron { z-index: 2; left: 84.5%; top: 47%; width: clamp(60px, 7.2vw, 136px); animation: dron-flota 12s ease-in-out infinite alternate; }
-
-  @keyframes sat-flota { from { transform: rotate(-12deg) translate(0, 0); } to { transform: rotate(-6deg) translate(-1.4cqw, .8cqw); } }
-  @keyframes dron-flota { from { transform: translate(0, 0) rotate(-2deg); } to { transform: translate(-1.2cqw, -1cqw) rotate(2deg); } }
-
-  @media (prefers-reduced-motion: reduce) {
-    .hero__tech--sat, .hero__tech--dron { animation: none; }
-    .hero__tech--sat { transform: rotate(-10deg); }
-  }
-
-  /* ---------- Mobile ---------- */
   @media (max-width: 859px) {
     .hero { min-height: 0; }
     .hero__inner { grid-template-columns: minmax(0, 1fr); }
-    .hero__copy { padding-block: 3.5rem 1.5rem; max-width: none; }
-    .hero__figure { --col: calc(100cqw - 2 * var(--gutter)); --h: min(clamp(18rem, 50svh, 30rem), calc(var(--col) * 1.23)); left: 6%; }
-    .btn { flex: 1 1 auto; justify-content: center; }
-    :root.dark .hero__dust i.big { display: none; }   /* en mobile el texto ocupa todo el ancho */
-    .crux { top: 3%; right: 6%; transform: scale(.7); transform-origin: top right; }
-    .hero__tech--net, .hero__tech--sat, .hero__tech--tower, .hero__tech--dron { display: none; }
+    .hero__copy { padding-block: 2.5rem 1rem; max-width: none; }
+    .hero__figure { --col: calc(100cqw - 2 * var(--gutter)); --h: min(clamp(18rem, 48svh, 30rem), calc(var(--col) * 1.23)); left: 6%; }
+    .hero__cta > * { flex: 1 1 auto; justify-content: center; }
+    :root.dark .hero__dust i.big { display: none; }
+    .crux { right: 6%; transform: scale(.7); transform-origin: top right; }
+    .hero__net, .hero__orbit, .hero__scroll { display: none; }
+    .hero__drone { left: 84%; top: 30%; width: 20%; }
   }
 
-  /* Solo del demo */
-  
+  /* Las columnas de grilla no se ensanchan por contenido largo (código) */
+  .wrap.grid > * { min-width: 0; }
+
+  /* ================= Historia ================= */
+  .chapters { display: grid; gap: clamp(2.5rem, 6vh, 4.5rem); counter-reset: ch; }
+  .chapter { counter-increment: ch; position: relative; padding-left: clamp(3.25rem, 6vw, 5rem); }
+  .chapter::before { content: counter(ch); position: absolute; left: 0; top: -.15em; font-family: var(--font-display); font-weight: 700;
+                     font-size: clamp(2.5rem, 5vw, 3.75rem); line-height: 1; color: color-mix(in oklch, var(--color-brand-verde) 28%, transparent); }
+  .chapter__tag { font-weight: 700; color: var(--color-brand-verde); margin-bottom: .5rem; }
+  :root.dark .chapter__tag { color: var(--color-brand-verde-400); }
+  .chapter__text { font-size: clamp(1.15rem, 1.8vw, 1.45rem); line-height: 1.6; max-width: 36rem; }
+  .chapter--end::before { color: var(--color-brand-sol); }
+
+  /* ================= Servicios ================= */
+  .services { border-top: 1px solid var(--hair); }
+  .service { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: .25rem 1.25rem; padding-block: 1.6rem; border-bottom: 1px solid var(--hair); }
+  @media (min-width: 640px) { .service { grid-template-columns: auto minmax(0, 1fr) auto; align-items: baseline; } }
+  .service__icon { font-size: 1.6rem; color: var(--color-brand-verde); translate: 0 .3rem; }
+  :root.dark .service__icon { color: var(--color-brand-verde-400); }
+  .service__title { font-family: var(--font-display); font-weight: 700; font-size: 1.35rem; letter-spacing: -.01em; margin-bottom: .35rem; }
+  .service__text { color: var(--ink-2); line-height: 1.65; max-width: 34rem; }
+  .service__price { grid-column: 2; font-size: .875rem; font-weight: 700; color: var(--color-brand-verde); white-space: nowrap; margin-top: .5rem; }
+  :root.dark .service__price { color: var(--color-brand-verde-400); }
+  @media (min-width: 640px) { .service__price { grid-column: 3; margin-top: 0; } }
+
+  /* ================= Caso ================= */
+  /* Fondo claro y limpio: las capturas (oscuras) resaltan y la sección respira */
+  .case { background: var(--surface); overflow: clip; }
+  .case__head { display: grid; gap: 1.5rem 4rem; align-items: end; }
+  @media (min-width: 1024px) { .case__head { grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); } }
+  .case__lede { font-size: clamp(1.0625rem, 1.4vw, 1.1875rem); line-height: 1.65; color: var(--ink-2); }
+  .case__facts { display: flex; gap: 2.25rem; margin-top: 1.5rem; }
+  .case__facts dt { font-size: .8125rem; color: var(--ink-2); }
+  .case__facts dd { font-family: var(--font-display); font-weight: 700; font-size: clamp(1.75rem, 3vw, 2.25rem); line-height: 1.1; color: var(--color-brand-verde); }
+  :root.dark .case__facts dd { color: var(--color-brand-verde-400); }
+
+  /* Escenario: notebook + celular superpuestos */
+  .case__stage { position: relative; margin: clamp(2.5rem, 6vw, 4.5rem) 0 clamp(2.5rem, 5vw, 4rem); padding-right: min(14%, 9rem); padding-bottom: 2.5rem; }
+  .device-browser { border-radius: 1rem; overflow: hidden; background: #fff; border: 1px solid var(--hair);
+                    box-shadow: 0 50px 100px -45px rgb(30 57 50 / .55), 0 12px 30px -20px rgb(0 0 0 / .25); }
+  .device-browser__bar { display: flex; align-items: center; gap: .4rem; padding: .7rem .9rem; background: #eef0f2; }
+  .device-browser__bar > span { width: .65rem; height: .65rem; border-radius: 50%; background: #ff5f56; }
+  .device-browser__bar > span:nth-child(2) { background: #ffbd2e; }
+  .device-browser__bar > span:nth-child(3) { background: #27c93f; }
+  .device-browser__bar p { display: flex; align-items: center; gap: .35rem; margin-left: .75rem; padding: .25rem .8rem; border-radius: 999px;
+                           background: #fff; color: #3c4043; font-size: .75rem; font-family: var(--font-sans); max-width: 60%; overflow: hidden; white-space: nowrap; }
+  .device-browser__bar .icon { font-size: .8rem; color: #1e8e3e; }
+  .device-browser img, .device-phone img { display: block; width: 100%; height: auto; }
+  .device-phone { position: absolute; right: 0; bottom: 0; width: clamp(7.5rem, 22%, 14.5rem); padding: .45rem; border-radius: 1.9rem;
+                  background: #111816; box-shadow: 0 40px 80px -30px rgb(30 57 50 / .6), inset 0 0 0 1px rgb(255 255 255 / .12); }
+  .device-phone img { border-radius: 1.5rem; aspect-ratio: 390 / 760; object-fit: cover; object-position: top; }
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      .device-phone { animation: phone-rise linear both; animation-timeline: view(); animation-range: entry 10% cover 45%; }
+      @keyframes phone-rise { from { translate: 0 18%; } to { translate: 0 0; } }
+    }
+  }
+
+  /* Antes / después */
+  .case__compare { display: grid; gap: 1rem; align-items: stretch; }
+  @media (min-width: 900px) { .case__compare { grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); } }
+  .case__card { padding: 1.5rem 1.6rem; border-radius: 1.25rem; }
+  .case__card--before { border: 1px dashed color-mix(in oklch, var(--color-foreground) 22%, transparent); color: var(--ink-2); }
+  .case__card--after { background: color-mix(in oklch, var(--color-brand-verde) 8%, var(--color-background)); border: 1px solid color-mix(in oklch, var(--color-brand-verde) 30%, transparent); }
+  .case__h { font-family: var(--font-display); font-weight: 700; font-size: 1.15rem; margin-bottom: .9rem; }
+  .case__card--before .case__h { color: var(--ink-2); }
+  .case__list { display: grid; gap: .65rem; line-height: 1.5; }
+  .case__list li { position: relative; padding-left: 1.6rem; }
+  .case__card--before .case__list li::before { content: ""; position: absolute; left: .15rem; top: .7em; width: .7rem; height: 2px; background: currentColor; opacity: .5; }
+  .case__card--after .case__list li::before { content: ""; position: absolute; left: 0; top: .2em; width: 1.05rem; height: 1.05rem; border-radius: 50%;
+    background: var(--color-brand-verde) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M6 12.5l4 4 8-9' fill='none' stroke='%23fff' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 70% no-repeat; }
+  .case__arrow { display: grid; place-items: center; color: var(--color-brand-verde); }
+  .case__arrow svg { width: 2rem; height: 2rem; }
+  @media (max-width: 899px) { .case__arrow svg { rotate: 90deg; } }
+
+  .case__cta { display: flex; flex-wrap: wrap; align-items: center; gap: .75rem 1rem; margin-top: 2.5rem; }
+  .case__note { font-size: .75rem; color: var(--ink-2); flex-basis: 100%; }
+
+  /* ================= Proceso ================= */
+  .steps { display: grid; gap: 0; counter-reset: step; }
+  .step { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 1.25rem; position: relative; padding-bottom: 2rem; }
+  .step:not(:last-child)::before { content: ""; position: absolute; left: 1.25rem; top: 2.75rem; bottom: .25rem; width: 2px; background: var(--hair); }
+  .step__n { width: 2.5rem; height: 2.5rem; border-radius: 999px; display: grid; place-items: center; font-weight: 700;
+             background: var(--color-brand-verde); color: #fff; font-family: var(--font-display); }
+  .step__title { font-family: var(--font-display); font-weight: 700; font-size: 1.25rem; margin: .35rem 0 .35rem; }
+  .step__text { color: var(--ink-2); line-height: 1.65; max-width: 32rem; }
+
+  .board { background: var(--surface); border: 1px solid var(--hair); border-radius: 1.25rem; padding: 1.25rem; box-shadow: 0 30px 60px -40px rgb(30 57 50 / .45); font-size: .8125rem; }
+  .board__head { display: flex; justify-content: space-between; align-items: center; padding-bottom: .9rem; margin-bottom: 1rem; border-bottom: 1px solid var(--hair); }
+  .board__tag { padding: .2rem .6rem; border-radius: 999px; font-weight: 700; font-size: .75rem;
+                background: color-mix(in oklch, var(--color-brand-verde) 14%, transparent); color: var(--color-brand-verde); }
+  :root.dark .board__tag { color: var(--color-brand-verde-300); }
+  .board__cols { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .6rem; }
+  .board__cols > div { background: color-mix(in oklch, var(--color-brand-verde-profundo) 5%, transparent); border-radius: .75rem; padding: .6rem; display: grid; align-content: start; gap: .5rem; min-height: 9rem; }
+  .board__col { font-weight: 700; color: var(--ink-2); }
+  .board__card { background: var(--color-background); border: 1px solid var(--hair); border-radius: .5rem; padding: .5rem .6rem; line-height: 1.35; }
+  .board__card--doing { border-left: 3px solid var(--color-brand-sol); }
+  .board__card--done { border-left: 3px solid var(--color-brand-verde); color: var(--ink-2); text-decoration: line-through; }
+
+  /* ================= Precios ================= */
+  .plans { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); }
+  /* Mobile: carrusel con "asomo" de la tarjeta siguiente (señala que se desliza) */
+  @media (max-width: 639px) {
+    .plans { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: .75rem; margin-inline: -1.25rem; padding: .25rem 1.25rem 1rem;
+             scroll-padding-inline: 1.25rem; scrollbar-width: none; overscroll-behavior-x: contain; }
+    .plans::-webkit-scrollbar { display: none; }
+    .plan { flex: 0 0 84%; scroll-snap-align: start; }
+  }
+  .plan { display: flex; flex-direction: column; padding: 1.75rem 1.5rem 1.5rem; border: 1px solid var(--hair); border-radius: 1.25rem; background: var(--color-background); }
+  .plan__name { font-family: var(--font-display); font-weight: 700; font-size: 1.15rem; }
+  .plan__price { font-family: var(--font-display); font-weight: 700; font-size: 3rem; letter-spacing: -.04em; line-height: 1; margin-top: 1rem; }
+  .plan__cur { font-size: 1rem; letter-spacing: 0; font-weight: 600; color: var(--ink-2); vertical-align: .9em; }
+  .plan__unit { font-size: .8125rem; color: var(--ink-2); margin-top: .35rem; }
+  .plan__ars { font-size: .875rem; font-weight: 600; margin-top: .2rem; min-height: 1.3em; }
+  .plan__fit { color: var(--ink-2); line-height: 1.55; margin: 1.1rem 0; font-size: .9375rem; }
+  .plan__items { display: grid; gap: .55rem; font-size: .9rem; margin-bottom: 1.75rem; }
+  .plan__items li { display: flex; gap: .5rem; align-items: flex-start; line-height: 1.45; }
+  .plan__items .icon { color: var(--color-brand-verde); font-size: 1.1rem; margin-top: .05rem; }
+  :root.dark .plan__items .icon { color: var(--color-brand-verde-400); }
+
+  /* ================= Nosotros ================= */
+  /* Retrato recortado (sin fondo) parado sobre un sol, como el gaucho del hero */
+  .founder { display: grid; grid-template-columns: auto minmax(0, 1fr); grid-template-areas: "art quote" "art cap"; column-gap: 1.5rem; row-gap: .9rem;
+             align-items: end; padding: 1.5rem 1.5rem 0; border-radius: 1.5rem; border: 1px solid var(--hair); background: var(--surface); overflow: hidden; }
+  .founder__art { grid-area: art; position: relative; width: clamp(7.5rem, 14vw, 10rem); align-self: end; }
+  .founder__art::before { content: ""; position: absolute; left: 50%; bottom: -12%; width: 112%; aspect-ratio: 1; translate: -50% 0; border-radius: 50%;
+                          background: radial-gradient(circle at 35% 30%, oklch(0.88 0.13 85), var(--color-brand-sol)); }
+  :root.dark .founder__art::before { background: radial-gradient(circle at 35% 30%, #fff, #c9d4ea); }
+  .founder__img { position: relative; display: block; width: 100%; height: auto; }
+  .founder__quote { grid-area: quote; font-size: 1.05rem; line-height: 1.6; align-self: end; }
+  .founder__cap { grid-area: cap; font-size: .875rem; padding-bottom: 1.5rem; }
+  @media (max-width: 559px) {
+    .founder { grid-template-columns: minmax(0, 1fr); grid-template-areas: "quote" "cap" "art"; }
+    .founder__art { justify-self: center; width: 9rem; }
+    .founder__cap { padding-bottom: .5rem; }
+  }
+  .values { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem 2rem; margin-top: 2.5rem; }
+  .values dt { font-family: var(--font-display); font-weight: 700; }
+  .values dd { color: var(--ink-2); font-size: .9375rem; line-height: 1.5; margin-top: .2rem; }
+
+  .code-window { background: #1e1e1e; border-radius: 1rem; overflow: hidden; font-family: var(--font-mono); font-size: .8125rem;
+                 box-shadow: 0 40px 80px -40px rgb(0 0 0 / .55); border: 1px solid rgb(255 255 255 / .06); }
+  @media (min-width: 768px) { .code-window { font-size: .875rem; } }
+  .code-window__bar { display: flex; align-items: center; gap: .4rem; padding: .8rem 1rem; background: #252526; border-bottom: 1px solid rgb(255 255 255 / .05); }
+  .code-window__bar span { width: .7rem; height: .7rem; border-radius: 50%; background: #ff5f56; }
+  .code-window__bar span:nth-child(2) { background: #ffbd2e; }
+  .code-window__bar span:nth-child(3) { background: #27c93f; }
+  .code-window__bar p { margin-left: .75rem; color: rgb(253 251 247 / .6); font-style: italic; }
+
+  /* ================= FAQ ================= */
+  .faq { border-top: 1px solid var(--hair); }
+  .faq__item { border-bottom: 1px solid var(--hair); }
+  .faq__q { display: flex; justify-content: space-between; align-items: center; gap: 1rem; padding: 1.35rem 0; cursor: pointer; list-style: none;
+            font-family: var(--font-display); font-weight: 700; font-size: 1.15rem; }
+  .faq__q::-webkit-details-marker { display: none; }
+  .faq__q:hover { color: var(--color-brand-verde); }
+  .faq__icon { font-size: 1.35rem; color: var(--color-brand-verde); transition: rotate .35s var(--ease-out-soft); }
+  .faq__item[open] .faq__icon { rotate: 45deg; }
+  .faq__a { color: var(--ink-2); line-height: 1.7; padding-bottom: 1.4rem; max-width: 40rem; }
+  /* Apertura animada (navegadores con ::details-content) */
+  .faq__item::details-content { block-size: 0; overflow: hidden; transition: block-size .4s var(--ease-out-soft), content-visibility .4s allow-discrete; }
+  .faq__item[open]::details-content { block-size: auto; }
+
+  /* ================= Contacto ================= */
+  .next { display: grid; gap: .9rem; counter-reset: n; }
+  .next li { counter-increment: n; display: grid; grid-template-columns: 1.75rem minmax(0, 1fr); gap: .5rem; color: var(--ink-2); line-height: 1.55; }
+  .next li::before { content: counter(n); font-weight: 700; color: var(--color-brand-verde); font-family: var(--font-display); }
+  .estimate { padding: 1rem 1.1rem; border-radius: .9rem; background: color-mix(in oklch, var(--color-brand-verde) 8%, transparent); border: 1px solid color-mix(in oklch, var(--color-brand-verde) 25%, transparent); }
+  .estimate:not([hidden]) { animation: rise .4s var(--ease-out-soft); }
 </style>
 
-
 <script>
-  // ===== generación determinista de puntitos / estrellas / luciérnagas =====
+  // ===== puntitos / estrellas / luciérnagas (deterministas) =====
   const rng = (a => () => { a |= 0; a = a + 0x6D2B79F5 | 0; let t = Math.imul(a ^ a >>> 15, 1 | a);
                             t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; })(20261021);
   const R = (a: number, b: number) => a + rng() * (b - a);
   const dust = document.getElementById('dust');
   if (dust) {
-    for (let i = 0; i < 70; i++) {
+    const frag = document.createDocumentFragment();
+    for (let i = 0; i < 60; i++) {
       const el = document.createElement('i'); const big = i % 7 === 0;
-      el.className = big ? 'big' : '';
-      let x = R(1,99), y = R(2,80);
-      if (big && x < 58 && y > 14) x = R(60,99);
-      el.style.cssText = '--x:' + x.toFixed(1) + '%;--y:' + y.toFixed(1) + '%;--s:' + (big ? R(2,3).toFixed(1) : R(2,4.2).toFixed(1)) + 'px;--t:' + R(3,7).toFixed(1) + 's;--d:-' + R(0,7).toFixed(1) + 's';
-      dust.appendChild(el);
+      if (big) el.className = 'big';
+      let x = R(1, 99); const y = R(8, 80);
+      if (big && x < 58 && y > 14) x = R(60, 99);
+      el.style.cssText = `--x:${x.toFixed(1)}%;--y:${y.toFixed(1)}%;--s:${(big ? R(2, 3) : R(2, 4.2)).toFixed(1)}px;--t:${R(3, 7).toFixed(1)}s;--d:-${R(0, 7).toFixed(1)}s`;
+      frag.appendChild(el);
     }
+    dust.appendChild(frag);
   }
   const crux = document.getElementById('crux');
   if (crux) {
-    [[24,0,2.4],[26,92,3],[0,40,2.2],[50,52,2],[34,70,1.4]].forEach(([x,y,s],i) => {
-      const el = document.createElement('i'); el.style.cssText = '--x:' + x + 'px;--y:' + y + 'px;--s:' + s + 'px;--d:-' + (i*1.1) + 's'; crux.appendChild(el);
+    [[24, 0, 2.4], [26, 92, 3], [0, 40, 2.2], [50, 52, 2], [34, 70, 1.4]].forEach(([x, y, s], i) => {
+      const el = document.createElement('i'); el.style.cssText = `--x:${x}px;--y:${y}px;--s:${s}px;--d:-${i * 1.1}s`; crux.appendChild(el);
     });
   }
   const flies = document.getElementById('flies');
   if (flies) {
     for (let i = 0; i < 14; i++) {
       const el = document.createElement('i');
-      el.style.cssText = '--x:' + R(2,98).toFixed(1) + '%;--y:' + R(10,80).toFixed(1) + '%;--dx:' + R(-50,50).toFixed(0) + 'px;--dy:' + R(-40,10).toFixed(0) + 'px;--t:' + R(6,11).toFixed(1) + 's;--d:-' + R(0,10).toFixed(1) + 's';
+      el.style.cssText = `--x:${R(2, 98).toFixed(1)}%;--y:${R(10, 80).toFixed(1)}%;--dx:${R(-50, 50).toFixed(0)}px;--dy:${R(-40, 10).toFixed(0)}px;--t:${R(6, 11).toFixed(1)}s;--d:-${R(0, 10).toFixed(1)}s`;
       flies.appendChild(el);
     }
   }
 
-  // ===== parallax con el mouse =====
-  const hero = document.getElementById('hero');
+  // ===== parallax 3D: mouse, giroscopio (Android) y "respiración" en reposo =====
+  // Solo se escribe `translate` y `transform` (compositor). El loop corre únicamente
+  // mientras el hero está en pantalla y sin "reducir movimiento".
+  const hero = document.getElementById('inicio');
   if (hero) {
-    const layers = [...hero.querySelectorAll('[data-dx]')].map(el => ({ el: el as HTMLElement, dx: +(el as HTMLElement).dataset.dx, dy: +(el as HTMLElement).dataset.dy }));
-    const fine = matchMedia('(hover: hover) and (pointer: fine)'), calm = matchMedia('(prefers-reduced-motion: reduce)');
-    let tx = 0, ty = 0, cx = 0, cy = 0, raf = 0;
-    const kick = () => { if (!raf) raf = requestAnimationFrame(tick); };
-    function tick() {
-      cx += (tx - cx) * .08; cy += (ty - cy) * .08;
+    const layers = [...hero.querySelectorAll<HTMLElement>('[data-dx]')].map(el => ({ el, dx: +(el.dataset.dx ?? 0), dy: +(el.dataset.dy ?? 0) }));
+    const gaucho = document.getElementById('gaucho');
+    const calm = matchMedia('(prefers-reduced-motion: reduce)');
+    let tx = 0, ty = 0, cx = 0, cy = 0, raf = 0, visible = true, lastInput = -1e9;
+
+    function tick(t: number) {
+      // Sin interacción reciente, la escena se mece sola (curva de Lissajous suave)
+      if (t - lastInput > 2500) { tx = Math.sin(t / 2600) * .35; ty = Math.sin(t / 3700) * .22; }
+      cx += (tx - cx) * .07; cy += (ty - cy) * .07;
       const dpr = window.devicePixelRatio || 1, snap = (v: number) => Math.round(v * dpr) / dpr;
-      for (const { el, dx, dy } of layers) (el as HTMLElement).style.translate = snap(-cx * dx) + 'px ' + snap(-cy * dy) + 'px';
-      raf = (Math.abs(tx - cx) > .002 || Math.abs(ty - cy) > .002) ? requestAnimationFrame(tick) : 0;
+      for (const { el, dx, dy } of layers) el.style.translate = `${snap(-cx * dx)}px ${snap(-cy * dy)}px`;
+      // El gaucho gira hacia el puntero como una figura de cartón en un diorama
+      if (gaucho) gaucho.style.transform = `perspective(900px) rotateY(${(cx * 13).toFixed(2)}deg) rotateX(${(-cy * 7).toFixed(2)}deg)`;
+      raf = visible && !calm.matches ? requestAnimationFrame(tick) : 0;
     }
+    const start = () => { if (!raf && visible && !calm.matches) raf = requestAnimationFrame(tick); };
+
     hero.addEventListener('pointermove', e => {
-      if (!fine.matches || calm.matches) return;
+      if (e.pointerType !== 'mouse') return;
       const r = hero.getBoundingClientRect();
-      tx = ((e.clientX - r.left) / r.width - .5) * 2; ty = ((e.clientY - r.top) / r.height - .5) * 2; kick();
+      tx = ((e.clientX - r.left) / r.width - .5) * 2; ty = ((e.clientY - r.top) / r.height - .5) * 2;
+      lastInput = performance.now(); start();
     });
-    hero.addEventListener('pointerleave', () => { tx = ty = 0; kick(); });
+    hero.addEventListener('pointerleave', () => { tx = ty = 0; });
+
+    // Celular: inclinar el teléfono mueve la escena (Android; iOS pide permiso y queda en "respiración")
+    addEventListener('deviceorientation', e => {
+      if (e.gamma == null || e.beta == null) return;
+      tx = Math.max(-1, Math.min(1, e.gamma / 25)); ty = Math.max(-1, Math.min(1, (e.beta - 45) / 30));
+      lastInput = performance.now();
+    });
+
+    new IntersectionObserver(([en]) => { visible = en.isIntersecting; start(); }).observe(hero);
+    calm.addEventListener('change', start);
+    start();
   }
 </script>
 

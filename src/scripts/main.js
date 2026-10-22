@@ -1,464 +1,432 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const navbar = document.getElementById('navbar');
-    const form = document.getElementById('contactForm');
-    let ticking = false;
+// Comportamiento del sitio. Sin dependencias: se carga como módulo (diferido).
+import './ronda.js';
 
-    // 1. NAVBAR SCROLL (Optimized)
-    window.addEventListener('scroll', () => {
-        if (!ticking) {
-            requestAnimationFrame(() => {
-                navbar?.classList.toggle('shadow-md', scrollY > 50);
-                ticking = false;
-            });
-            ticking = true;
+const navbar = document.getElementById('navbar');
+const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+// 1. NAVBAR: borde/sombra al scrollear (rAF + passive)
+let ticking = false;
+const updateNav = () => {
+    navbar?.classList.toggle('is-scrolled', window.scrollY > 8);
+    ticking = false;
+};
+window.addEventListener('scroll', () => {
+    if (!ticking) {
+        requestAnimationFrame(updateNav);
+        ticking = true;
+    }
+}, { passive: true });
+updateNav();
+
+// 2. SECCIÓN ACTIVA en el menú (aria-current), con IntersectionObserver
+const navLinks = [...document.querySelectorAll('[data-nav-link]')];
+const linkFor = new Map(navLinks.map(a => [a.getAttribute('href')?.split('#')[1], a]));
+// El hero también se observa: al volver arriba no queda ninguna sección marcada
+const tracked = [...linkFor.keys(), 'inicio'].map(id => document.getElementById(id ?? '')).filter(Boolean);
+if (tracked.length && 'IntersectionObserver' in window) {
+    const io = new IntersectionObserver(entries => {
+        for (const entry of entries) {
+            if (!entry.isIntersecting) continue;
+            navLinks.forEach(a => a.removeAttribute('aria-current'));
+            linkFor.get(entry.target.id)?.setAttribute('aria-current', 'true');
         }
-    }, { passive: true });
+    }, { rootMargin: '-45% 0px -50% 0px' });
+    tracked.forEach(s => io.observe(s));
+}
 
-    // 2. TOAST NOTIFICATIONS
-    // La región viva es #toast-container (role="status" aria-live="polite" en Layout.astro).
-    // Los toasts son hijos de esa región; sólo el de error suma role="alert" (agresivo).
-    const TOAST_TIMEOUT = 4000;
-    const TOAST_ICONS = { success: 'check_circle', error: 'error', info: 'info' };
+// 3. TOASTS (la región viva es #toast-container; el error suma role="alert")
+const TOAST_TIMEOUT = 5000;
+const TOAST_ICONS = { success: 'check_circle', error: 'error', info: 'info' };
 
-    const svgEl = (tag, attrs = {}) => {
-        const el = document.createElementNS('http://www.w3.org/2000/svg', tag);
-        Object.entries(attrs).forEach(([k, v]) => el.setAttribute(k, v));
-        return el;
+const svgEl = (tag, attrs = {}) => {
+    const el = document.createElementNS('http://www.w3.org/2000/svg', tag);
+    Object.entries(attrs).forEach(([k, v]) => el.setAttribute(k, v));
+    return el;
+};
+
+const showToast = (msg, type = 'success') => {
+    const c = document.getElementById('toast-container');
+    if (!c) return;
+
+    const t = document.createElement('div');
+    t.className = `toast ${type}`;
+    if (type === 'error') t.setAttribute('role', 'alert');
+
+    const icon = svgEl('svg', { class: 'icon', 'aria-hidden': 'true', focusable: 'false' });
+    icon.appendChild(svgEl('use', { href: `#i-${TOAST_ICONS[type] || 'info'}` }));
+
+    const text = document.createElement('span');
+    text.className = 'font-medium';
+
+    // WCAG 2.2.1: el aviso se tiene que poder descartar
+    const close = document.createElement('button');
+    close.type = 'button';
+    close.className = 'ml-auto shrink-0 rounded-md p-1 text-white/70 hover:text-white hover:bg-white/10 transition-colors';
+    close.setAttribute('aria-label', 'Cerrar aviso');
+    const closeIcon = svgEl('svg', { class: 'icon', 'aria-hidden': 'true', focusable: 'false', viewBox: '0 0 24 24' });
+    closeIcon.appendChild(svgEl('path', { d: 'M6 6l12 12M18 6L6 18', fill: 'none', stroke: 'currentColor', 'stroke-width': '2', 'stroke-linecap': 'round' }));
+    close.appendChild(closeIcon);
+
+    let timer = null;
+    const dismiss = () => {
+        clearTimeout(timer);
+        t.classList.remove('show');
+        setTimeout(() => t.remove(), 400);
     };
+    close.addEventListener('click', dismiss);
 
-    const showToast = (msg, type = 'success') => {
-        const c = document.getElementById('toast-container');
-        if (!c) return;
+    t.append(icon, text, close);
+    c.appendChild(t);
+    // El texto va DESPUÉS de insertar el nodo: si nace con contenido, muchos lectores no lo anuncian
+    text.textContent = msg;
 
-        const t = document.createElement('div');
-        t.className = `toast ${type}`;
-        // Sólo el error interrumpe (assertive). El resto lo anuncia la región viva.
-        if (type === 'error') t.setAttribute('role', 'alert');
+    requestAnimationFrame(() => t.classList.add('show'));
+    timer = setTimeout(dismiss, TOAST_TIMEOUT);
+};
 
-        const icon = svgEl('svg', { class: 'icon', 'aria-hidden': 'true', focusable: 'false', width: '1em', height: '1em' });
-        icon.appendChild(svgEl('use', { href: `#i-${TOAST_ICONS[type] || 'info'}` }));
+// 4. MENÚ MÓVIL (aria-expanded, Esc, foco atrapado, cierre al tocar afuera)
+const menuBtn = document.querySelector('[aria-controls="mobile-menu"]');
+const menu = document.getElementById('mobile-menu');
+const isMenuOpen = () => menuBtn?.getAttribute('aria-expanded') === 'true';
 
-        const text = document.createElement('span');
-        text.className = 'font-medium';
+const closeMenu = (restoreFocus = false) => {
+    if (!menuBtn || !menu) return;
+    menuBtn.setAttribute('aria-expanded', 'false');
+    menuBtn.setAttribute('aria-label', 'Abrir menú');
+    menu.hidden = true;
+    if (restoreFocus) menuBtn.focus();
+};
+const openMenu = () => {
+    if (!menuBtn || !menu) return;
+    menuBtn.setAttribute('aria-expanded', 'true');
+    menuBtn.setAttribute('aria-label', 'Cerrar menú');
+    menu.hidden = false;
+    menu.querySelector('a')?.focus();
+};
 
-        // Botón de cierre (WCAG 2.2.1: el aviso se tiene que poder descartar)
-        const close = document.createElement('button');
-        close.type = 'button';
-        close.className = 'ml-auto shrink-0 rounded-md p-1 text-white/70 hover:text-white hover:bg-white/10 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white';
-        close.setAttribute('aria-label', 'Cerrar aviso');
-        const closeIcon = svgEl('svg', { class: 'icon', 'aria-hidden': 'true', focusable: 'false', width: '1em', height: '1em', viewBox: '0 0 24 24' });
-        closeIcon.appendChild(svgEl('path', {
-            d: 'M6 6l12 12M18 6L6 18',
-            fill: 'none',
-            stroke: 'currentColor',
-            'stroke-width': '2',
-            'stroke-linecap': 'round'
-        }));
-        close.appendChild(closeIcon);
+if (menuBtn && menu) {
+    menuBtn.addEventListener('click', () => (isMenuOpen() ? closeMenu() : openMenu()));
 
-        let timer = null;
-        const dismiss = () => {
-            clearTimeout(timer);
-            timer = null;
-            t.classList.remove('show');
-            setTimeout(() => t.remove(), 400);
-        };
-        close.addEventListener('click', dismiss);
-
-        t.append(icon, text, close);
-        c.appendChild(t);
-        // El texto se setea DESPUÉS de insertar el nodo: si el toast nace con contenido,
-        // muchos lectores de pantalla no anuncian el cambio de la región viva.
-        text.textContent = msg;
-
-        setTimeout(() => t.classList.add('show'), 100);
-        timer = setTimeout(dismiss, TOAST_TIMEOUT);
-    };
-
-    // 3. BUTTON STATE MANAGER
-const setBtnState = (btn, state, text) => {
-        const states = {
-            loading: {
-                html: '<svg class="icon animate-spin" aria-hidden="true" focusable="false" width="1em" height="1em"><use href="#i-refresh"/></svg> Preparando el mate...',
-                disabled: true,
-                classes: ['opacity-75', 'cursor-not-allowed'],
-                remove: ['bg-green-600']
-            },
-            success: {
-                html: '<svg class="icon" aria-hidden="true" focusable="false" width="1em" height="1em"><use href="#i-check_circle"/></svg> ¡Todo listo!',
-                disabled: false,
-                classes: ['bg-green-600'],
-                remove: ['bg-brand-verde', 'opacity-75', 'cursor-not-allowed']
-            },
-            error: {
-                html: '<svg class="icon" aria-hidden="true" focusable="false" width="1em" height="1em"><use href="#i-error"/></svg> Error al enviar',
-                disabled: false,
-                classes: [],
-                // Sin esto el botón queda con la pinta de "loading" (opacity-75 / cursor-not-allowed)
-                remove: ['opacity-75', 'cursor-not-allowed', 'bg-green-600']
-            },
-            reset: {
-                html: text,
-                disabled: false,
-                classes: ['bg-brand-verde'],
-                remove: ['opacity-75', 'cursor-not-allowed', 'bg-green-600']
-            }
-        };
-
-        const s = states[state];
-        if (!s || !btn) return;
-        btn.innerHTML = s.html;
-        btn.disabled = s.disabled;
-        if (s.remove) btn.classList.remove(...s.remove);
-        if (s.classes.length) btn.classList.add(...s.classes);
-    };
-
-    // 4. FORM HANDLER
-    const formStatus = document.getElementById('form-status');
-    const setFormStatus = (msg) => {
-        if (formStatus) formStatus.textContent = msg;
-    };
-    // Un solo timer de reset: si se reenvía rápido, el timer viejo no pisa el estado nuevo
-    let resetTimer = null;
-    const clearResetTimer = () => {
-        clearTimeout(resetTimer);
-        resetTimer = null;
-    };
-
-    if (form) {
-        form.addEventListener('submit', async e => {
+    document.addEventListener('keydown', e => {
+        if (e.key === 'Escape' && isMenuOpen()) {
             e.preventDefault();
-
-            const btn = form.querySelector('button[type="submit"]');
-            if (!btn) return;
-            const orig = btn.innerHTML;
-
-            const data = {
-                nombre: document.getElementById('nombre')?.value?.trim() ?? '',
-                contacto: document.getElementById('contacto_dato')?.value?.trim() ?? '',
-                servicio: document.getElementById('asunto')?.value || 'Consulta General',
-                mensaje: document.getElementById('mensaje')?.value?.trim() ?? ''
-            };
-
-            // Validation
-            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$|^\+?[0-9\s-]{8,20}$/.test(data.contacto)) {
-                showToast('⚠️ Por favor ingresá un correo o teléfono válido.', 'error');
-                return;
-            }
-            if (!data.nombre || !data.mensaje) {
-                showToast('⚠️ Completá tu nombre y el mensaje.', 'error');
-                return;
-            }
-
-            clearResetTimer();
-            setBtnState(btn, 'loading');
-            setFormStatus('');
-
-            try {
-                const res = await fetch('https://formsubmit.co/ajax/matecito.tech@gmail.com', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-                    body: JSON.stringify({
-                        ...data,
-                        _subject: `Nuevo mensaje de ${data.nombre} - Web Matecito`,
-                        _template: 'table',
-                        _captcha: 'true'
-                    }),
-                    signal: AbortSignal.timeout(15000)
-                });
-
-                if (!res.ok) throw new Error(`FormSubmit HTTP ${res.status}`);
-
-                const d = await res.json().catch(() => ({}));
-                // La API puede devolver booleano o string
-                if (d?.success === false || d?.success === 'false') throw new Error('FormSubmit Error');
-
-                showToast('¡Formulario enviado! Nos pondremos en contacto pronto.', 'success');
-                setFormStatus('¡Formulario enviado! Nos pondremos en contacto pronto.');
-                setBtnState(btn, 'success');
-                resetTimer = setTimeout(() => {
-                    resetTimer = null;
-                    setBtnState(btn, 'reset', orig);
-                    form.reset();
-                    // El precio estimado era del servicio anterior: no queda congelado
-                    document.getElementById('precio-estimado-container')?.classList.add('hidden');
-                }, 4000);
-            } catch (err) {
-                console.error('Error:', err);
-                showToast('Hubo un problema al enviar. Probá de nuevo más tarde.', 'error');
-                setFormStatus('Hubo un problema al enviar. Probá de nuevo más tarde.');
-                setBtnState(btn, 'error');
-                resetTimer = setTimeout(() => {
-                    resetTimer = null;
-                    setBtnState(btn, 'reset', orig);
-                }, 3000);
-            }
-        });
-    }
-
-    // 5. EMBER GENERATION
-    const createEmbers = () => {
-        const c = document.getElementById('embers-container');
-        if (!c) return;
-
-        const f = document.createDocumentFragment();
-        for (let i = 0; i < 25; i++) {
-            const e = document.createElement('div');
-            e.className = 'ember animate-ember';
-            e.setAttribute('aria-hidden', 'true');
-            const sz = Math.random() * 4 + 2;
-            Object.assign(e.style, {
-                width: sz + 'px',
-                height: sz + 'px',
-                left: Math.random() * 100 + '%',
-                top: Math.random() * 100 + '%',
-                animationDuration: (Math.random() * 3 + 4) + 's',
-                animationDelay: Math.random() * 5 + 's',
-                opacity: Math.random() * 0.5 + 0.2
-            });
-            f.appendChild(e);
+            closeMenu(true);
         }
-        c.appendChild(f);
-    };
-    createEmbers();
+    });
 
-    // 6. MOBILE MENU (accesible: aria-expanded, aria-controls, Esc global, foco atrapado)
-    const mobileMenuBtn = document.querySelector('[aria-controls="mobile-menu"]');
-    const mobileMenu = document.getElementById('mobile-menu');
-
-    const isMenuOpen = () => mobileMenuBtn?.getAttribute('aria-expanded') === 'true';
-
-    const closeMenu = (restoreFocus = false) => {
-        if (!mobileMenuBtn || !mobileMenu) return;
-        mobileMenuBtn.setAttribute('aria-expanded', 'false');
-        mobileMenu.classList.add('hidden');
-        if (restoreFocus) mobileMenuBtn.focus();
-    };
-
-    const openMenu = () => {
-        if (!mobileMenuBtn || !mobileMenu) return;
-        mobileMenuBtn.setAttribute('aria-expanded', 'true');
-        mobileMenu.classList.remove('hidden');
-        const firstLink = mobileMenu.querySelector('a');
-        if (firstLink) firstLink.focus();
-    };
-
-    const getFocusable = () => {
-        if (!mobileMenu) return [];
-        return Array.from(mobileMenu.querySelectorAll('a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'))
-            .filter(el => el.getClientRects().length > 0);
-    };
-
-    if (mobileMenuBtn && mobileMenu) {
-        mobileMenuBtn.addEventListener('click', () => {
-            if (isMenuOpen()) {
-                closeMenu(false);
-            } else {
-                openMenu();
-            }
-        });
-
-        // Esc global: funciona aunque el foco ya haya salido del menú
-        document.addEventListener('keydown', e => {
-            if (e.key === 'Escape' && isMenuOpen()) {
-                e.preventDefault();
-                closeMenu(true);
-            }
-        });
-
-        // Trampa de foco: Tab cicla dentro del menú (no escapa al contenido)
-        mobileMenu.addEventListener('keydown', e => {
-            if (e.key !== 'Tab') return;
-            const focusables = getFocusable();
-            if (!focusables.length) return;
-
-            const first = focusables[0];
-            const last = focusables[focusables.length - 1];
-            const active = document.activeElement;
-            const inside = mobileMenu.contains(active);
-
-            if (e.shiftKey && (active === first || !inside)) {
-                e.preventDefault();
-                last.focus();
-            } else if (!e.shiftKey && (active === last || !inside)) {
-                e.preventDefault();
-                first.focus();
-            }
-        });
-
-        mobileMenu.querySelectorAll('a').forEach(link => {
-            link.addEventListener('click', () => closeMenu(false));
-        });
-
-        // Cerrar al hacer click fuera del menú y del botón
-        document.addEventListener('click', e => {
-            if (!isMenuOpen()) return;
-            const target = e.target;
-            if (target instanceof Node && (mobileMenu.contains(target) || mobileMenuBtn.contains(target))) return;
-            closeMenu(false);
-        });
-
-        // Cerrar al pasar a desktop (matchMedia en vez de resize: un solo listener, semántico)
-        const desktopQuery = window.matchMedia('(min-width: 1024px)');
-        desktopQuery.addEventListener('change', e => {
-            if (e.matches) closeMenu(false);
-        });
-    }
-
-    // 7. THEME TOGGLE (claro / oscuro, respeta preferencia del sistema por defecto)
-    const THEME_KEY = 'theme';
-    const toggleBtns = document.querySelectorAll('[data-theme-toggle="toggle"]');
-
-    // localStorage puede lanzar (modo privado / cookies bloqueadas)
-    const readTheme = () => {
-        try {
-            return localStorage.getItem(THEME_KEY);
-        } catch {
-            return null;
+    menu.addEventListener('keydown', e => {
+        if (e.key !== 'Tab') return;
+        const focusables = [...menu.querySelectorAll('a[href], button:not([disabled])')];
+        if (!focusables.length) return;
+        const first = focusables[0];
+        const last = focusables[focusables.length - 1];
+        if (e.shiftKey && document.activeElement === first) {
+            e.preventDefault();
+            last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+            e.preventDefault();
+            first.focus();
         }
-    };
-    const saveTheme = (theme) => {
-        try {
-            localStorage.setItem(THEME_KEY, theme);
-        } catch {
-            /* sin persistencia: el tema igual se aplica en esta sesión */
-        }
-    };
-    const prefersDark = () => window.matchMedia('(prefers-color-scheme: dark)').matches;
+    });
 
-    const applyTheme = (theme) => {
-        const isDark = theme === 'dark' || (theme === 'auto' && prefersDark());
-        // Disable transitions during theme switch to prevent INP spike
-        document.documentElement.classList.add('no-transitions');
-        document.documentElement.classList.toggle('dark', isDark);
-        document.documentElement.dataset.theme = theme;
-        toggleBtns.forEach(btn => {
-            btn.setAttribute('aria-pressed', String(isDark));
-            btn.setAttribute('title', isDark ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro');
-        });
-        // Re-enable transitions after next frame
-        requestAnimationFrame(() => {
-            requestAnimationFrame(() => {
-                document.documentElement.classList.remove('no-transitions');
-            });
-        });
-    };
+    menu.querySelectorAll('a').forEach(link => link.addEventListener('click', () => closeMenu()));
 
-    // Por defecto, usar la preferencia del sistema del usuario
-    const initialTheme = readTheme() || 'auto';
-    applyTheme(initialTheme);
+    document.addEventListener('click', e => {
+        if (!isMenuOpen()) return;
+        const target = e.target;
+        if (target instanceof Node && (menu.contains(target) || menuBtn.contains(target))) return;
+        closeMenu();
+    });
 
+    window.matchMedia('(min-width: 1024px)').addEventListener('change', e => {
+        if (e.matches) closeMenu();
+    });
+}
+
+// 5. TEMA claro / oscuro (respeta el sistema por defecto)
+const THEME_KEY = 'theme';
+const toggleBtns = document.querySelectorAll('[data-theme-toggle]');
+
+const readTheme = () => {
+    try { return localStorage.getItem(THEME_KEY); } catch { return null; }
+};
+const saveTheme = theme => {
+    try { localStorage.setItem(THEME_KEY, theme); } catch { /* sin persistencia en modo privado */ }
+};
+const prefersDark = () => window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+const applyTheme = theme => {
+    const isDark = theme === 'dark' || (theme === 'auto' && prefersDark());
+    const root = document.documentElement;
+    root.classList.add('no-transitions');
+    root.classList.toggle('dark', isDark);
+    root.dataset.theme = theme;
     toggleBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-            const current = document.documentElement.classList.contains('dark');
-            const next = current ? 'light' : 'dark';
-            saveTheme(next);
+        btn.setAttribute('aria-pressed', String(isDark));
+        btn.setAttribute('aria-label', isDark ? 'Activar modo claro' : 'Activar modo oscuro');
+    });
+    requestAnimationFrame(() => requestAnimationFrame(() => root.classList.remove('no-transitions')));
+};
+
+applyTheme(readTheme() || 'auto');
+
+toggleBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+        const next = document.documentElement.classList.contains('dark') ? 'light' : 'dark';
+        saveTheme(next);
+        // View Transitions: el tema nuevo se abre en círculo desde el botón
+        if (!document.startViewTransition || reducedMotion.matches) {
             applyTheme(next);
-        });
+            return;
+        }
+        const r = btn.getBoundingClientRect();
+        const x = r.left + r.width / 2;
+        const y = r.top + r.height / 2;
+        const style = document.documentElement.style;
+        style.setProperty('--vt-x', `${x}px`);
+        style.setProperty('--vt-y', `${y}px`);
+        style.setProperty('--vt-r', `${Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y))}px`);
+        document.startViewTransition(() => applyTheme(next));
     });
+});
 
-    // Reaccionar a cambios del SO cuando está en 'auto'
-    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
-        if ((readTheme() || 'auto') === 'auto') applyTheme('auto');
+window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+    if ((readTheme() || 'auto') === 'auto') applyTheme('auto');
+});
+
+// 6. PRECIOS EN PESOS (dólar oficial, venta). Se consulta una sola vez,
+//    cuando la persona se acerca a los precios o toca el formulario.
+const selectServicio = document.getElementById('asunto');
+const displayPrecio = document.getElementById('precio-estimado');
+const containerPrecio = document.getElementById('precio-estimado-container');
+const mensajePrecio = document.getElementById('precio-mensaje');
+const serviciosPrecios = { landing: 250, ecommerce: 550, automatizacion: 350, mantenimiento: 50 };
+
+const formatARS = n => new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS', maximumFractionDigits: 0 }).format(n);
+let dolarPromise = null;
+const getDolar = () => {
+    dolarPromise ??= fetch('https://dolarapi.com/v1/dolares/oficial', { signal: AbortSignal.timeout(8000) })
+        .then(r => (r.ok ? r.json() : Promise.reject(new Error(`dolarapi HTTP ${r.status}`))))
+        .then(d => {
+            const venta = Number(d?.venta);
+            if (!Number.isFinite(venta) || venta <= 0) throw new Error('Cotización inválida');
+            return venta;
+        })
+        .catch(() => { dolarPromise = null; return null; }); // se reintenta en la próxima interacción
+    return dolarPromise;
+};
+
+const pintarPlanes = async () => {
+    const dolar = await getDolar();
+    if (!dolar) return;
+    document.querySelectorAll('[data-ars-usd]').forEach(el => {
+        const ars = Number(el.getAttribute('data-ars-usd')) * dolar;
+        el.textContent = `≈ ${formatARS(ars)}${el.hasAttribute('data-ars-mes') ? ' por mes' : ''} al dólar oficial`;
     });
+};
+const precios = document.getElementById('precios');
+if (precios && 'IntersectionObserver' in window) {
+    const io = new IntersectionObserver(([e]) => {
+        if (e.isIntersecting) { io.disconnect(); pintarPlanes(); }
+    }, { rootMargin: '600px 0px' });
+    io.observe(precios);
+}
 
-    // 8. COTIZADOR DE PRECIOS (dólar bajo demanda: solo al interactuar)
-    const selectServicio = document.getElementById('asunto');
-    const displayPrecio = document.getElementById('precio-estimado');
-    const containerPrecio = document.getElementById('precio-estimado-container');
-    const mensajePrecio = document.getElementById('precio-mensaje');
+const renderPrecio = async () => {
+    if (!selectServicio || !displayPrecio || !containerPrecio) return;
+    const svc = selectServicio.value;
+    const precioUSD = serviciosPrecios[svc];
+    if (!precioUSD) {
+        containerPrecio.hidden = true;
+        return;
+    }
+    const mes = svc === 'mantenimiento' ? ' por mes' : '';
+    displayPrecio.textContent = `desde USD ${precioUSD}${mes}`;
+    if (mensajePrecio) mensajePrecio.textContent = 'Consultando la cotización del día…';
+    containerPrecio.hidden = false;
+    const dolar = await getDolar();
+    if (selectServicio.value !== svc) return; // cambió mientras esperábamos
+    if (dolar) {
+        displayPrecio.textContent = `desde ${formatARS(precioUSD * dolar)}${mes}`;
+        if (mensajePrecio) mensajePrecio.textContent = `Equivale a USD ${precioUSD} al dólar oficial de hoy (${formatARS(dolar)}). El precio final figura en el presupuesto.`;
+    } else if (mensajePrecio) {
+        mensajePrecio.textContent = 'No pudimos consultar la cotización: te pasamos el precio en pesos en el presupuesto.';
+    }
+};
 
-    const DOLAR_FALLBACK = 1450; // valor base, NO es una cotización real
-    const serviciosPrecios = {
-        landing: 250,
-        ecommerce: 550,
-        automatizacion: 350,
-        mantenimiento: 50
+if (selectServicio) {
+    selectServicio.addEventListener('focus', getDolar, { once: true });
+    selectServicio.addEventListener('change', renderPrecio);
+}
+
+// Botones de los planes: precargan el servicio en el formulario
+document.querySelectorAll('[data-servicio]').forEach(btn => {
+    btn.addEventListener('click', () => {
+        if (!selectServicio) return;
+        selectServicio.value = btn.getAttribute('data-servicio') ?? '';
+        renderPrecio();
+        // Foco al primer campo una vez terminado el scroll suave
+        setTimeout(() => document.getElementById('nombre')?.focus({ preventScroll: true }), reducedMotion.matches ? 0 : 700);
+    });
+});
+
+// 7. FORMULARIO (FormSubmit vía AJAX; sin JS hace POST normal)
+const form = document.getElementById('contactForm');
+const formStatus = document.getElementById('form-status');
+const setFormStatus = msg => { if (formStatus) formStatus.textContent = msg; };
+
+const BTN_HTML = {
+    loading: '<svg class="icon animate-spin" aria-hidden="true" focusable="false"><use href="#i-refresh"/></svg><span>Enviando…</span>',
+    success: '<svg class="icon" aria-hidden="true" focusable="false"><use href="#i-check_circle"/></svg><span>¡Recibido!</span>',
+};
+
+if (form) {
+    const fields = {
+        nombre: document.getElementById('nombre'),
+        contacto: document.getElementById('contacto_dato'),
+        mensaje: document.getElementById('mensaje'),
     };
+    const CONTACTO_OK = /^[^\s@]+@[^\s@]+\.[^\s@]+$|^\+?[0-9\s()-]{8,20}$/;
 
-    let cotizacionDolar = null;  // valor real, null hasta que responde la API
-    let dolarCargado = false;     // tenemos cotización real
-    let dolarFallido = false;     // falló el fetch (se puede reintentar)
-    let dolarEnCurso = false;     // hay una request en vuelo
+    // El aviso de error se limpia apenas la persona corrige el campo
+    Object.values(fields).forEach(el => el?.addEventListener('input', () => el.removeAttribute('aria-invalid')));
 
-    const formatARS = (n) => new Intl.NumberFormat('es-AR', {
-        style: 'currency',
-        currency: 'ARS',
-        minimumFractionDigits: 2
-    }).format(n);
+    form.addEventListener('submit', async e => {
+        e.preventDefault();
+        const btn = form.querySelector('button[type="submit"]');
+        if (!btn) return;
 
-    // Renderiza el precio estimado con la cotización que haya disponible.
-    // Se llama en cada `change` y también cuando la promesa del dólar resuelve o falla.
-    const renderPrecio = () => {
-        if (!selectServicio || !displayPrecio || !containerPrecio) return;
+        const data = {
+            nombre: fields.nombre?.value.trim() ?? '',
+            contacto: fields.contacto?.value.trim() ?? '',
+            servicio: selectServicio?.selectedOptions[0]?.textContent?.trim() || 'Consulta general',
+            mensaje: fields.mensaje?.value.trim() ?? '',
+        };
 
-        const svc = selectServicio.value;
-        const precioUSD = serviciosPrecios[svc];
-
-        if (!precioUSD) {
-            containerPrecio.classList.add('hidden');
+        const invalid = [];
+        if (!data.nombre) invalid.push(fields.nombre);
+        if (!CONTACTO_OK.test(data.contacto)) invalid.push(fields.contacto);
+        if (!data.mensaje) invalid.push(fields.mensaje);
+        if (invalid.length) {
+            invalid.forEach(el => el?.setAttribute('aria-invalid', 'true'));
+            invalid[0]?.focus();
+            const msg = invalid[0] === fields.contacto
+                ? 'Revisá el WhatsApp o email: lo necesitamos para responderte.'
+                : 'Completá tu nombre, un contacto y tu idea para poder responderte.';
+            showToast(msg, 'error');
+            setFormStatus(msg);
             return;
         }
 
-        const usandoFallback = cotizacionDolar === null;
-        const totalARS = precioUSD * (usandoFallback ? DOLAR_FALLBACK : cotizacionDolar);
+        const orig = btn.innerHTML;
+        btn.innerHTML = BTN_HTML.loading;
+        btn.disabled = true;
+        setFormStatus('');
 
-        displayPrecio.textContent = formatARS(totalARS);
-
-        if (!mensajePrecio) return;
-        if (!usandoFallback) {
-            mensajePrecio.textContent = `Cotización Blue: $${cotizacionDolar}`;
-        } else if (dolarFallido) {
-            mensajePrecio.textContent = '⚠️ Precio estimado con cotización base (no se pudo consultar el dólar blue)';
-        } else {
-            mensajePrecio.textContent = '⏳ Cotización del dólar blue en curso…';
-        }
-        if (svc === 'mantenimiento') mensajePrecio.textContent += ' (Costo mensual)';
-
-        containerPrecio.classList.remove('hidden');
-    };
-
-    const fetchDolarBlue = async () => {
-        if (dolarCargado || dolarEnCurso) return;
-        dolarEnCurso = true;
         try {
-            const res = await fetch('https://dolarapi.com/v1/dolares/blue', {
-                signal: AbortSignal.timeout(8000)
+            const res = await fetch('https://formsubmit.co/ajax/matecito.tech@gmail.com', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+                body: JSON.stringify({
+                    ...data,
+                    _subject: `Nueva consulta de ${data.nombre} (${data.servicio}) - Matecito Tech`,
+                    _template: 'table',
+                    _captcha: 'true',
+                }),
+                signal: AbortSignal.timeout(15000),
             });
-            if (!res.ok) throw new Error(`dolarapi HTTP ${res.status}`);
-            const data = await res.json();
-            const compra = Number(data?.compra);
-            if (!Number.isFinite(compra) || compra <= 0) throw new Error('Cotización inválida');
-            cotizacionDolar = compra;
-            dolarCargado = true;
-            dolarFallido = false;
-        } catch (e) {
-            console.warn('Usando cotización fallback:', e);
-            cotizacionDolar = null;
-            dolarCargado = false;
-            dolarFallido = true; // se puede reintentar en la próxima interacción
-        } finally {
-            dolarEnCurso = false;
+            if (!res.ok) throw new Error(`FormSubmit HTTP ${res.status}`);
+            const d = await res.json().catch(() => ({}));
+            if (d?.success === false || d?.success === 'false') throw new Error('FormSubmit Error');
+
+            const ok = '¡Gracias! Recibimos tu consulta y te vamos a escribir pronto.';
+            showToast(ok, 'success');
+            setFormStatus(ok);
+            btn.innerHTML = BTN_HTML.success;
+            setTimeout(() => {
+                btn.innerHTML = orig;
+                btn.disabled = false;
+                form.reset();
+                if (containerPrecio) containerPrecio.hidden = true;
+            }, 4000);
+        } catch (err) {
+            console.error('Error al enviar el formulario:', err);
+            const msg = 'No se pudo enviar. Probá de nuevo o escribinos por WhatsApp o email.';
+            showToast(msg, 'error');
+            setFormStatus(msg);
+            btn.innerHTML = orig;
+            btn.disabled = false;
         }
-        // La cotización recién llegada cambia el precio: hay que recalcular
-        renderPrecio();
-    };
+    });
+}
 
-    if (selectServicio) {
-        selectServicio.addEventListener('focus', fetchDolarBlue);
-        selectServicio.addEventListener('click', fetchDolarBlue);
-
-        selectServicio.addEventListener('change', () => {
-            renderPrecio();
-            // Si la cotización todavía no llegó (o falló), se intenta de nuevo
-            fetchDolarBlue();
-        });
-    }
-
-    // 9. GAUCHO ANIMATOR
-    setTimeout(() => {
-        if (typeof GauchoAnimator !== 'undefined') {
-            new GauchoAnimator('gaucho-container');
-        }
-    }, 500);
+// 8. APARICIONES (una sola vez), NÚMEROS QUE CUENTAN Y TABLERO VIVO
+const motionOK = !reducedMotion.matches;
+const revealables = document.querySelectorAll('.reveal, .reveal-stagger');
+document.querySelectorAll('.reveal-stagger').forEach(group => {
+    [...group.children].forEach((child, i) => child.style.setProperty('--i', String(Math.min(i, 8))));
 });
+
+// Cuenta de `from` a `to` con desaceleración (easeOutExpo), sin saltos de layout
+const countUp = (el) => {
+    const to = Number(el.getAttribute('data-count'));
+    const from = Number(el.getAttribute('data-count-from') ?? 0);
+    if (!Number.isFinite(to)) return;
+    const t0 = performance.now(), dur = 1200;
+    const step = (t) => {
+        const k = Math.min(1, (t - t0) / dur);
+        const e = k === 1 ? 1 : 1 - Math.pow(2, -10 * k);
+        el.textContent = String(Math.round(from + (to - from) * e));
+        if (k < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+};
+
+if ('IntersectionObserver' in window && motionOK) {
+    const io = new IntersectionObserver((entries) => {
+        for (const entry of entries) {
+            if (!entry.isIntersecting) continue;
+            entry.target.classList.add('is-in');
+            entry.target.querySelectorAll('[data-count]').forEach(countUp);
+            io.unobserve(entry.target);
+        }
+    }, { rootMargin: '0px 0px -12% 0px', threshold: 0.12 });
+    revealables.forEach(el => io.observe(el));
+} else {
+    revealables.forEach(el => el.classList.add('is-in'));
+}
+
+// Tablero de ejemplo: cada tanto una tarea avanza de columna (animación FLIP)
+const board = document.querySelector('[data-board]');
+if (board && motionOK && 'IntersectionObserver' in window) {
+    const col = (name) => board.querySelector(`[data-board-col="${name}"]`);
+    const ORDER = ['todo', 'doing', 'done'];
+    const STATE = { todo: '', doing: 'board__card--doing', done: 'board__card--done' };
+    let timer = 0;
+    const advance = () => {
+        const cards = [...board.querySelectorAll('.board__card')];
+        const done = col('done');
+        // Si todo está listo, se reinicia el sprint
+        const pending = cards.filter(c => !c.classList.contains('board__card--done'));
+        const card = pending.find(c => c.closest('[data-board-col]')?.getAttribute('data-board-col') === 'doing') ?? pending[0];
+        if (!card || !done) {
+            cards.forEach((c, i) => {
+                const target = col(ORDER[i % 2]);
+                c.className = `board__card ${STATE[ORDER[i % 2]]}`.trim();
+                target?.appendChild(c);
+            });
+            return;
+        }
+        const from = card.getBoundingClientRect();
+        const next = ORDER[ORDER.indexOf(card.closest('[data-board-col]')?.getAttribute('data-board-col') ?? 'todo') + 1] ?? 'done';
+        col(next)?.appendChild(card);
+        card.className = `board__card ${STATE[next]}`.trim();
+        const to = card.getBoundingClientRect();
+        card.animate([{ transform: `translate(${from.left - to.left}px, ${from.top - to.top}px)` }, { transform: 'none' }],
+            { duration: 650, easing: 'cubic-bezier(.2,.7,.2,1)' });
+    };
+    new IntersectionObserver(([e]) => {
+        clearInterval(timer);
+        if (e.isIntersecting) timer = setInterval(advance, 2600);
+    }).observe(board);
+}

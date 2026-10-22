@@ -1,35 +1,26 @@
-# Matecito
+# Matecito Tech
 
-> Estudio de desarrollo de software artesanal en Humboldt, Santa Fe, Argentina. Construimos sitios web, e-commerce y sistemas a medida para negocios de la región.
+> Matecito Tech es un estudio de desarrollo de software de Humboldt, Santa Fe, Argentina, fundado por Mateo Gariboglio. Hace páginas web, tiendas online y sistemas a medida para pymes y emprendedores de la región y del resto del país. Precios publicados desde USD 250 y presupuesto sin cargo.
 
-## Qué hacemos
+Datos clave: WhatsApp +54 342 537-0985, email matecito.tech@gmail.com. Trabaja a distancia con clientes de Humboldt, Rafaela, Esperanza, Santa Fe, otras provincias y el exterior. Metodología Scrum con sprints semanales y avances visibles.
 
-- **Sitios web corporativos** de una página, optimizados para buscadores (SEO).
-- **E-commerce** con integración de pagos, envíos y catálogo autogestionable.
-- **Automatización (SaaS)**: sistemas a medida para turnos, stock o clientes.
-- **Mantenimiento**: soporte técnico, actualizaciones y seguridad continua.
-- **Digitalización**: procesos en papel convertidos a software.
-- **Consultoría**: recomendación de tecnología según el caso de cada negocio.
+## Sitio
 
-## Cómo trabajamos
+- [Inicio](https://matecito.qzz.io/): servicios, historia, caso real, proceso, precios, preguntas frecuentes y contacto.
+- [Servicios](https://matecito.qzz.io/#servicios): páginas web, tiendas online (Tiendanube, WooCommerce o a medida), sistemas a medida, digitalización, mantenimiento y consultoría.
+- [Precios](https://matecito.qzz.io/#precios): página web desde USD 250, sistema a medida desde USD 350, tienda online desde USD 550, mantenimiento USD 50 por mes.
+- [Caso real: Schalbetter Transportes](https://matecito.qzz.io/#casos): sitio propio con cotización por WhatsApp para una empresa de transporte internacional de cargas.
+- [Preguntas frecuentes](https://matecito.qzz.io/#preguntas): costos, plazos, cobertura y qué pasa después del lanzamiento.
+- [Contacto](https://matecito.qzz.io/#contacto): formulario y WhatsApp.
 
-Metodología ágil con entregas semanales, comunicación asíncrona y transparencia total del estado de cada tarea. El proceso se apoya en Discord y Notion.
+## Legal
 
-## Ubicación y cobertura
+- [Términos y condiciones](https://matecito.qzz.io/terminos/)
+- [Política de privacidad](https://matecito.qzz.io/politica-de-privacidad/)
+- [Botón de arrepentimiento y baja](https://matecito.qzz.io/arrepentimiento/)
 
-Humboldt, Santa Fe, Argentina. Trabajamos con negocios de Humboldt, Rafaela, Esperanza, Santa Fe y toda la región, así como con clientes de otras provincias y del extranjero.
+## Optional
 
-## Casos reales
-
-- **Schalbetter Transportes** — Empresa familiar de San Martín de Las Escobas, Santa Fe, fundada en 2004. Transporte de cargas generales hacia Argentina, Chile, Uruguay y Bolivia. Antes: presencia solo en Instagram y Facebook, sin sitio propio y con pedidos de cotización desordenados. Construimos un sitio corporativo de una página con línea de tiempo de la empresa, botones de cotización por WhatsApp, mapa de Google, sección de reclutamiento de conductores con formulario de Google, dominio propio, SEO base e imágenes optimizadas. Ver sitio en vivo: https://schalbettertransportes.com.ar/ · Código: https://github.com/matecito-tech/SchalbetterTransportes
-
-## Contacto
-
-- Email: matecito.tech@gmail.com
-- Sitio: https://matecito.qzz.io/
-- LinkedIn: https://www.linkedin.com/company/matecito-tech
-- GitHub: https://github.com/matecito-tech
-
-## Cómo usar este archivo
-
-`llms.txt` es un mapa breve del sitio para asistentes de IA. El detalle completo está en `llms-full.txt`.
+- [Versión completa para asistentes de IA](https://matecito.qzz.io/llms-full.txt)
+- [GitHub de Matecito Tech](https://github.com/matecito-tech)
+- [Sitio del caso Schalbetter](https://schalbettertransportes.com.ar/)

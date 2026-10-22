@@ -1,0 +1,25 @@
+version: 2
+updates:
+  - package-ecosystem: bun
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+    groups:
+      astro:
+        patterns: ['astro', '@astrojs/*']
+      dev-tools:
+        patterns: ['*']
+        exclude-patterns: ['astro', '@astrojs/*']
+    ignore:
+      # astro check todavía no soporta TypeScript 7
+      - dependency-name: typescript
+        versions: ['>=7']
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+    groups:
+      actions:
+        patterns: ['*']

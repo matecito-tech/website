@@ -28,6 +28,15 @@ Convertimos procesos en papel a sistemas digitales que llevás en el bolsillo.
 ### Consultoría
 Te asesoramos sobre qué tecnología te conviene. No gastes de más en lo que no usás.
 
+## Precios (valores de referencia "desde")
+
+- Página web: desde USD 250, pago único. Diseño a medida para celular, botón de WhatsApp, SEO base y alta en Google, dominio y hosting configurados.
+- Sistema a medida: desde USD 350, pago único. Turnos, stock, clientes o facturación; usuarios y permisos; capacitación.
+- Tienda online: desde USD 550, pago único. Tiendanube, WooCommerce o a medida; Mercado Pago; envíos; panel de pedidos.
+- Mantenimiento: USD 50 por mes, sin permanencia. Actualizaciones, seguridad, copias de seguridad, cambios menores y soporte.
+
+El precio final en pesos, con impuestos incluidos, figura en el presupuesto escrito (sin cargo). Se acepta pago en pesos o en dólares.
+
 ## Metodología
 
 Trabajamos con metodologías ágiles (SCRUM) adaptadas a la realidad local:
@@ -74,6 +83,7 @@ Humboldt, Santa Fe, Argentina. Cubrimos Humboldt, Rafaela, Esperanza, Santa Fe y
 - LinkedIn: https://www.linkedin.com/company/matecito-tech
 - GitHub: https://github.com/matecito-tech
 - Instagram: https://www.instagram.com/matecito.tech/
+- WhatsApp: https://wa.me/543425370985
 
 ## Stack técnico
 

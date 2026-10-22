@@ -1,81 +1,59 @@
-# Matecito Website v4.0 — Astro
+# Matecito Tech · sitio web
 
-Sitio web corporativo de **Matecito**, rediseñado con estética "Warm Tech" y una identidad visual verde (paleta OKLCH) con modo oscuro nativo.
+Sitio de **Matecito Tech** (https://matecito.qzz.io): páginas web, tiendas online y software a medida desde Humboldt, Santa Fe.
 
-## 🛠️ Tecnologías
+## Stack
 
-- **Astro 7.4.1** — generación estática, cero JS por defecto
-- **Tailwind CSS v4** vía `@tailwindcss/vite` (tokens en `@theme`)
-- **JavaScript vanilla** en `<script>` de componentes `.astro` (sin framework de UI)
-- **Fuentes autoalojadas** (Manrope, Space Grotesk, JetBrains Mono) en WOFF2 subseteado
+- **Astro 7** estático: Fonts API, CSP con hashes, prefetch + prerender (Speculation Rules), content collections, View Transitions nativas entre páginas.
+- **Tailwind CSS 4** (tokens OKLCh en `src/styles/global.css`).
+- JavaScript vanilla, sin framework de UI. El asistente se descarga recién al abrirlo.
+- **bun** como gestor de paquetes y runner.
 
-## 📁 Estructura
+## Estructura
 
 ```
-├── astro.config.mjs          # site, base, trailingSlash, vite (Tailwind)
-├── src/
-│   ├── pages/                # Rutas (.astro): index, gracias, legales
-│   ├── layouts/Layout.astro  # HTML base, head, navbar, footer, tema
-│   ├── components/           # CodeBlock, IconSprite (32 iconos SVG)
-│   ├── styles/global.css     # @theme (tokens OKLCh), modo oscuro
-│   ├── scripts/main.js       # Formulario, menú móvil, toasts, tema, cotizador
-│   └── assets/               # Imágenes optimizadas (Image component)
-│       └── hero/             # SVGs del hero (sol, campo, gaucho, primer-plano)
-├── public/                   # Estáticos (fuentes WOFF2, favicons, CNAME, robots.txt)
+src/
+├── data/site.ts             # Única fuente de verdad: contacto, WhatsApp, precios, datos fiscales
+├── content/legal/*.md       # Términos y privacidad (content collection, validada con zod)
+├── content.config.ts
+├── pages/
+│   ├── index.astro          # Home: hero, historia, servicios, caso, proceso, precios, nosotros, FAQ, contacto
+│   ├── [legal].astro        # /terminos/ y /politica-de-privacidad/ desde la colección
+│   ├── arrepentimiento.astro# Botón de arrepentimiento y baja (Res. 424/2020, art. 10 ter Ley 24.240)
+│   └── gracias.astro
+├── layouts/Layout.astro     # <head> SEO (JSON-LD @graph), nav, footer legal, dock, asistente
+├── components/
+│   ├── Logo.astro           # Símbolo vectorial (mate): verde sobre claro, blanco sobre oscuro, sin placa
+│   ├── Assistant.astro      # Asistente de ventas (UI)
+│   ├── Ronda.astro          # Gamificación "La ronda de mate" + dock mobile
+│   ├── CodeBlock.astro, IconSprite.astro
 ├── scripts/
-│   ├── contrast.mjs          # Verificación WCAG 2.2 + APCA (lee tokens de global.css)
-│   └── dev.mjs               # Script de dev server
-├── .github/workflows/        # CI (validate, links, lighthouse) + deploy
-└── .htmlvalidate.json        # Config de validación HTML
+│   ├── main.js              # Nav, tema (View Transitions), precios en pesos, formulario
+│   ├── assistant.js         # Motor del asistente (IA local del navegador o intents locales)
+│   └── ronda.js             # Logros de la ronda de mate
+└── assets/                  # Imágenes, SVG del hero (animados) y fuentes WOFF2
+tests/sitio.spec.ts          # Playwright + axe (escritorio y mobile)
+lighthouserc.json            # Presupuestos de Lighthouse para CI
 ```
 
-## 🚀 Comandos
-
-Usá **bun** (o `pnpm`). Nunca `npm`.
+## Comandos
 
 ```bash
-bun install          # instalar dependencias
-bun run dev          # dev server en http://localhost:4321
-bun run build        # build estático -> dist/
-bun run preview      # previsualizar dist/
-bun run test         # html-validate (dist) + eslint + astro check
-bun run check        # astro check (type checking)
+bun install
+bun run dev          # desarrollo
+bun run build        # build -> dist/
+bun run preview      # sirve dist/
+bun run test         # html-validate + eslint + astro check + contraste
+bun run test:e2e     # Playwright + axe (requiere `bunx playwright install chromium`)
 ```
 
-## 🎨 Identidad visual
+## CI/CD (`.github/workflows/ci.yml`)
 
-Tokens OKLCh definidos en `src/styles/global.css` (`@theme`):
+En cada push y PR: tipos, lint, contraste WCAG/APCA, build, validación HTML, presupuesto de peso, E2E + accesibilidad (Playwright + axe), Lighthouse con umbrales y enlaces rotos (lychee). En `main`, si todo pasa, deploy a GitHub Pages. Las acciones están fijadas por SHA y Dependabot las actualiza cada semana junto con las dependencias.
 
-| Rol | Color | Uso |
-|-----|-------|-----|
-| Verde principal | `#00704A` | CTAs, enlaces, acentos |
-| Verde profundo | `#1E3932` | Fondos oscuros, texto |
-| Crema | `#FDFBF7` | Fondo principal |
-| Blanco | `#FFFFFF` | Texto sobre oscuro |
-| Azul | `#2563EB` | Acento (Fundador & Scrum Master) |
+## Pendientes del negocio
 
-Modo oscuro nativo: `prefers-color-scheme` + toggle de 1 botón (sol/luna) con `localStorage`. Script inline en `<head>` para evitar parpadeo.
+Completar en `src/data/site.ts` (se muestran solos al cargarlos):
 
-## ♿ Accesibilidad
-
-- WCAG 2.2 AA verificado con `scripts/contrast.mjs` (WCAG + APCA)
-- `prefers-reduced-motion` respetado en todas las animaciones
-- Navegación por teclado: skip link, menú móvil con `aria-expanded`/`aria-controls`, cierre con `Esc` y gestión de foco
-- Regiones con scroll (`<pre>`) accesibles por teclado (`tabindex="0"`)
-- Toasts con `role="status"` / `role="alert"`
-
-## 🔍 Verificar contraste
-
-```bash
-node scripts/contrast.mjs
-```
-
-El script lee los tokens de `src/styles/global.css` y verifica todos los pares texto/fondo. Hace `process.exit(1)` si algún par falla.
-
-## 🚀 Deploy
-
-GitHub Pages vía `.github/workflows/deploy.yml` (Astro build + `actions/deploy-pages`).
-
-**Paso manual (una vez):** en Settings → Pages → Source → **"GitHub Actions"**.
-
-**Rollback:** revertir la configuración de Pages a la rama anterior y redeployar el commit previo.
+- `legalName`, `cuit` y `address`: identificación del proveedor (Ley 24.240, art. 4; CCyC, art. 1100).
+- `dataFiscalUrl`: QR de Data Fiscal de ARCA.

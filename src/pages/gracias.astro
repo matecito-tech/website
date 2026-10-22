@@ -1,17 +1,14 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import { whatsappLink } from '../data/site';
 ---
-
-<Layout title="Gracias por tu mensaje | Matecito" description="Gracias por contactar con Matecito. Nos pondremos en contacto pronto." noindex>
-  <div class="pt-20 max-w-4xl mx-auto px-6 py-24 text-center">
-    <h1 class="text-5xl lg:text-7xl font-display font-bold text-brand-dark dark:text-brand-crema mb-8">¡Gracias!</h1>
-    <p class="text-xl text-brand-verde-profundo/90 dark:text-brand-crema/85 leading-relaxed mb-12">
-      Hemos recibido tu mensaje. Nos pondremos en contacto con vos a la brevedad.
-    </p>
-    <a href="/"
-        class="px-8 py-4 bg-brand-verde text-white font-bold rounded-xl hover:bg-brand-verde-700 dark:hover:bg-brand-verde-500 transition-all shadow-lg shadow-brand-verde/20 flex items-center justify-center gap-2 inline-block">
-      <span>Volver al inicio</span>
-      <svg class="icon" aria-hidden="true" focusable="false" width="1em" height="1em"><use href="#i-arrow_forward"/></svg>
-    </a>
-  </div>
+<Layout title="¡Gracias por escribirnos! | Matecito Tech" description="Recibimos tu mensaje. Te respondemos a la brevedad con los próximos pasos." noindex>
+  <section class="legal wrap text-center">
+    <h1 class="h2">¡Gracias! Recibimos tu mensaje</h1>
+    <p class="lede mx-auto mt-4">Te escribimos a la brevedad con los próximos pasos. Si es urgente, mandanos un WhatsApp.</p>
+    <div class="flex flex-wrap justify-center gap-3 mt-8">
+      <a href="/" class="btn-cta btn-lg">Volver al inicio</a>
+      <a href={whatsappLink('Hola Matecito Tech, recién les envié un formulario desde la web.')} target="_blank" rel="noopener" class="btn-alt btn-lg">Escribir por WhatsApp</a>
+    </div>
+  </section>
 </Layout>

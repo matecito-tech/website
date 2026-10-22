@@ -6,3 +6,5 @@ test-results/
 lighthouse-*.json
 *.log
 .DS_Store
+playwright-report/
+blob-report/

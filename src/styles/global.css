@@ -5,34 +5,14 @@
 /* Variante dark basada en clase .dark (toggle manual) */
 @custom-variant dark (&:where(.dark, .dark *));
 
-/* Fuentes autoalojadas (sin Google Fonts) */
-@font-face {
-  font-family: 'Manrope';
-  font-style: normal;
-  font-weight: 300 800;
-  font-display: swap;
-  src: url('/fonts/Manrope.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Space Grotesk';
-  font-style: normal;
-  font-weight: 500 700;
-  font-display: swap;
-  src: url('/fonts/SpaceGrotesk.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'JetBrains Mono';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url('/fonts/JetBrainsMono.woff2') format('woff2');
-}
+/* Fuentes: las declara la Fonts API de Astro (astro.config.mjs) */
 
 @theme {
-  /* Tokens base de marca (aliases de la escala) - requeridos por el markup */
-  --color-brand-verde: oklch(0.4815 0.1069 161.2);
-  --color-brand-verde-profundo: oklch(0.3205 0.0356 175.4);
+  /* Marca */
+  --color-brand-verde: oklch(0.4815 0.1069 161.2);          /* #00704A yerba */
+  --color-brand-verde-profundo: oklch(0.3205 0.0356 175.4); /* #1E3932 monte */
   --color-brand-blanco: oklch(1 0 0);
+  --color-brand-sol: oklch(0.83 0.15 80);                   /* #F9BC3D, el sol del hero */
 
   --color-brand-verde-50: oklch(0.97 0.01 161);
   --color-brand-verde-100: oklch(0.94 0.02 161);
@@ -41,11 +21,10 @@
   --color-brand-verde-400: oklch(0.72 0.09 161);
   --color-brand-verde-500: oklch(0.4815 0.1069 161.2);
   --color-brand-verde-600: oklch(0.55 0.11 161);
-  --color-brand-verde-700: oklch(0.45 0.10 161);
+  --color-brand-verde-700: oklch(0.42 0.095 161);
   --color-brand-verde-800: oklch(0.38 0.08 161);
   --color-brand-verde-900: oklch(0.3205 0.0356 175.4);
   --color-brand-verde-950: oklch(0.20 0.05 161);
-
 
   --color-brand-crema: oklch(0.9885 0.0057 84.6);
   --color-brand-dark: oklch(0.15 0.02 45);
@@ -58,106 +37,75 @@
   --color-muted-foreground: oklch(0.45 0.02 45);
   --color-ring: oklch(0.4815 0.1069 161.2);
 
-  /* Verde semántico de éxito para badges de estado (ej. "En Línea") */
   --color-success: oklch(0.65 0.16 145);
-
-  --font-manrope: 'Manrope';
-  --font-space-grotesk: 'Space Grotesk';
-  --font-jetbrains-mono: 'JetBrains Mono';
 
   --font-sans: var(--font-manrope);
   --font-display: var(--font-space-grotesk);
   --font-mono: var(--font-jetbrains-mono);
 
-  --animate-fade-in-up: fadeInUp 0.8s ease-out forwards;
-  --animate-float: float 6s ease-in-out infinite;
-  --animate-ember: ember 4s ease-out infinite;
-  --animate-pulse-slow: pulse 4s ease-in-out infinite;
-
-  @keyframes fadeInUp {
-    0% { opacity: 0; transform: translateY(20px); }
-    100% { opacity: 1; transform: translateY(0); }
-  }
-  @keyframes fadeIn {
-    0% { opacity: 0; }
-    100% { opacity: 1; }
-  }
-  @keyframes float {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-10px); }
-  }
-  @keyframes ember {
-    0% { transform: translateY(0) scale(1); opacity: 1; }
-    100% { transform: translateY(-100px) scale(0); opacity: 0; }
-  }
-  @keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.5; }
-  }
+  --ease-out-soft: cubic-bezier(.2, .7, .2, 1);
 }
 
 @layer base {
   :root {
-    --color-background: var(--color-brand-crema);
-    --color-foreground: oklch(0.15 0.02 45);
-    --color-primary: oklch(0.4815 0.1069 161.2);
-    --color-primary-foreground: #ffffff;
-    --color-muted: oklch(0.97 0.005 85);
-    --color-muted-foreground: oklch(0.45 0.02 45);
-    --color-border: oklch(0.90 0.01 85);
-    --color-ring: oklch(0.4815 0.1069 161.2);
-
-    /* Superficies translúcidas (glass) - tema claro */
-    --glass-bg: rgba(255, 255, 255, 0.8);
-    --glass-border: rgba(255, 255, 255, 0.6);
-    --glass-shadow: rgba(50, 30, 25, 0.05);
-
+    --nav-h: 4rem;
+    --surface: oklch(1 0 0);
+    --ink-2: color-mix(in oklch, var(--color-brand-verde-profundo) 88%, transparent);
+    --hair: color-mix(in oklch, var(--color-brand-verde-profundo) 14%, transparent);
+    --glass-bg: color-mix(in oklch, var(--color-brand-crema) 82%, transparent);
+    --focus: oklch(0.55 0.11 161);
     color-scheme: light;
   }
+  @media (min-width: 1024px) { :root { --nav-h: 5rem; } }
 
   .dark {
     --color-background: oklch(0.15 0.02 45);
     --color-foreground: oklch(0.99 0.005 85);
-    /* Verde más claro para modo oscuro (≥4.5:1 sobre fondo oscuro) */
-    --color-brand-verde: oklch(0.55 0.12 161);     /* oscurecido para contraste AA en botones (4.5:1+) */
-    --color-primary: oklch(0.60 0.12 161);
+    /* Verde más claro en oscuro: AA en botones (4.5:1+) */
+    --color-brand-verde: oklch(0.55 0.12 161);
+    --color-primary: oklch(0.55 0.12 161);
     --color-ring: oklch(0.60 0.12 161);
-    --color-primary: oklch(0.4815 0.1069 161.2);
-    --color-primary-foreground: #ffffff;
     --color-muted: oklch(0.20 0.02 45);
     --color-muted-foreground: oklch(0.70 0.01 85);
     --color-border: oklch(0.25 0.02 45);
-    --color-ring: oklch(0.4815 0.1069 161.2);
-
-    /* Superficies translúcidas (glass) - tema oscuro */
-    --glass-bg: rgba(30, 57, 50, 0.85);
-    --glass-border: rgba(255, 255, 255, 0.12);
-    --glass-shadow: rgba(0, 0, 0, 0.3);
-
+    --surface: oklch(0.19 0.02 60);
+    --ink-2: color-mix(in oklch, var(--color-brand-crema) 82%, transparent);
+    --hair: color-mix(in oklch, var(--color-brand-crema) 12%, transparent);
+    --glass-bg: color-mix(in oklch, var(--color-brand-dark) 80%, transparent);
+    --focus: oklch(0.75 0.12 161);
     color-scheme: dark;
   }
 
-  * {
-    @apply border-border;
+  * { @apply border-border; }
+
+  /* Scroll que te lleva de sección en sección: "proximity" engancha el inicio
+     de cada sección cuando soltás cerca, sin atrapar las secciones largas. */
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: var(--nav-h);
+    scroll-snap-type: y proximity;
+    overflow-x: clip;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    interpolate-size: allow-keywords;
   }
 
   body {
     @apply bg-background text-foreground antialiased;
     font-feature-settings: "cv11", "ss01";
+    overflow-x: clip;
+    text-rendering: optimizeLegibility;
   }
 
-  html {
-    scroll-behavior: smooth;
-    scroll-padding-top: 5rem;
-  }
+  h1, h2, h3 { text-wrap: balance; }
+  p { text-wrap: pretty; }
+
+  :focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; border-radius: .375rem; }
+  main:focus { outline: none; }
 
   @media (prefers-reduced-motion: reduce) {
-    html {
-      scroll-behavior: auto;
-    }
-    *,
-    *::before,
-    *::after {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after {
       animation-duration: 0.01ms !important;
       animation-iteration-count: 1 !important;
       transition-duration: 0.01ms !important;
@@ -166,222 +114,202 @@
   }
 }
 
-/* Deshabilitar transiciones durante cambio de tema para reducir INP */
-.no-transitions, .no-transitions * {
-  transition: none !important;
-  animation: none !important;
+/* Transiciones nativas entre páginas (MPA, sin JavaScript) */
+@view-transition { navigation: auto; }
+
+/* Sin transiciones durante el cambio de tema (INP) */
+.no-transitions, .no-transitions * { transition: none !important; }
+
+/* Cambio de tema: el modo nuevo se abre en círculo desde el botón */
+::view-transition-old(root), ::view-transition-new(root) { animation: none; mix-blend-mode: normal; }
+::view-transition-new(root) { animation: theme-reveal .55s var(--ease-out-soft); }
+@keyframes theme-reveal {
+  from { clip-path: circle(0 at var(--vt-x, 90%) var(--vt-y, 2rem)); }
+  to   { clip-path: circle(var(--vt-r, 150vmax) at var(--vt-x, 90%) var(--vt-y, 2rem)); }
+}
+
+@layer components {
+  /* ---------- Navegación ---------- */
+  .site-nav {
+    position: fixed; inset: 0 0 auto; z-index: 50;
+    background: var(--glass-bg);
+    backdrop-filter: saturate(1.4) blur(14px);
+    -webkit-backdrop-filter: saturate(1.4) blur(14px);
+    border-bottom: 1px solid transparent;
+    transition: border-color .3s ease, box-shadow .3s ease;
+  }
+  .site-nav.is-scrolled { border-color: var(--hair); box-shadow: 0 6px 24px -18px rgb(0 0 0 / .35); }
+
+  /* Lockup de marca (todo en em: la proporción se mantiene en cualquier tamaño).
+     - El fondo del mate apoya en la línea de base del texto, con 1 px de exceso
+       óptico como cualquier letra redonda.
+     - El borde del mate coincide con la altura de las mayúsculas y la bombilla
+       sube como el asta de una letra alta.
+     - Separación de 1/3 em. Sin transform: rotar el SVG lo rasteriza y se pixela. */
+  .brand { display: inline-flex; align-items: baseline; gap: .33em; flex-shrink: 0; border-radius: .6rem; color: inherit;
+           font-family: var(--font-display); font-weight: 700; font-size: 1.3125rem; line-height: 1; letter-spacing: -.025em; }
+  .brand__mark { height: 1.4em; width: auto; flex-shrink: 0; margin-bottom: -.05em; align-self: baseline;
+                 color: var(--color-brand-verde); shape-rendering: geometricPrecision; transition: color .25s ease; }
+  .dark .brand__mark { color: var(--color-brand-crema); }
+  .brand:hover .brand__mark { color: var(--color-brand-verde-700); }
+  .dark .brand:hover .brand__mark { color: var(--color-brand-verde-300); }
+  .brand__tech { font-weight: 500; color: color-mix(in oklch, currentColor 62%, transparent); }
+  .brand--lg { font-size: 1.5rem; }
+  .brand--lg .brand__mark { color: var(--color-brand-crema); }
+
+  .nav-link {
+    position: relative; display: block; padding: .5rem .8rem; border-radius: .6rem;
+    color: var(--ink-2); transition: color .2s ease, background-color .2s ease;
+  }
+  .nav-link:hover { color: var(--color-brand-verde); }
+  .nav-link::after {
+    content: ""; position: absolute; left: .8rem; right: .8rem; bottom: .2rem; height: 2px; border-radius: 2px;
+    background: var(--color-brand-verde); transform: scaleX(0); transform-origin: left;
+    transition: transform .35s var(--ease-out-soft);
+  }
+  .nav-link[aria-current="true"] { color: var(--color-foreground); }
+  .nav-link[aria-current="true"]::after { transform: scaleX(1); }
+
+  .theme-toggle {
+    width: 2.75rem; height: 2.75rem; display: grid; place-items: center; border-radius: 999px;
+    color: var(--ink-2); transition: color .2s ease, background-color .2s ease;
+  }
+  .theme-toggle:hover { color: var(--color-brand-verde); background: color-mix(in oklch, var(--color-brand-verde) 10%, transparent); }
+
+  .menu-toggle { width: 2.75rem; height: 2.75rem; display: grid; place-items: center; border-radius: .75rem; }
+  .menu-toggle span, .menu-toggle span::before, .menu-toggle span::after {
+    display: block; width: 1.4rem; height: 2px; border-radius: 2px; background: currentColor; position: relative;
+    transition: transform .3s var(--ease-out-soft), background-color .2s ease;
+  }
+  .menu-toggle span::before, .menu-toggle span::after { content: ""; position: absolute; left: 0; }
+  .menu-toggle span::before { top: -7px; }
+  .menu-toggle span::after { top: 7px; }
+  .menu-toggle[aria-expanded="true"] span { background: transparent; }
+  .menu-toggle[aria-expanded="true"] span::before { transform: translateY(7px) rotate(45deg); }
+  .menu-toggle[aria-expanded="true"] span::after { transform: translateY(-7px) rotate(-45deg); }
+
+  .mobile-menu {
+    position: absolute; top: 100%; left: 0; right: 0; padding: .5rem 1.25rem 1.5rem;
+    background: var(--color-background); border-bottom: 1px solid var(--hair);
+    max-height: calc(100svh - var(--nav-h)); overflow-y: auto;
+  }
+  .mobile-menu:not([hidden]) { animation: menu-in .3s var(--ease-out-soft); }
+  @keyframes menu-in { from { opacity: 0; translate: 0 -.5rem; } }
+
+  /* ---------- Botones ---------- */
+  .btn-cta, .btn-alt {
+    display: inline-flex; align-items: center; gap: .6rem; min-height: 2.75rem; padding: 0 1.25rem;
+    border-radius: .8rem; font-weight: 700; font-size: .9375rem; white-space: nowrap;
+    transition: background-color .2s ease, color .2s ease, border-color .2s ease, transform .2s var(--ease-out-soft), box-shadow .2s ease;
+  }
+  .btn-cta { background: var(--color-brand-verde); color: #fff; box-shadow: 0 10px 24px -14px var(--color-brand-verde); }
+  .btn-cta:hover { background: var(--color-brand-verde-700); transform: translateY(-1px); }
+  .dark .btn-cta:hover { background: oklch(0.5 0.115 161); }
+  .btn-alt { border: 1px solid var(--hair); color: var(--color-foreground); background: transparent; }
+  .btn-alt:hover { border-color: var(--color-brand-verde); color: var(--color-brand-verde); }
+  .btn-cta:active, .btn-alt:active { transform: translateY(0) scale(.98); }
+  .btn-lg { min-height: 3.25rem; padding: 0 1.6rem; font-size: 1rem; }
+
+  /* ---------- Secciones ---------- */
+  .section {
+    position: relative; scroll-snap-align: start;
+    padding-block: clamp(4.5rem, 10vw, 7.5rem);
+  }
+  /* En pantallas grandes cada sección ocupa la ventana: el snap la encuadra entera */
+  @media (min-width: 1024px) and (min-height: 700px) {
+    .section--screen { min-height: calc(100svh - var(--nav-h)); display: flex; flex-direction: column; justify-content: center; }
+  }
+  .wrap { width: min(100% - 2.5rem, 76rem); margin-inline: auto; }
+  @media (min-width: 640px) { .wrap { width: min(100% - 3rem, 76rem); } }
+
+  .kicker { font-weight: 600; font-size: .9375rem; color: var(--color-brand-verde); margin-bottom: .75rem; }
+  .dark .kicker { color: var(--color-brand-verde-400); }
+  .h2 {
+    font-family: var(--font-display); font-weight: 700; letter-spacing: -.025em; line-height: 1.05;
+    font-size: clamp(2.1rem, 4.6vw, 3.6rem);
+  }
+  .lede { font-size: clamp(1.0625rem, 1.4vw, 1.1875rem); line-height: 1.7; color: var(--ink-2); max-width: 38rem; }
+
+  .footer-title { font-family: var(--font-display); font-weight: 700; font-size: .9375rem; margin-bottom: 1rem; color: var(--color-brand-crema); }
+  .footer-list { display: grid; gap: .35rem; }
+  .footer-list a { display: inline-block; padding-block: .3rem; color: color-mix(in oklch, var(--color-brand-crema) 82%, transparent); transition: color .2s ease; }
+  .footer-list a:hover { color: #fff; }
+
+  .skip-link {
+    position: fixed; left: 1rem; top: -4rem; z-index: 100; padding: .75rem 1rem; border-radius: .6rem;
+    background: var(--color-brand-verde-profundo); color: #fff; font-weight: 700; transition: top .2s ease;
+  }
+  .skip-link:focus { top: 1rem; }
+
+  /* ---------- Páginas legales ---------- */
+  .legal { padding-block: calc(var(--nav-h) + 3rem) 5rem; max-width: 48rem; }
+  .legal__crumbs { font-size: .875rem; color: var(--ink-2); margin-bottom: 1.5rem; display: flex; gap: .5rem; }
+  .legal__crumbs a { text-decoration: underline; text-underline-offset: 3px; }
+  .legal__meta { color: var(--ink-2); margin-top: .75rem; }
+  .legal__body { margin-top: 2.5rem; line-height: 1.75; color: var(--ink-2); }
+  .legal__body h2 { font-family: var(--font-display); font-weight: 700; font-size: 1.35rem; color: var(--color-foreground); margin: 2.5rem 0 .75rem; scroll-margin-top: calc(var(--nav-h) + 1rem); }
+  .legal__body p, .legal__body ul { margin-bottom: 1rem; }
+  .legal__body ul { list-style: disc; padding-left: 1.25rem; display: grid; gap: .4rem; }
+  .legal__body a { color: var(--color-brand-verde); text-decoration: underline; text-underline-offset: 3px; }
+  .dark .legal__body a { color: var(--color-brand-verde-400); }
+  .legal__body strong { color: var(--color-foreground); }
+  .legal__body code { font-family: var(--font-mono); font-size: .875em; padding: .1rem .35rem; border-radius: .35rem; background: var(--hair); }
+  .legal__body blockquote { margin: 1.5rem 0; padding: 1rem 1.25rem; border-left: 3px solid var(--color-brand-verde); background: var(--surface); border-radius: 0 .75rem .75rem 0; font-size: .9375rem; }
+  .legal__form { margin-top: 2.5rem; }
+  .choice { display: inline-flex; align-items: center; gap: .5rem; min-height: 2.75rem; padding: 0 1rem; border: 1px solid var(--hair); border-radius: .8rem; cursor: pointer; font-weight: 600; }
+  .choice:has(input:checked) { border-color: var(--color-brand-verde); background: color-mix(in oklch, var(--color-brand-verde) 8%, transparent); }
+  .choice input { accent-color: var(--color-brand-verde); width: 1.1rem; height: 1.1rem; }
+
+  /* Formularios (compartidos por contacto y arrepentimiento) */
+  .contact-form { display: grid; gap: 1.25rem; padding: clamp(1.5rem, 4vw, 2.5rem); border-radius: 1.5rem; background: var(--surface); border: 1px solid var(--hair);
+                  box-shadow: 0 40px 80px -50px rgb(30 57 50 / .5); }
+  .field { display: grid; gap: .45rem; border: 0; padding: 0; margin: 0; min-width: 0; }
+  .field label { font-weight: 700; font-size: .9rem; }
+  .field input:not([type="radio"]), .field select, .field textarea {
+    width: 100%; font: inherit; font-size: 1rem; padding: .85rem 1rem; border-radius: .8rem;
+    border: 1px solid var(--hair); background: var(--color-background); color: var(--color-foreground);
+    transition: border-color .2s ease, box-shadow .2s ease;
+  }
+  .field textarea { resize: vertical; min-height: 6rem; }
+  .field ::placeholder { color: color-mix(in oklch, var(--color-foreground) 50%, transparent); }
+  .field :is(input, select, textarea):focus-visible { outline: none; border-color: var(--color-brand-verde); box-shadow: 0 0 0 4px color-mix(in oklch, var(--color-brand-verde) 18%, transparent); }
+  .field :is(input, textarea)[aria-invalid="true"] { border-color: oklch(0.58 0.19 25); }
+
+  /* ---------- Toasts ---------- */
+  #toast-container { position: fixed; bottom: 1.5rem; right: 1.5rem; left: 1.5rem; z-index: 200; display: flex; flex-direction: column; align-items: flex-end; gap: .5rem; pointer-events: none; }
+  .toast {
+    display: flex; align-items: center; gap: .625rem; max-width: 24rem;
+    background: oklch(0.15 0.02 45); color: oklch(0.99 0.005 85);
+    padding: .875rem 1rem; border-radius: .9rem; border: 1px solid oklch(0.32 0.06 161);
+    box-shadow: 0 18px 40px -16px rgb(0 0 0 / .5); font-size: .9rem;
+    opacity: 0; translate: 0 .75rem; transition: opacity .3s ease, translate .3s var(--ease-out-soft); pointer-events: auto;
+  }
+  .toast.show { opacity: 1; translate: 0 0; }
+  .toast.error { border-color: oklch(0.55 0.18 25); }
 }
 
 @layer utilities {
-  /* Sprite de iconos SVG - hereda el color del texto */
-  .icon {
-    width: 1em;
-    height: 1em;
-    display: inline-block;
-    vertical-align: middle;
-    fill: currentColor;
-    flex-shrink: 0;
-  }
+  .icon { width: 1em; height: 1em; display: inline-block; vertical-align: middle; fill: currentColor; flex-shrink: 0; }
 
-  .text-balance {
-    text-wrap: balance;
-  }
+  .scrollbar-thin { scrollbar-width: thin; scrollbar-color: oklch(0.32 0.06 161) transparent; }
 
-  .animate-fade-in-up {
-    animation: fadeInUp 0.8s ease-out forwards;
-  }
-
-  .animate-fade-in {
-    animation: fadeIn 0.5s ease-out forwards;
-  }
-
-  .animate-float {
-    animation: float 6s ease-in-out infinite;
-  }
-
-  .animate-ember {
-    animation: ember 4s ease-out infinite;
-  }
-
-  .animate-pulse-slow {
-    animation: pulse 4s ease-in-out infinite;
-  }
-
-  .skip-link {
-    position: absolute;
-    top: -100px;
-    left: 0;
-    background: oklch(0.65 0.12 161);
-    color: white;
-    padding: 0.5rem 1rem;
-    z-index: 100;
-    transition: top 0.3s;
-    text-decoration: underline;
-    font-weight: 600;
-    border-radius: 4px;
-  }
-
-  .skip-link:focus {
-    top: 0;
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .animate-float,
-    .animate-ember,
-    .animate-pulse-slow,
-    .animate-fade-in-up {
-      animation: none !important;
+  /* Aparición al entrar en pantalla (una sola vez). Solo se oculta si hay JS
+     y la persona no pidió reducir el movimiento: sin JS todo se ve normal. */
+  @media (prefers-reduced-motion: no-preference) {
+    :where(.js) :is(.reveal, .reveal-stagger > *) {
+      opacity: 0; translate: 0 1.5rem; filter: blur(6px);
+      transition: opacity .7s var(--ease-out-soft), translate .8s var(--ease-out-soft), filter .7s var(--ease-out-soft);
+      transition-delay: calc(var(--i, 0) * 70ms);
     }
-
-  }
-
-  /* Superficies translúcidas: los valores vienen de --glass-* (tema claro/oscuro) */
-  .wood-card {
-    background: linear-gradient(145deg, oklch(0.32 0.06 161), oklch(0.25 0.05 161));
-    border: 1px solid var(--wood-border, rgba(255, 255, 255, 0.1));
-  }
-
-  .glass-card {
-    background: var(--glass-bg, rgba(255, 255, 255, 0.8));
-    backdrop-filter: blur(12px);
-    border: 1px solid var(--glass-border, rgba(255, 255, 255, 0.6));
-    box-shadow: 0 8px 32px 0 var(--glass-shadow, rgba(50, 30, 25, 0.05));
-  }
-
-  .ember {
-    position: absolute;
-    background: oklch(0.65 0.12 161);
-    border-radius: 50%;
-    filter: blur(1px);
-  }
-
-  .ember::before {
-    content: '';
-    position: absolute;
-    inset: -2px;
-    background: radial-gradient(circle, oklch(0.8 0.15 80) 0%, transparent 70%);
-    opacity: 0.3;
-    border-radius: 50%;
-    pointer-events: none;
-  }
-
-
-  .text-glow-verde {
-    text-shadow: 0 0 20px oklch(0.65 0.12 161 / 0.4);
-  }
-
-  .ember-glow {
-    position: absolute;
-    width: 4px;
-    height: 4px;
-    background: oklch(0.8 0.15 80);
-    border-radius: 50%;
-    filter: blur(1px);
-    opacity: 0.8;
-    animation: ember 4s ease-out infinite;
-  }
-
-  .scrollbar-thin {
-    scrollbar-width: thin;
-    scrollbar-color: oklch(0.32 0.06 161) transparent;
-  }
-
-  .scrollbar-thin::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
-  }
-
-  .scrollbar-thin::-webkit-scrollbar-track {
-    background: transparent;
-  }
-
-  .scrollbar-thin::-webkit-scrollbar-thumb {
-    background: oklch(0.32 0.06 161);
-    border-radius: 4px;
-  }
-
-  .scrollbar-thin::-webkit-scrollbar-thumb:hover {
-    background: oklch(0.45 0.10 161);
-  }
-
-  /* Toast notifications (accesible: role=status / role=alert) */
-  #toast-container {
-    position: fixed;
-    bottom: 1.5rem;
-    right: 1.5rem;
-    z-index: 200;
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    pointer-events: none;
-  }
-
-  .toast {
-    display: flex;
-    align-items: center;
-    gap: 0.625rem;
-    background: oklch(0.15 0.02 45);
-    color: oklch(0.99 0.005 85);
-    padding: 0.875rem 1.125rem;
-    border-radius: 0.75rem;
-    border: 1px solid oklch(0.32 0.06 161);
-    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.4);
-    font-size: 0.875rem;
-    opacity: 0;
-    transform: translateY(0.75rem);
-    transition: opacity 0.3s ease, transform 0.3s ease;
-    pointer-events: auto;
-    max-width: 22rem;
-  }
-
-  .toast.show {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  .toast.error {
-    border-color: oklch(0.55 0.18 25);
-  }
-
-  /* Fondo dinámico desenfocado y oscuro de la sección #casos */
-  #casos::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background-image: url('/bannercamion.webp');
-    background-size: cover;
-    background-position: center;
-    filter: blur(16px) brightness(0.45);
-    z-index: 0;
-    animation: ken-burns-camion 25s ease-in-out infinite alternate;
-  }
-
-  @keyframes ken-burns-camion {
-    from {
-      transform: scale(1) translate(0, 0);
-    }
-    to {
-      transform: scale(1.15) translate(-2%, 2%);
-    }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .toast {
-      transition: none;
-    }
-    #casos::before {
-      animation: none;
-    }
+    :where(.js) :is(.reveal.is-in, .reveal-stagger.is-in > *) { opacity: 1; translate: 0 0; filter: none; }
   }
 }
 
+
 /* --- Modo oscuro: red de seguridad para textos de marca -----------------
-   Las páginas secundarias (legal, gracias) usan utilidades de texto de
-   marca que no se pueden variantear por página. Este bloque va SIN capa
-   (gana a las utilidades de Tailwind) y aclara esos textos cuando la
-   variante `dark` está activa. Los elementos que ya traen una variante
-   explícita `dark:text-*` quedan excluidos para no pisar la intención
-   local de cada componente. */
+   Las páginas legales usan utilidades de texto de marca sin variante
+   `dark:`. Sin capa (gana a las utilidades) y solo donde no hay una
+   variante explícita `dark:text-*`. */
 :where(.dark) :where(.text-brand-dark, [class*="text-brand-verde-profundo"]):not([class*="dark:text-"]) {
   color: var(--color-brand-crema);
 }

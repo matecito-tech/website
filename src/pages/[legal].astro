@@ -1,0 +1,23 @@
+---
+// Páginas legales generadas desde la colección `legal` (src/content/legal/*.md)
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import Layout from '../layouts/Layout.astro';
+
+export async function getStaticPaths() {
+  const docs = await getCollection('legal');
+  return docs.map((doc: CollectionEntry<'legal'>) => ({ params: { legal: doc.id }, props: { doc } }));
+}
+
+interface Props { doc: CollectionEntry<'legal'> }
+const { doc } = Astro.props;
+const { Content } = await render(doc);
+const fecha = new Intl.DateTimeFormat('es-AR', { dateStyle: 'long', timeZone: 'UTC' }).format(doc.data.updated);
+---
+<Layout title={doc.data.seoTitle} description={doc.data.description} breadcrumb={doc.data.breadcrumb}>
+  <article class="legal wrap">
+    <nav aria-label="Ruta de navegación" class="legal__crumbs"><a href="/">Inicio</a> <span aria-hidden="true">/</span> <span aria-current="page">{doc.data.breadcrumb}</span></nav>
+    <h1 class="h2">{doc.data.title}</h1>
+    <p class="legal__meta">Última actualización: <time datetime={doc.data.updated.toISOString().slice(0, 10)}>{fecha}</time></p>
+    <div class="legal__body"><Content /></div>
+  </article>
+</Layout>

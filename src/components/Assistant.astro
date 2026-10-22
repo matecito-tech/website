@@ -1,0 +1,116 @@
+---
+// Asistente de ventas. Corre 100% en el navegador del visitante:
+// el código se descarga recién al abrirlo (import dinámico).
+import Logo from './Logo.astro';
+---
+<button type="button" class="chat-fab" aria-expanded="false" aria-controls="chat" data-chat-open>
+  <span class="chat-fab__logo"><Logo class="h-6 w-auto" /></span>
+  <span>¿Te ayudo a elegir?</span>
+</button>
+
+<section id="chat" class="chat" role="dialog" aria-modal="false" aria-labelledby="chat-titulo" hidden>
+  <header class="chat__head">
+    <Logo class="h-8 w-auto shrink-0 text-brand-verde dark:text-brand-crema" />
+    <div class="min-w-0">
+      <h2 id="chat-titulo" class="font-display font-bold leading-tight">Asistente de Matecito</h2>
+      <p class="chat__status" data-chat-status>Responde al instante, desde tu navegador</p>
+    </div>
+    <button type="button" class="chat__close" aria-label="Cerrar asistente" data-chat-close>
+      <svg class="icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+    </button>
+  </header>
+  <div class="chat__log" role="log" aria-live="polite" aria-relevant="additions" data-chat-log tabindex="0"></div>
+  <div class="chat__chips" data-chat-chips></div>
+  <form class="chat__form" data-chat-form>
+    <label for="chat-input" class="sr-only">Escribí tu pregunta</label>
+    <input id="chat-input" name="pregunta" type="text" autocomplete="off" placeholder="Escribí tu pregunta…" maxlength="400" required>
+    <button type="submit" class="chat__send" aria-label="Enviar pregunta">
+      <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-send"/></svg>
+    </button>
+  </form>
+  <p class="chat__note">Las respuestas se generan en tu dispositivo. Para un presupuesto exacto te pasamos con una persona.</p>
+</section>
+
+<script>
+  const fab = document.querySelector<HTMLButtonElement>('.chat-fab');
+  const openers = [...document.querySelectorAll<HTMLButtonElement>('[data-chat-open]')];
+  const panel = document.getElementById('chat');
+  let started: Promise<void> | null = null;
+  let lastOpener: HTMLButtonElement | null = null;
+
+  const setOpen = (open: boolean) => {
+    if (!panel) return;
+    panel.hidden = !open;
+    openers.forEach((b) => b.setAttribute('aria-expanded', String(open)));
+    fab?.classList.toggle('is-hidden', open);
+    if (open) {
+      started ??= import('../scripts/assistant.js').then((m) => m.start(panel));
+      started.then(() => panel.querySelector<HTMLInputElement>('#chat-input')?.focus());
+    } else {
+      lastOpener?.focus();
+      document.dispatchEvent(new Event('chat:closed'));
+    }
+  };
+
+  openers.forEach((b) => b.addEventListener('click', () => { lastOpener = b; setOpen(true); }));
+  panel?.querySelector('[data-chat-close]')?.addEventListener('click', () => setOpen(false));
+  panel?.addEventListener('keydown', (e) => { if (e.key === 'Escape') setOpen(false); });
+  document.addEventListener('chat:close', () => setOpen(false));
+
+  // El botón aparece cuando la persona ya mostró interés (pasó el hero)
+  const hero = document.getElementById('inicio');
+  if (fab && hero && 'IntersectionObserver' in window) {
+    new IntersectionObserver(([e]) => fab.classList.toggle('is-ready', !e.isIntersecting), { threshold: 0.35 }).observe(hero);
+  } else {
+    fab?.classList.add('is-ready');
+  }
+</script>
+
+<style is:global>
+  .chat-fab {
+    position: fixed; right: 1rem; bottom: 1rem; z-index: 60;
+    display: inline-flex; align-items: center; gap: .6rem; padding: .45rem 1.1rem .45rem .45rem;
+    border-radius: 999px; background: var(--color-brand-verde-profundo); color: #fff; font-weight: 700; font-size: .9375rem;
+    box-shadow: 0 18px 40px -16px rgb(0 0 0 / .55);
+    opacity: 0; translate: 0 1.5rem; pointer-events: none;
+    transition: opacity .4s ease, translate .5s var(--ease-out-soft), background-color .2s ease;
+  }
+  .chat-fab.is-ready { opacity: 1; translate: 0 0; pointer-events: auto; }
+  .chat-fab.is-hidden { opacity: 0; translate: 0 1.5rem; pointer-events: none; }
+  .chat-fab:hover { background: oklch(0.27 0.035 175); }
+  .chat-fab__logo { width: 2.25rem; height: 2.25rem; display: grid; place-items: center; color: #fff; }
+  @media (max-width: 479px) { .chat-fab span { display: none; } .chat-fab { padding: .45rem; } }
+
+  .chat {
+    position: fixed; right: 1rem; bottom: 1rem; z-index: 70;
+    width: min(24rem, calc(100vw - 2rem)); height: min(36rem, calc(100svh - 6rem));
+    display: flex; flex-direction: column; overflow: hidden;
+    background: var(--color-background); color: var(--color-foreground);
+    border: 1px solid var(--hair); border-radius: 1.25rem; box-shadow: 0 30px 80px -30px rgb(0 0 0 / .55);
+  }
+  .chat:not([hidden]) { animation: chat-in .35s var(--ease-out-soft); }
+  @keyframes chat-in { from { opacity: 0; translate: 0 1rem; scale: .98; } }
+  .chat__head { display: flex; align-items: center; gap: .75rem; padding: .9rem 1rem; border-bottom: 1px solid var(--hair); background: var(--surface); }
+  .chat__status { font-size: .8rem; color: var(--ink-2); }
+  .chat__close { margin-left: auto; width: 2.5rem; height: 2.5rem; display: grid; place-items: center; border-radius: .75rem; font-size: 1.2rem; }
+  .chat__close:hover { background: color-mix(in oklch, var(--color-brand-verde) 10%, transparent); }
+  .chat__log { flex: 1; overflow-y: auto; padding: 1rem; display: flex; flex-direction: column; gap: .6rem; overscroll-behavior: contain; }
+  .msg { max-width: 88%; padding: .65rem .9rem; border-radius: 1rem; line-height: 1.5; font-size: .9375rem; white-space: pre-line; animation: rise .3s var(--ease-out-soft); }
+  .msg--bot { align-self: flex-start; background: var(--surface); border: 1px solid var(--hair); border-bottom-left-radius: .35rem; }
+  .msg--user { align-self: flex-end; background: var(--color-brand-verde); color: #fff; border-bottom-right-radius: .35rem; }
+  .msg__actions { display: flex; flex-wrap: wrap; gap: .4rem; margin-top: .6rem; }
+  .msg__actions a, .msg__actions button { font-size: .85rem; font-weight: 700; padding: .4rem .75rem; border-radius: 999px; background: var(--color-brand-verde); color: #fff; }
+  .msg__actions .alt { background: transparent; color: var(--color-foreground); border: 1px solid var(--hair); }
+  .typing { display: inline-flex; gap: .25rem; }
+  .typing i { width: .4rem; height: .4rem; border-radius: 50%; background: currentColor; opacity: .4; animation: typing 1s ease-in-out infinite; }
+  .typing i:nth-child(2) { animation-delay: .15s; } .typing i:nth-child(3) { animation-delay: .3s; }
+  @keyframes typing { 50% { opacity: 1; translate: 0 -2px; } }
+  .chat__chips { display: flex; gap: .4rem; overflow-x: auto; padding: 0 1rem .6rem; scrollbar-width: none; }
+  .chat__chips button { flex-shrink: 0; font-size: .8125rem; font-weight: 600; padding: .4rem .75rem; border-radius: 999px; border: 1px solid var(--hair); background: var(--surface); }
+  .chat__chips button:hover { border-color: var(--color-brand-verde); color: var(--color-brand-verde); }
+  .chat__form { display: flex; gap: .5rem; padding: .6rem; border-top: 1px solid var(--hair); }
+  .chat__form input { flex: 1; min-width: 0; font: inherit; font-size: 1rem; padding: .65rem .9rem; border-radius: .8rem; border: 1px solid var(--hair); background: var(--surface); color: inherit; }
+  .chat__form input:focus { outline: none; border-color: var(--color-brand-verde); }
+  .chat__send { width: 2.75rem; border-radius: .8rem; background: var(--color-brand-verde); color: #fff; display: grid; place-items: center; }
+  .chat__note { font-size: .7rem; color: var(--ink-2); text-align: center; padding: 0 1rem .6rem; }
+</style>

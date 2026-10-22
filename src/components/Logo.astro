@@ -1,0 +1,20 @@
+---
+// Símbolo de Matecito Tech: el mate con circuito, sin placa ni contenedor.
+// Toma el color del texto (currentColor): verde sobre claro, blanco sobre oscuro.
+// Las pistas del circuito son un recorte real (máscara), así se ve el fondo
+// que haya detrás, sea cual sea.
+interface Props { class?: string; title?: string }
+const { class: className, title } = Astro.props;
+const id = `logo-${Math.random().toString(36).slice(2, 8)}`;
+---
+<svg class={className} viewBox="0 0 430 564" focusable="false" role={title ? 'img' : undefined} aria-label={title} aria-hidden={title ? undefined : 'true'}>
+  <mask id={id} maskUnits="userSpaceOnUse" x="0" y="0" width="430" height="564">
+    <rect width="430" height="564" fill="#fff"/>
+    <g fill="none" stroke="#000" stroke-width="14" stroke-linejoin="round"><path d="M333 375v30l-32 36v50l-82 74"/><path d="M258 450v52"/></g>
+  </mask>
+  <g mask={`url(#${id})`} fill="currentColor">
+    <path d="M264 170c12-50 36-100 80-130 20-13 40-24 56-30" fill="none" stroke="currentColor" stroke-width="30" stroke-linecap="round"/>
+    <path d="M72 176h258q6 0 9 6l15 33q4 10-7 10H55q-11 0-7-10l15-33q3-6 9-6z"/>
+    <path fill-rule="evenodd" d="M44 244h341c22 34 27 82 27 134 0 104-87 186-198 186S2 482 2 378c0-52 20-100 42-134zM333 323a27 27 0 1 0 0 54a27 27 0 1 0 0-54zM258 398a27 27 0 1 0 0 54a27 27 0 1 0 0-54z"/>
+  </g>
+</svg>

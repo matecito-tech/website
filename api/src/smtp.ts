@@ -10,15 +10,17 @@ export interface Mail {
   replyTo?: string;
   subject: string;
   text: string;
+  html?: string;
 }
 
 const enc = new TextEncoder();
 const dec = new TextDecoder();
 const b64 = (s: string) => btoa(String.fromCharCode(...enc.encode(s)));
 
+const lineas = (s: string) => b64(s).replace(/.{1,76}/g, "$&\r\n");
+
 const mensaje = (m: Mail) => {
-  const cuerpo = b64(m.text).replace(/.{1,76}/g, "$&\r\n");
-  return [
+  const cabeceras = [
     `From: =?UTF-8?B?${b64(m.fromName)}?= <${m.from}>`,
     `To: <${m.to}>`,
     m.replyTo ? `Reply-To: <${m.replyTo}>` : "",
@@ -26,9 +28,16 @@ const mensaje = (m: Mail) => {
     `Date: ${new Date().toUTCString()}`,
     `Message-ID: <${crypto.randomUUID()}@matecito.qzz.io>`,
     "MIME-Version: 1.0",
-    'Content-Type: text/plain; charset="UTF-8"',
-    "Content-Transfer-Encoding: base64",
-  ].filter(Boolean).join("\r\n") + `\r\n\r\n${cuerpo}`;
+  ].filter(Boolean);
+  if (!m.html) {
+    return [...cabeceras, 'Content-Type: text/plain; charset="UTF-8"', "Content-Transfer-Encoding: base64"].join("\r\n") + `\r\n\r\n${lineas(m.text)}`;
+  }
+  // HTML con alternativa en texto plano (lectores que no muestran HTML)
+  const limite = `=_${crypto.randomUUID()}`;
+  const parte = (tipo: string, cuerpo: string) =>
+    `--${limite}\r\nContent-Type: ${tipo}; charset="UTF-8"\r\nContent-Transfer-Encoding: base64\r\n\r\n${lineas(cuerpo)}`;
+  return [...cabeceras, `Content-Type: multipart/alternative; boundary="${limite}"`].join("\r\n") +
+    `\r\n\r\n${parte("text/plain", m.text)}\r\n${parte("text/html", m.html)}\r\n--${limite}--`;
 };
 
 export async function enviarSmtp(user: string, pass: string, mails: Mail[]): Promise<void> {

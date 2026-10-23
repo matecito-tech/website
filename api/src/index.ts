@@ -3,6 +3,7 @@
 // Rutas: POST /api/contacto, POST /api/arrepentimiento, GET /api/salud.
 import { env } from "cloudflare:workers";
 import { enviarSmtp, type Mail } from "./smtp";
+import { avisoConsulta, confirmacionConsulta, avisoTramite, constanciaTramite, type Html } from "./emails";
 
 const SITE = "https://matecito.qzz.io";
 const CUENTA = "matecito.tech@gmail.com"; // remitente y destinatario de los avisos
@@ -33,13 +34,11 @@ const enviar = (mails: Mail[]) => {
   return enviarSmtp(CUENTA, pass.replace(/\s/g, ""), mails);
 };
 
-const aviso = (subject: string, text: string, replyTo?: string): Mail =>
-  ({ from: CUENTA, fromName: "Web Matecito Tech", to: CUENTA, replyTo, subject, text });
+const aviso = (subject: string, cuerpo: Html, replyTo?: string): Mail =>
+  ({ from: CUENTA, fromName: "Web Matecito Tech", to: CUENTA, replyTo, subject, ...cuerpo });
 
-const alCliente = (to: string, subject: string, text: string): Mail =>
-  ({ from: CUENTA, fromName: "Matecito Tech", to, replyTo: CUENTA, subject, text });
-
-const FIRMA = `\n\n--\nMatecito Tech\nSoftware a medida desde Humboldt, Santa Fe\n${SITE}\nWhatsApp: +54 342 537-0985`;
+const alCliente = (to: string, subject: string, cuerpo: Html): Mail =>
+  ({ from: CUENTA, fromName: "Matecito Tech", to, replyTo: CUENTA, subject, ...cuerpo });
 
 const codigoArrepentimiento = () => {
   const fecha = new Date().toISOString().slice(0, 10).replace(/-/g, "");
@@ -76,17 +75,9 @@ export default {
         const mensaje = limpio(campos.mensaje, 5000);
         if (!nombre || !contacto || !mensaje) return json({ ok: false, error: "Faltan datos" }, 422);
 
-        const mails = [
-          aviso(
-            `Nueva consulta de ${nombre} (${servicio})`,
-            `Nombre: ${nombre}\nContacto: ${contacto}\nServicio: ${servicio}\n\nMensaje:\n${mensaje}\n\n--\nEnviado desde ${SITE}/#contacto`,
-            esEmail(contacto) ? contacto : undefined,
-          ),
-        ];
-        if (esEmail(contacto)) {
-          mails.push(alCliente(contacto, "Recibimos tu consulta - Matecito Tech",
-            `¡Hola ${nombre}!\n\nGracias por escribirnos. Recibimos tu consulta sobre "${servicio}" y te vamos a responder a la brevedad con los próximos pasos.\n\nTu mensaje:\n${mensaje}${FIRMA}`));
-        }
+        const conEmail = esEmail(contacto);
+        const mails = [aviso(`Nueva consulta de ${nombre} (${servicio})`, avisoConsulta({ nombre, contacto, servicio, mensaje, esEmail: conEmail }), conEmail ? contacto : undefined)];
+        if (conEmail) mails.push(alCliente(contacto, "Recibimos tu consulta - Matecito Tech", confirmacionConsulta({ nombre, servicio, mensaje })));
         // En segundo plano: la persona ve la confirmación al instante
         ctx.waitUntil(enviar(mails).catch((err) => console.error("Error al enviar la consulta", err)));
         return quiereJson ? json({ ok: true }) : Response.redirect(`${SITE}/gracias/`, 303);
@@ -101,12 +92,11 @@ export default {
         if (!nombre || !esEmail(email) || !servicio || !fecha) return json({ ok: false, error: "Faltan datos" }, 422);
 
         const codigo = codigoArrepentimiento();
-        const detalle = `Código de identificación: ${codigo}\nTrámite: ${tipo}\nNombre: ${nombre}\nEmail: ${email}\nTeléfono: ${limpio(campos.telefono, 40) || "-"}\nServicio contratado: ${servicio}\nFecha de contratación: ${fecha}\n\nComentarios:\n${limpio(campos.comentarios, 3000) || "-"}`;
+        const tramite = { codigo, tipo, nombre, email, servicio, fecha, telefono: limpio(campos.telefono, 40), comentarios: limpio(campos.comentarios, 3000) };
         // Es un trámite legal (Res. SCI 424/2020): se espera a que los mails salgan
         await enviar([
-          aviso(`[${codigo}] ${tipo} - ${nombre}`, `${detalle}\n\n--\nLa persona ya recibió por email la constancia con este código.`, email),
-          alCliente(email, `Constancia de tu pedido de ${tipo.toLowerCase()} [${codigo}] - Matecito Tech`,
-            `Hola ${nombre}:\n\nRecibimos tu pedido de ${tipo.toLowerCase()}. Esta es tu constancia, conforme a la Ley 24.240 y la Resolución SCI 424/2020.\n\n${detalle}\n\nNo tiene costo. Si corresponde un reintegro, lo hacemos por el mismo medio de pago. Ante cualquier duda, respondé este correo citando el código.${FIRMA}`),
+          aviso(`[${codigo}] ${tipo} - ${nombre}`, avisoTramite(tramite), email),
+          alCliente(email, `Constancia de tu pedido de ${tipo.toLowerCase()} [${codigo}] - Matecito Tech`, constanciaTramite(tramite)),
         ]);
         return quiereJson
           ? json({ ok: true, codigo })

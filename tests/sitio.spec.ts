@@ -1,6 +1,16 @@
 import { test, expect, type Page } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 
+// Turnstile (Cloudflare) no se carga en los tests: se simula su API
+test.beforeEach(async ({ page }) => {
+  await page.route('https://challenges.cloudflare.com/**', (route) =>
+    route.fulfill({
+      contentType: 'text/javascript',
+      body: 'window.turnstile={render:(el,o)=>{setTimeout(()=>o.callback("token-de-prueba"),10);return 1},reset(){}};document.currentScript&&0;',
+    }),
+  );
+});
+
 const PAGES = ['/', '/terminos/', '/politica-de-privacidad/', '/arrepentimiento/', '/gracias/'];
 
 // La API de IA integrada de Chromium puede quejarse si su servicio no corre:
@@ -109,7 +119,7 @@ test('el formulario de contacto envía al Worker y confirma', async ({ page }) =
   await page.fill('#mensaje', 'Quiero una tienda online para mi ferretería.');
   await page.getByRole('button', { name: 'Enviar consulta' }).click();
   await expect(page.locator('#form-status')).toContainText('Recibimos tu consulta');
-  expect(enviado).toMatchObject({ nombre: 'Laura Gómez', contacto: 'laura@example.com' });
+  expect(enviado).toMatchObject({ nombre: 'Laura Gómez', contacto: 'laura@example.com', turnstile: 'token-de-prueba' });
 });
 
 test('el arrepentimiento muestra el código de identificación (Res. 424/2020)', async ({ page }) => {

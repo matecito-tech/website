@@ -1,5 +1,6 @@
 // Comportamiento del sitio. Sin dependencias: se carga como módulo (diferido).
 import './ronda.js';
+import { protegerFormulario, reiniciar } from './turnstile.js';
 
 const navbar = document.getElementById('navbar');
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -288,6 +289,7 @@ if (form) {
         mensaje: document.getElementById('mensaje'),
     };
     const CONTACTO_OK = /^[^\s@]+@[^\s@]+\.[^\s@]+$|^\+?[0-9\s()-]{8,20}$/;
+    const tokenTurnstile = protegerFormulario(form);
 
     // El aviso de error se limpia apenas la persona corrige el campo
     Object.values(fields).forEach(el => el?.addEventListener('input', () => el.removeAttribute('aria-invalid')));
@@ -326,10 +328,12 @@ if (form) {
 
         try {
             // Worker propio en Cloudflare (api/): responde en milisegundos y manda el mail
+            // Si Turnstile no carga, se envía igual y el Worker responde con un error claro
+            const turnstile = await tokenTurnstile().catch(() => '');
             const res = await fetch('/api/contacto', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-                body: JSON.stringify({ ...data, _honey: form.querySelector('[name="_honey"]')?.value ?? '' }),
+                body: JSON.stringify({ ...data, turnstile, _honey: form.querySelector('[name="_honey"]')?.value ?? '' }),
                 signal: AbortSignal.timeout(20000),
             });
             const d = await res.json().catch(() => ({}));
@@ -343,11 +347,15 @@ if (form) {
                 btn.innerHTML = orig;
                 btn.disabled = false;
                 form.reset();
+                reiniciar(form);
                 if (containerPrecio) containerPrecio.hidden = true;
             }, 4000);
         } catch (err) {
             console.error('Error al enviar el formulario:', err);
-            const msg = 'No se pudo enviar. Probá de nuevo o escribinos por WhatsApp o email.';
+            reiniciar(form);
+            const msg = err instanceof Error && /persona/.test(err.message)
+                ? err.message
+                : 'No se pudo enviar. Probá de nuevo o escribinos por WhatsApp o email.';
             showToast(msg, 'error');
             setFormStatus(msg);
             btn.innerHTML = orig;

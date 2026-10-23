@@ -11,6 +11,8 @@ export default defineConfig({
     env: {
       // Contraseña de aplicación de Gmail (secreto: se carga con `cf workers secrets update`)
       GMAIL_APP_PASSWORD: bindings.secret(),
+      // Clave secreta del widget de Turnstile (anti-bots)
+      TURNSTILE_SECRET: bindings.secret(),
     },
     triggers: [triggers.fetch({ pattern: "matecito.qzz.io/api/*", zone: "matecito.qzz.io" })],
   },

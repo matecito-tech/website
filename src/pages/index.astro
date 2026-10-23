@@ -439,6 +439,7 @@ const schema = [
           <label for="mensaje">Contanos tu idea</label>
           <textarea id="mensaje" name="mensaje" rows="5" placeholder="Ej.: Tengo una ferretería y quiero vender por internet." required></textarea>
         </div>
+        <div data-turnstile class="turnstile"></div>
         <button type="submit" class="btn-cta btn-lg w-full justify-center">
           <span>Enviar consulta</span>
           <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-send"/></svg>
@@ -863,6 +864,7 @@ const schema = [
   .next { display: grid; gap: .9rem; counter-reset: n; }
   .next li { counter-increment: n; display: grid; grid-template-columns: 1.75rem minmax(0, 1fr); gap: .5rem; color: var(--ink-2); line-height: 1.55; }
   .next li::before { content: counter(n); font-weight: 700; color: var(--color-brand-verde); font-family: var(--font-display); }
+  .turnstile:empty { display: none; }
   .estimate { padding: 1rem 1.1rem; border-radius: .9rem; background: color-mix(in oklch, var(--color-brand-verde) 8%, transparent); border: 1px solid color-mix(in oklch, var(--color-brand-verde) 25%, transparent); }
   .estimate:not([hidden]) { animation: rise .4s var(--ease-out-soft); }
 </style>

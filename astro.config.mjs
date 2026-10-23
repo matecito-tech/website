@@ -72,7 +72,9 @@ export default defineConfig({
         // Cloudflare Web Analytics (sin cookies) lo inyecta el proxy de Cloudflare
         "img-src 'self' data: https://www.afip.gob.ar",
         "font-src 'self'",
-        "connect-src 'self' https://dolarapi.com https://cloudflareinsights.com",
+        "connect-src 'self' https://dolarapi.com https://cloudflareinsights.com https://challenges.cloudflare.com",
+        // Turnstile (anti-bots de los formularios)
+        'frame-src https://challenges.cloudflare.com',
         "form-action 'self'",
         "base-uri 'self'",
         "object-src 'none'",
@@ -80,7 +82,7 @@ export default defineConfig({
         'upgrade-insecure-requests',
       ],
       scriptDirective: {
-        resources: ["'self'", 'https://static.cloudflareinsights.com'],
+        resources: ["'self'", 'https://static.cloudflareinsights.com', 'https://challenges.cloudflare.com'],
       },
       styleDirective: {
         resources: ["'self'", { resource: "'unsafe-inline'", kind: 'attribute' }],

@@ -40,6 +40,20 @@ const aviso = (subject: string, cuerpo: Html, replyTo?: string): Mail =>
 const alCliente = (to: string, subject: string, cuerpo: Html): Mail =>
   ({ from: CUENTA, fromName: "Matecito Tech", to, replyTo: CUENTA, subject, ...cuerpo });
 
+// Turnstile: confirma con Cloudflare que el envío lo hizo una persona
+const esHumano = async (token: string, ip: string | null) => {
+  const secret = (env as unknown as { TURNSTILE_SECRET?: string }).TURNSTILE_SECRET;
+  if (!secret) return true; // sin secreto configurado no se bloquea (desarrollo)
+  if (!token) return false;
+  const body = new FormData();
+  body.append("secret", secret);
+  body.append("response", token);
+  if (ip) body.append("remoteip", ip);
+  const r = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", { method: "POST", body });
+  const d = (await r.json().catch(() => ({}))) as { success?: boolean; hostname?: string };
+  return d.success === true && (!d.hostname || d.hostname.endsWith("matecito.qzz.io") || d.hostname === "localhost");
+};
+
 const codigoArrepentimiento = () => {
   const fecha = new Date().toISOString().slice(0, 10).replace(/-/g, "");
   const azar = crypto.getRandomValues(new Uint32Array(1))[0].toString(36).toUpperCase().padStart(6, "0").slice(0, 6);
@@ -66,6 +80,12 @@ export default {
     }
     // Campo trampa: si un bot lo completa, se responde OK sin enviar nada
     if (limpio(campos._honey)) return quiereJson ? json({ ok: true }) : Response.redirect(`${SITE}/gracias/`, 303);
+
+    if (!(await esHumano(limpio(campos["cf-turnstile-response"] || campos.turnstile, 4096), req.headers.get("cf-connecting-ip")))) {
+      return quiereJson
+        ? json({ ok: false, error: "No pudimos verificar que seas una persona. Recargá la página y probá de nuevo." }, 403)
+        : Response.redirect(`${SITE}${url.pathname === "/api/arrepentimiento" ? "/arrepentimiento/" : "/"}?error=verificacion`, 303);
+    }
 
     try {
       if (url.pathname === "/api/contacto") {

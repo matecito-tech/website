@@ -258,6 +258,7 @@
   .legal__form { margin-top: 2.5rem; }
   .choice { display: inline-flex; align-items: center; gap: .5rem; min-height: 2.75rem; padding: 0 1rem; border: 1px solid var(--hair); border-radius: .8rem; cursor: pointer; font-weight: 600; }
   .choice:has(input:checked) { border-color: var(--color-brand-verde); background: color-mix(in oklch, var(--color-brand-verde) 8%, transparent); }
+  .turnstile:empty { display: none; }
   .choice input { accent-color: var(--color-brand-verde); width: 1.1rem; height: 1.1rem; }
 
   /* Formularios (compartidos por contacto y arrepentimiento) */

@@ -44,6 +44,8 @@ import { BUSINESS } from '../data/site';
       </div>
       <div class="field"><label for="a-servicio">Servicio contratado</label><input id="a-servicio" type="text" name="servicio" placeholder="Ej.: Página web, mantenimiento mensual" required></div>
       <div class="field"><label for="a-motivo">Comentarios (opcional)</label><textarea id="a-motivo" name="comentarios" rows="3"></textarea></div>
+      <div data-turnstile class="turnstile"></div>
+      <input type="hidden" name="cf-turnstile-response" value="">
       <button type="submit" class="btn-cta btn-lg w-full justify-center">Enviar pedido</button>
       <p class="text-xs text-[var(--ink-2)]">Usamos estos datos solo para gestionar tu pedido. Más información en la <a class="underline" href="/politica-de-privacidad/">política de privacidad</a>.</p>
     </form>
@@ -53,8 +55,33 @@ import { BUSINESS } from '../data/site';
 </Layout>
 
 <script>
-  if (new URLSearchParams(location.search).has('error')) {
-    document.querySelector<HTMLElement>('[data-form-error]')!.hidden = false;
+  import { protegerFormulario, reiniciar } from '../scripts/turnstile.js';
+
+  const error = new URLSearchParams(location.search).get('error');
+  if (error) {
+    const box = document.querySelector<HTMLElement>('[data-form-error]')!;
+    if (error === 'verificacion') box.firstChild!.textContent = 'No pudimos verificar que seas una persona. Probá de nuevo o escribinos a ';
+    box.hidden = false;
+  }
+
+  // Antes de enviar se obtiene el token de Turnstile y se agrega al formulario
+  const form = document.querySelector<HTMLFormElement>('.legal__form');
+  if (form) {
+    const token = protegerFormulario(form);
+    let listo = false;
+    form.addEventListener('submit', async (e) => {
+      if (listo) return;
+      e.preventDefault();
+      const btn = form.querySelector<HTMLButtonElement>('button[type=submit]');
+      if (btn) { btn.disabled = true; btn.textContent = 'Verificando…'; }
+      try {
+        form.querySelector<HTMLInputElement>('[name="cf-turnstile-response"]')!.value = await token();
+      } catch {
+        reiniciar(form);
+      }
+      listo = true;
+      form.requestSubmit();
+    });
   }
 </script>
 

@@ -51,3 +51,5 @@
 
 Ver `README.md` para estructura, comandos y CI/CD.
 - Logo: el mate va solo (`Logo.astro`), nunca dentro de una placa o fondo de color. Verde yerba sobre fondos claros, crema/blanco sobre oscuros. El favicon SVG se adapta al tema del sistema.
+- Formularios: Worker en `api/` (Gmail SMTP + Turnstile). Si cambia, se despliega a mano con `cd api && bunx cf deploy`: el pipeline de GitHub solo publica el sitio.
+- Cloudflare se administra con la CLI `cf` (ver README, sección Cloudflare). No cambiar SSL a "Full (strict)": rompe el sitio (error 526).

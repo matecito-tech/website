@@ -1,0 +1,25 @@
+name: Algo no funciona
+description: Un error en el sitio o en los formularios
+labels: ["fix"]
+body:
+  - type: textarea
+    id: que-paso
+    attributes:
+      label: Qué pasó
+      description: Qué hiciste, qué esperabas y qué viste.
+    validations:
+      required: true
+  - type: input
+    id: url
+    attributes:
+      label: Página
+      placeholder: https://matecito.qzz.io/...
+  - type: dropdown
+    id: dispositivo
+    attributes:
+      label: Dispositivo
+      options: [Celular, Computadora, Tablet]
+  - type: textarea
+    id: captura
+    attributes:
+      label: Captura o mensaje de error (opcional)

@@ -60,7 +60,35 @@ const codigoArrepentimiento = () => {
   return `ARR-${fecha}-${azar}`;
 };
 
+// Monitor de caídas: si el sitio no responde bien, avisa por mail
+// (como máximo una vez cada 6 horas, recordado en la caché del Worker).
+const revisarSitio = async () => {
+  let problema = "";
+  try {
+    const r = await fetch(`${SITE}/?monitor=${Date.now()}`, { headers: { "user-agent": "matecito-monitor" }, cf: { cacheTtl: 0 } } as RequestInit);
+    const html = await r.text();
+    if (!r.ok) problema = `El sitio respondió HTTP ${r.status}.`;
+    else if (!html.includes("Matecito Tech")) problema = "El sitio respondió, pero sin el contenido esperado.";
+  } catch (err) {
+    problema = `No se pudo conectar con el sitio: ${String(err)}`;
+  }
+  if (!problema) return;
+
+  const marca = new Request(`${SITE}/__monitor-aviso`);
+  const cache = await caches.open("monitor");
+  if (await cache.match(marca)) return; // ya se avisó hace poco
+  await cache.put(marca, new Response("1", { headers: { "cache-control": "max-age=21600" } }));
+  await enviar([aviso("⚠️ El sitio de Matecito Tech no responde", {
+    text: `${problema}\n\nRevisado: ${new Date().toISOString()}\nSitio: ${SITE}`,
+    html: `<p style="font:16px/1.6 Arial,sans-serif">${problema}</p><p style="font:14px/1.6 Arial,sans-serif;color:#5B6B66">Revisado: ${new Date().toISOString()}<br><a href="${SITE}">${SITE}</a></p>`,
+  })]);
+};
+
 export default {
+  async scheduled(_event: unknown, _env: unknown, ctx: Ctx): Promise<void> {
+    ctx.waitUntil(revisarSitio().catch((err) => console.error("Error del monitor", err)));
+  },
+
   async fetch(req: Request, _env: unknown, ctx: Ctx): Promise<Response> {
     const url = new URL(req.url);
     const quiereJson = (req.headers.get("accept") ?? "").includes("application/json");

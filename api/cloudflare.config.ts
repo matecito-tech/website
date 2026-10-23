@@ -14,6 +14,10 @@ export default defineConfig({
       // Clave secreta del widget de Turnstile (anti-bots)
       TURNSTILE_SECRET: bindings.secret(),
     },
-    triggers: [triggers.fetch({ pattern: "matecito.qzz.io/api/*", zone: "matecito.qzz.io" })],
+    triggers: [
+      triggers.fetch({ pattern: "matecito.qzz.io/api/*", zone: "matecito.qzz.io" }),
+      // Monitor de caídas: revisa el sitio cada 30 minutos
+      triggers.scheduled({ schedule: "*/30 * * * *" }),
+    ],
   },
 });

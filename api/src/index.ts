@@ -1,13 +1,15 @@
-// Formularios de matecito.qzz.io: reciben los envíos del sitio y los mandan
-// por mail con Email Routing. Rutas: POST /api/contacto, POST /api/arrepentimiento.
+// Formularios de matecito.qzz.io: reciben los envíos del sitio y los mandan por
+// mail con Gmail (SMTP + contraseña de aplicación, guardada como secreto del Worker).
+// Rutas: POST /api/contacto, POST /api/arrepentimiento, GET /api/salud.
 import { env } from "cloudflare:workers";
+import { enviarSmtp, type Mail } from "./smtp";
 
 const SITE = "https://matecito.qzz.io";
-const FROM = "formularios@matecito.qzz.io";
-const TO = "matecito.tech@gmail.com";
+const CUENTA = "matecito.tech@gmail.com"; // remitente y destinatario de los avisos
 const ORIGENES = [SITE, "https://www.matecito.qzz.io"];
 
 type Campos = Record<string, string>;
+type Ctx = { waitUntil(p: Promise<unknown>): void };
 
 const json = (data: unknown, status = 200) =>
   new Response(JSON.stringify(data), { status, headers: { "content-type": "application/json; charset=utf-8", "cache-control": "no-store" } });
@@ -25,36 +27,19 @@ const leerCampos = async (req: Request): Promise<Campos> => {
 const limpio = (v: string | undefined, max = 2000) => (v ?? "").replace(/\r/g, "").trim().slice(0, max);
 const esEmail = (v: string) => /^[^\s@<>]+@[^\s@<>]+\.[^\s@<>]+$/.test(v);
 
-// RFC 2047 / base64: asunto y cuerpo en UTF-8 sin romper acentos
-const b64 = (s: string) => btoa(String.fromCharCode(...new TextEncoder().encode(s)));
-const b64Lineas = (s: string) => b64(s).replace(/.{1,76}/g, "$&\r\n");
-
-const armarMail = (asunto: string, cuerpo: string, replyTo?: string) => {
-  const id = `${crypto.randomUUID()}@matecito.qzz.io`;
-  const cabeceras = [
-    `From: "Web Matecito Tech" <${FROM}>`,
-    `To: <${TO}>`,
-    replyTo ? `Reply-To: <${replyTo}>` : "",
-    `Subject: =?UTF-8?B?${b64(asunto)}?=`,
-    `Message-ID: <${id}>`,
-    `Date: ${new Date().toUTCString()}`,
-    "MIME-Version: 1.0",
-    'Content-Type: text/plain; charset="UTF-8"',
-    "Content-Transfer-Encoding: base64",
-  ].filter(Boolean);
-  return `${cabeceras.join("\r\n")}\r\n\r\n${b64Lineas(cuerpo)}`;
+const enviar = (mails: Mail[]) => {
+  const pass = (env as unknown as { GMAIL_APP_PASSWORD?: string }).GMAIL_APP_PASSWORD;
+  if (!pass) throw new Error("Falta el secreto GMAIL_APP_PASSWORD");
+  return enviarSmtp(CUENTA, pass.replace(/\s/g, ""), mails);
 };
 
-// Gmail rechaza los mails de Email Routing sin DKIM (requiere Email Sending, pago).
-// Mientras tanto, el envío real lo hace FormSubmit (ya activado), siempre en segundo plano.
-const enviar = async (asunto: string, cuerpo: string, replyTo?: string) => {
-  const res = await fetch(`https://formsubmit.co/ajax/${TO}`, {
-    method: "POST",
-    headers: { "content-type": "application/json", accept: "application/json", origin: SITE, referer: `${SITE}/` },
-    body: JSON.stringify({ _subject: asunto, _template: "box", mensaje: cuerpo, ...(replyTo ? { _replyto: replyTo, email: replyTo } : {}) }),
-  });
-  if (!res.ok) throw new Error(`FormSubmit HTTP ${res.status}`);
-};
+const aviso = (subject: string, text: string, replyTo?: string): Mail =>
+  ({ from: CUENTA, fromName: "Web Matecito Tech", to: CUENTA, replyTo, subject, text });
+
+const alCliente = (to: string, subject: string, text: string): Mail =>
+  ({ from: CUENTA, fromName: "Matecito Tech", to, replyTo: CUENTA, subject, text });
+
+const FIRMA = `\n\n--\nMatecito Tech\nSoftware a medida desde Humboldt, Santa Fe\n${SITE}\nWhatsApp: +54 342 537-0985`;
 
 const codigoArrepentimiento = () => {
   const fecha = new Date().toISOString().slice(0, 10).replace(/-/g, "");
@@ -63,7 +48,7 @@ const codigoArrepentimiento = () => {
 };
 
 export default {
-  async fetch(req: Request, _env: unknown, ctx: { waitUntil(p: Promise<unknown>): void }): Promise<Response> {
+  async fetch(req: Request, _env: unknown, ctx: Ctx): Promise<Response> {
     const url = new URL(req.url);
     const quiereJson = (req.headers.get("accept") ?? "").includes("application/json");
 
@@ -91,14 +76,19 @@ export default {
         const mensaje = limpio(campos.mensaje, 5000);
         if (!nombre || !contacto || !mensaje) return json({ ok: false, error: "Faltan datos" }, 422);
 
-        // El mail sale en segundo plano: la persona no espera los ~8 s de Email Routing
-        ctx.waitUntil(
-          enviar(
-            `Nueva consulta de ${nombre} (${servicio}) - Matecito Tech`,
+        const mails = [
+          aviso(
+            `Nueva consulta de ${nombre} (${servicio})`,
             `Nombre: ${nombre}\nContacto: ${contacto}\nServicio: ${servicio}\n\nMensaje:\n${mensaje}\n\n--\nEnviado desde ${SITE}/#contacto`,
             esEmail(contacto) ? contacto : undefined,
-          ).catch((err) => console.error("Error al enviar la consulta", err)),
-        );
+          ),
+        ];
+        if (esEmail(contacto)) {
+          mails.push(alCliente(contacto, "Recibimos tu consulta - Matecito Tech",
+            `¡Hola ${nombre}!\n\nGracias por escribirnos. Recibimos tu consulta sobre "${servicio}" y te vamos a responder a la brevedad con los próximos pasos.\n\nTu mensaje:\n${mensaje}${FIRMA}`));
+        }
+        // En segundo plano: la persona ve la confirmación al instante
+        ctx.waitUntil(enviar(mails).catch((err) => console.error("Error al enviar la consulta", err)));
         return quiereJson ? json({ ok: true }) : Response.redirect(`${SITE}/gracias/`, 303);
       }
 
@@ -111,18 +101,20 @@ export default {
         if (!nombre || !esEmail(email) || !servicio || !fecha) return json({ ok: false, error: "Faltan datos" }, 422);
 
         const codigo = codigoArrepentimiento();
-        ctx.waitUntil(enviar(
-          `[${codigo}] ${tipo} - ${nombre} - Matecito Tech`,
-          `Código de identificación: ${codigo}\nTrámite: ${tipo}\n\nNombre: ${nombre}\nEmail: ${email}\nTeléfono: ${limpio(campos.telefono, 40) || "-"}\nServicio contratado: ${servicio}\nFecha de contratación: ${fecha}\n\nComentarios:\n${limpio(campos.comentarios, 3000) || "-"}\n\n--\nRes. SCI 424/2020: confirmar por email a la persona dentro de las 24 horas, citando el código.`,
-          email,
-        ).catch((err) => console.error("Error al enviar el arrepentimiento", err)));
+        const detalle = `Código de identificación: ${codigo}\nTrámite: ${tipo}\nNombre: ${nombre}\nEmail: ${email}\nTeléfono: ${limpio(campos.telefono, 40) || "-"}\nServicio contratado: ${servicio}\nFecha de contratación: ${fecha}\n\nComentarios:\n${limpio(campos.comentarios, 3000) || "-"}`;
+        // Es un trámite legal (Res. SCI 424/2020): se espera a que los mails salgan
+        await enviar([
+          aviso(`[${codigo}] ${tipo} - ${nombre}`, `${detalle}\n\n--\nLa persona ya recibió por email la constancia con este código.`, email),
+          alCliente(email, `Constancia de tu pedido de ${tipo.toLowerCase()} [${codigo}] - Matecito Tech`,
+            `Hola ${nombre}:\n\nRecibimos tu pedido de ${tipo.toLowerCase()}. Esta es tu constancia, conforme a la Ley 24.240 y la Resolución SCI 424/2020.\n\n${detalle}\n\nNo tiene costo. Si corresponde un reintegro, lo hacemos por el mismo medio de pago. Ante cualquier duda, respondé este correo citando el código.${FIRMA}`),
+        ]);
         return quiereJson
           ? json({ ok: true, codigo })
           : Response.redirect(`${SITE}/gracias/?tramite=${encodeURIComponent(tipo)}&codigo=${encodeURIComponent(codigo)}`, 303);
       }
     } catch (err) {
       console.error("Error al enviar el formulario", err);
-      return json({ ok: false, error: "No se pudo enviar" }, 502);
+      return quiereJson ? json({ ok: false, error: "No se pudo enviar" }, 502) : Response.redirect(`${SITE}/arrepentimiento/?error=1`, 303);
     }
 
     return json({ ok: false, error: "Ruta inexistente" }, 404);

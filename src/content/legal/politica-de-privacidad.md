@@ -30,7 +30,7 @@ Al enviar un formulario prestás tu consentimiento libre, expreso e informado pa
 
 ## Proveedores que intervienen
 
-- **Cloudflare Email Routing** (Cloudflare, Inc.) recibe los formularios en nuestro propio servicio y nos los envía por email a nuestra cuenta de Gmail (Google). No guardamos copias en ningún otro lado.
+- **Cloudflare** (Cloudflare, Inc.) recibe los formularios en nuestro propio servicio, y **Google** (Gmail) nos envía el aviso a nuestra casilla y te manda a vos la constancia. No guardamos copias en ningún otro lado.
 - **GitHub Pages** (GitHub, Inc.) aloja el sitio y registra datos técnicos de acceso, como la dirección IP, por razones de seguridad.
 - **Cloudflare** (Cloudflare, Inc.) entrega el sitio y mide visitas de forma agregada con Cloudflare Web Analytics, **sin cookies** y sin identificarte.
 - **DolarApi** (dolarapi.com): tu navegador consulta la cotización del dólar para mostrarte los precios en pesos. No le enviamos datos tuyos, pero recibe la IP de la consulta.

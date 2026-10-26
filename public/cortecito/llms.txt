@@ -4,7 +4,8 @@
 
 ## Páginas
 
-- [Demo interactiva](https://matecito.qzz.io/cortecito/demo/): reservar un turno de prueba, agenda, fidelidad y estilos de marca
+- [App de prueba](https://matecito.qzz.io/cortecito/app/): la app real de Cortesito (reservas, panel, fidelidad, finanzas, ajustes y editor de tema) con datos ficticios
+- [Recorrido guiado](https://matecito.qzz.io/cortecito/demo/): un recorrido de dos minutos con misiones
 - [Funciones](https://matecito.qzz.io/cortecito/funciones/): lo que incluye y lo que cada negocio prende o apaga
 - [Estilos](https://matecito.qzz.io/cortecito/temas/): once puntos de partida para la marca
 - [Novedades](https://matecito.qzz.io/cortecito/novedades/): qué cambió

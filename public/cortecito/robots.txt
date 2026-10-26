@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://matecito.qzz.io/cortecito/sitemap-index.xml

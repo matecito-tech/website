@@ -1,0 +1,27 @@
+# Cortesito
+
+> Reservas online sin dobles turnos, panel de gestión y tarjetas de fidelidad para barberías. Multi-negocio, pensado primero para el celular. Esta es una demo con datos ficticios; el producto lo desarrolla Matecito Tech.
+
+## Páginas
+
+- [Demo interactiva](https://matecito.qzz.io/cortecito/demo/): reservar un turno de prueba, agenda, fidelidad y estilos de marca
+- [Funciones](https://matecito.qzz.io/cortecito/funciones/): lo que incluye y lo que cada negocio prende o apaga
+- [Estilos](https://matecito.qzz.io/cortecito/temas/): once puntos de partida para la marca
+- [Novedades](https://matecito.qzz.io/cortecito/novedades/): qué cambió
+
+## Funciones
+
+- [Reservas online](https://matecito.qzz.io/cortecito/funciones/reservas/): Tus clientes eligen servicio, día y hora desde el celular, sin llamar ni escribir.
+- [Panel de gestión](https://matecito.qzz.io/cortecito/funciones/panel/): Agenda del día, clientes, servicios y estadísticas en una sola pantalla.
+- [Tarjetas de fidelidad](https://matecito.qzz.io/cortecito/funciones/fidelidad/): Un sello por visita realizada y un premio cada N visitas, con canje seguro.
+- [Finanzas](https://matecito.qzz.io/cortecito/funciones/finanzas/): Gastos y ganancia del mes, siempre en centavos enteros.
+- [Redes sociales](https://matecito.qzz.io/cortecito/funciones/redes/): Seguidores por red y su evolución en el tiempo.
+- [Calendario sincronizado](https://matecito.qzz.io/cortecito/funciones/calendario/): Un link privado para ver los turnos en Google, Outlook, Samsung o Apple.
+- [Sitio propio](https://matecito.qzz.io/cortecito/funciones/sitio-propio/): Una página en HTML con la identidad de tu barbería, aislada del sistema.
+- [Servidor MCP](https://matecito.qzz.io/cortecito/funciones/mcp/): Conectá herramientas de IA a tus datos, en modo solo lectura.
+- [Multi-negocio](https://matecito.qzz.io/cortecito/funciones/multi-negocio/): Cada barbería con su marca, su dominio y sus datos aislados.
+- [Pensado para el celular](https://matecito.qzz.io/cortecito/funciones/movil/): Instalable como app, con botones grandes y navegación a una mano.
+
+## Optional
+
+- [Privacidad](https://matecito.qzz.io/cortecito/privacidad/): qué guarda esta demo

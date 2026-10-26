@@ -1,0 +1,1 @@
+import{i as e}from"./api-client-Ccw8yJ9T.js";import{t}from"./useQuery-lnbOCd_s.js";import{n}from"./TenantContext-C7-EzeVD.js";import{t as r}from"./query-keys-Ba-Bhuok.js";function i(){let i=n();return t({queryKey:r.stats.dashboard(i),queryFn:({signal:t})=>e(`/api/stats/dashboard`,{signal:t})})}export{i as t};

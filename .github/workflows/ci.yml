@@ -125,7 +125,7 @@ jobs:
             --no-progress --cache --max-cache-age 1d
             --root-dir "${{ github.workspace }}/dist" --index-files index.html
             --exclude "linkedin\.com" --exclude "instagram\.com" --exclude "wa\.me"
-            --exclude "formsubmit\.co" --exclude "^mailto:"
+            --exclude "github\.com/matecito-tech/Cortecito" --exclude "formsubmit\.co" --exclude "^mailto:"
             --exclude "matecito\.qzz\.io" --exclude "argentina\.gob\.ar" --exclude "afip\.gob\.ar" --exclude "freepik\.com" --exclude "/api/"
             --accept "200..=299,429"
             --include-fragments

@@ -28,7 +28,7 @@
     "apca-w3": "^0.1.9",
     "astro": "^7.4.2",
     "culori": "^4.0.2",
-    "eslint": "^10.13.0",
+    "eslint": "^10.14.0",
     "globals": "^17.13.0",
     "html-validate": "^11.17.0",
     "tailwindcss": "^4.3.3",
